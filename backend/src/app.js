@@ -2,11 +2,14 @@ import express from "express";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import db from "./config/connect";
+import check from "./middleware/check";
 dotenv.config();
 const app = express();
+//
 app.use(morgan());
+app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get("/", check, (req, res) => {
 	res.send("<h1>HOME PAGE</h1>");
 });
 
