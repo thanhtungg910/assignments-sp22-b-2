@@ -3,6 +3,7 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import db from "./config/connect";
 import products from "./routes/products";
+import categories from "./routes/categories";
 dotenv.config();
 const app = express();
 // MIDDLEWARE
@@ -11,6 +12,7 @@ app.use(express.json());
 
 //ROUTING
 app.use("/api/products", products);
+app.use("/api/categories", categories);
 
 app.get("/", (req, res) => {
 	res.send("<h1>HOME PAGE</h1>");

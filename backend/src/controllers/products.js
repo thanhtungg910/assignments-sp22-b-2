@@ -30,9 +30,7 @@ const productController = {
 	// UPDATE
 	async edit(req, res) {
 		try {
-			const product = await productModel
-				.findByIdAndUpdate({ _id: req.params.id }, req.body)
-				.exec();
+			const product = await productModel.findByIdAndUpdate({ _id: req.params.id }, req.body).exec();
 			res.status(200).json(product);
 		} catch (error) {
 			res.status(400).json({ message: error });
@@ -41,9 +39,7 @@ const productController = {
 	// REMOVE
 	async remove(req, res) {
 		try {
-			const product = await productModel
-				.findByIdAndDelete({ _id: req.params.id })
-				.exec();
+			const product = await productModel.findByIdAndDelete({ _id: req.params.id }).exec();
 			res.status(200).json(product);
 		} catch (error) {
 			res.status(400).json({ message: error });
@@ -51,9 +47,7 @@ const productController = {
 	},
 	// SEARC BY TITLE
 	async searchTitle(req, res) {
-		// if (!req.query.search) return req.redirect("/");
 		const q = req.params.title;
-
 		try {
 			// const regex = new RegExp(escapeRegex(req.params.title), "gi");
 			const products = await productModel
