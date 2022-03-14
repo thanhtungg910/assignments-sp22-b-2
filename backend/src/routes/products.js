@@ -5,7 +5,13 @@ const router = Router();
 
 // GET ALL
 router.get("/", check, productController.getAll);
+// GET BY ID
+router.get("/:id", check, productController.getById);
 // CREATE
 router.post("/", check, productController.create);
-
+// EDIT
+router.put("/:id", check, productController.edit);
+router.patch("/:id", check, productController.edit);
+// REMOVE
+router.delete("/:id", check, productController.remove);
 export default router;
