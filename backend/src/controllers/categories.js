@@ -16,9 +16,18 @@ const categoryControll = {
 		res.status(200).json(categori);
 	},
 	// GET CATEGORY
-	async getCategory(req, res) {
+	async details(req, res) {
 		try {
 			const category = await categoryModel.find({ _id: req.params.id }).exec();
+			res.status(200).json(category);
+		} catch (error) {
+			res.status(400).json({ message: error });
+		}
+	},
+	// REMOVE
+	async remove(req, res) {
+		try {
+			const category = await categoryModel.findByIdAndDelete({ _id: req.params.id }).exec();
 			res.status(200).json(category);
 		} catch (error) {
 			res.status(400).json({ message: error });
