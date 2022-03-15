@@ -1,113 +1,48 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
-import IconButton, { IconButtonProps } from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import React from "react";
+import { Link } from "react-router-dom";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
+import { Button, Chip } from "@mui/material";
 
-interface ExpandMoreProps extends IconButtonProps {
-	expand: boolean;
-}
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-	const { expand, ...other } = props;
-	return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-	transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-	marginLeft: "auto",
-	transition: theme.transitions.create("transform", {
-		duration: theme.transitions.duration.shortest,
-	}),
-}));
-
-export default function RecipeReviewCard() {
-	const [expanded, setExpanded] = React.useState(false);
-
-	const handleExpandClick = () => {
-		setExpanded(!expanded);
-	};
-
+const RecipeReviewCard: React.FC = () => {
 	return (
-		<Card sx={{ maxWidth: 345 }}>
-			<CardHeader
-				avatar={
-					<Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-						R
-					</Avatar>
-				}
-				action={
-					<IconButton aria-label="settings">
-						<MoreVertIcon />
-					</IconButton>
-				}
-				title="Shrimp and Chorizo Paella"
-				subheader="September 14, 2016"
-			/>
-			<CardMedia
-				component="img"
-				height="194"
-				image="/static/images/cards/paella.jpg"
-				alt="Paella dish"
-			/>
-			<CardContent>
-				<Typography variant="body2" color="text.secondary">
-					This impressive paella is a perfect party dish and a fun meal to cook together with your
-					guests. Add 1 cup of frozen peas along with the mussels, if you like.
-				</Typography>
-			</CardContent>
-			<CardActions disableSpacing>
-				<IconButton aria-label="add to favorites">
-					<FavoriteIcon />
-				</IconButton>
-				<IconButton aria-label="share">
-					<ShareIcon />
-				</IconButton>
-				<ExpandMore
-					expand={expanded}
-					onClick={handleExpandClick}
-					aria-expanded={expanded}
-					aria-label="show more"
-				>
-					<ExpandMoreIcon />
-				</ExpandMore>
-			</CardActions>
-			<Collapse in={expanded} timeout="auto" unmountOnExit>
-				<CardContent>
-					<Typography paragraph>Method:</Typography>
-					<Typography paragraph>
-						Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-						minutes.
-					</Typography>
-					<Typography paragraph>
-						Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
-						heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
-						browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken
-						and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion, salt and
-						pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add
-						saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-					</Typography>
-					<Typography paragraph>
-						Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
-						without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to
-						medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook
-						again without stirring, until mussels have opened and rice is just tender, 5 to 7
-						minutes more. (Discard any mussels that don’t open.)
-					</Typography>
-					<Typography>
-						Set aside off of the heat to let rest for 10 minutes, and then serve.
-					</Typography>
-				</CardContent>
-			</Collapse>
-		</Card>
+		<div className="group relative">
+			<div className="w-full min-h-[483px] bg-gray-200 aspect-w-1 aspect-h-1  overflow-hidden lg:h-80 lg:aspect-none">
+				<div className="relative w-full h-full">
+					<Link to="/">
+						<img
+							src="https://www.converse.com/dw/image/v2/BCZC_PRD/on/demandware.static/-/Sites-cnv-master-catalog/default/dw854ef31f/images/a_107/A01730C_A_107X1.jpg?sw=964"
+							alt="Front of men&#039;s Basic Tee in black."
+							className="w-full h-full absolute object-center object-cover lg:w-full lg:h-full"
+						/>
+						<img
+							src="https://www.converse.com/dw/image/v2/BCZC_PRD/on/demandware.static/-/Sites-cnv-master-catalog/default/dweca8e99e/images/h_08/A01730C_H_08X1.jpg?sw=406"
+							alt="Front of men&#039;s Basic Tee in black."
+							className="w-full h-full absolute object-center object-cover lg:w-full lg:h-full opacity-0 group-hover:opacity-100"
+						/>
+					</Link>
+				</div>
+				<div className="flex   absolute opacity-0 px-4 gap-2 right-4 cursor-pointer transition ease-in-out delay-250 bottom-20 z-10 group-hover:opacity-100 py-2 bg-white text-black hover:bg-black hover:text-white">
+					<h4 className="font-bold border-r-2 pr-3">Add to Cart</h4>
+					<AddShoppingCartOutlinedIcon />
+				</div>
+				<div className="italic absolute top-2 right-4 font-mono text-xl">0%</div>
+				<Chip
+					icon={
+						<FavoriteBorderOutlinedIcon className="absolute top-2 left-4 font-mono text-black" />
+					}
+				></Chip>
+			</div>
+			<div className="mt-4 flex justify-between">
+				<div>
+					<h3 className="text-sm text-gray-700">
+						<Link to="/">Tieu de</Link>
+					</h3>
+					<p className="mt-1 text-sm text-gray-500">color</p>
+				</div>
+				<p className="text-sm font-sans text-gray-900">123213</p>
+			</div>
+		</div>
 	);
-}
+};
+export default RecipeReviewCard;
