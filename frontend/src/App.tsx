@@ -4,7 +4,7 @@ import Header from "./components/header/Header";
 import HomePage from "./pages/home/HomePage";
 const App: React.FC = () => {
 	return (
-		<div>
+		<div className="mx-auto py-2">
 			<Header />
 			<Routes>
 				<Route path="/" element={<HomePage />}></Route>

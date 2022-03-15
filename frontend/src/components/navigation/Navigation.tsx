@@ -76,7 +76,7 @@ const menuData: menu[] = [
 const Navigation = ({ show, onClick }: props) => {
 	return (
 		<MenuList isActive={show}>
-			<CloseIcon onClick={onClick} className="cursor-pointer ml-9 bg-slate-500 rounded-full" />
+			<CloseIcon onClick={onClick} fontSize="large" className="cursor-pointer ml-9" />
 			{menuData?.map((item: menu) => {
 				if (!item.isDisplay) return null;
 				return (
