@@ -5,6 +5,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import PromoBanner from "../common/PromoBanner";
 import logo from "../../logo.svg";
 
 const Header: React.FC = () => {
@@ -15,8 +16,9 @@ const Header: React.FC = () => {
 
 	return (
 		<>
+			<PromoBanner />
 			<Navigation show={show} onClick={handleShow}></Navigation>
-			<header className="w-full bg-white px-9 flex justify-between items-center">
+			<header className="w-full bg-white flex justify-between items-center p-2 px-10">
 				<AddIcon onClick={handleShow} className="cursor-pointer" />
 				<picture className="w-20">
 					<img src={logo} className="object-cover w-full" />
