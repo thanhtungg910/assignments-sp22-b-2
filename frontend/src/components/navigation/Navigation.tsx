@@ -81,11 +81,12 @@ const Navigation = ({ show, onClick }: props) => {
 				if (!item.isDisplay) return null;
 				return (
 					<li key={item?.id.toString()}>
-						<Link to={item?.path.toString()}>{item.title}</Link>
+						<Link to={item?.path.toString()} onClick={onClick}>
+							{item.title}
+						</Link>
 					</li>
 				);
 			})}
-			<h1>asd</h1>
 		</MenuList>
 	);
 };
