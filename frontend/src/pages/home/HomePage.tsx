@@ -6,7 +6,7 @@ import Categories from "../../components/home/Categories";
 
 const HomePage: React.FC = () => {
 	return (
-		<div className="mt-5">
+		<div className="mt-5 min-h-screen p-2 px-10">
 			<Banner></Banner>
 
 			<div className="mt-4">
