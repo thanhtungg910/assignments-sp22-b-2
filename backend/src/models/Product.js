@@ -23,6 +23,9 @@ const productSchema = mongoose.Schema(
 			type: Number,
 			default: 0,
 		},
+		albums: {
+			type: Array,
+		},
 		quantity: {
 			type: Number,
 			default: 1,
