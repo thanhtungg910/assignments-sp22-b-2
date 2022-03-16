@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
-import { Button, Chip } from "@mui/material";
+import { Chip } from "@mui/material";
 
-const RecipeReviewCard: React.FC = () => {
+const Product: React.FC = () => {
 	return (
 		<div className="group relative">
 			<div className="w-full min-h-[483px] bg-gray-200 aspect-w-1 aspect-h-1  overflow-hidden lg:h-80 lg:aspect-none">
@@ -45,4 +45,4 @@ const RecipeReviewCard: React.FC = () => {
 		</div>
 	);
 };
-export default RecipeReviewCard;
+export default Product;

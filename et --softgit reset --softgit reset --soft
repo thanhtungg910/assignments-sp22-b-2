@@ -1,0 +1,25 @@
+[33ma779f28[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Fix: models
+[33m7751aed[m Refactor: products controll
+[33maa8fe4d[m Feat: search products
+[33mfb8a93a[m Feat: search products from categories
+[33m38fcefe[m Fix: models
+[33m1cf676f[m Feat: filter product
+[33mc1a45e1[m Feat: users models
+[33m68e0679[m Feat: filter products
+[33m5970611[m Feat: home page
+[33m8618ac3[m Fix: navigation
+[33m8c31b06[m Feat: promo banner
+[33mc94138b[m Feat: header
+[33m1df600d[m Fix: menu
+[33ma6b1c06[m Feat: header frontend
+[33m3f63dcc[m Feat: remove &  create
+[33m9da09f3[m Feat: categories controllers
+[33m1212ad9[m Feat: model categori
+[33m68a124a[m Feat: full text search product
+[33m18fa83c[m Feat: edit & remove
+[33m108e23c[m Feat: get products
+[33mbbb9daf[m Feat: create product
+[33m4dc5fce[m Feat: middleware
+[33m8c5069f[m Feat: models products
+[33m357a9f9[m Feat: connect to db
+[33madece05[m Init project
