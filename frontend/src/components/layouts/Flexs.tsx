@@ -1,8 +1,8 @@
 import React from "react";
 
 type Props = {
-	className: String;
-	children: any;
+	className?: String;
+	children?: any;
 };
 
 const Flexs = (props: Props) => {

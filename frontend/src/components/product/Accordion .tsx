@@ -6,14 +6,11 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const AccordionProduct: React.FC = () => {
+	const [expanded, setExpanded] = React.useState<boolean>(true);
 	return (
 		<div>
-			<Accordion>
-				<AccordionSummary
-					expandIcon={<ExpandMoreIcon />}
-					aria-controls="panel1a-content"
-					id="panel1a-header"
-				>
+			<Accordion expanded={expanded} onClick={() => setExpanded(!expanded)}>
+				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography>Accordion 1</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
@@ -23,12 +20,9 @@ const AccordionProduct: React.FC = () => {
 					</Typography>
 				</AccordionDetails>
 			</Accordion>
+
 			<Accordion>
-				<AccordionSummary
-					expandIcon={<ExpandMoreIcon />}
-					aria-controls="panel2a-content"
-					id="panel2a-header"
-				>
+				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography>Accordion 2</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
@@ -37,15 +31,6 @@ const AccordionProduct: React.FC = () => {
 						sit amet blandit leo lobortis eget.
 					</Typography>
 				</AccordionDetails>
-			</Accordion>
-			<Accordion disabled>
-				<AccordionSummary
-					expandIcon={<ExpandMoreIcon />}
-					aria-controls="panel3a-content"
-					id="panel3a-header"
-				>
-					<Typography>Disabled Accordion</Typography>
-				</AccordionSummary>
 			</Accordion>
 		</div>
 	);

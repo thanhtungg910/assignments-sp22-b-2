@@ -17,8 +17,6 @@ const ProductsPage: React.FC = () => {
 			setData(data);
 		};
 		getproducts();
-
-		return () => {};
 	}, []);
 
 	return (
@@ -39,7 +37,7 @@ const ProductsPage: React.FC = () => {
 								title={item.title}
 								price={item.price}
 								saleoff={item.saleoff}
-								options={[]}
+								options={item.options}
 								image={item.image}
 								albums={[]}
 								slug={item.slug}
