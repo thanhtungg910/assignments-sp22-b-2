@@ -6,9 +6,9 @@ const router = Router();
 // GET ALL
 router.get("/", check, categoryControll.getAll);
 // DETAILS
-router.get("/:id", check, categoryControll.details);
+router.get("/:slug", check, categoryControll.getproductsBySlug);
 // CREATE
 router.post("/", check, categoryControll.create);
 // DELETE
-router.delete("/:id", check, categoryControll.remove);
+router.delete("/:slug", check, categoryControll.remove);
 export default router;

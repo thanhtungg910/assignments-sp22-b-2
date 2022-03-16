@@ -7,12 +7,12 @@ router.get("/", check, productController.getAll);
 // SEARCH
 router.get("/search/:title", check, productController.searchTitle);
 // GET BY ID
-router.get("/:id", check, productController.getById);
+router.get("/:slug", check, productController.getById);
 // CREATE
 router.post("/", check, productController.create);
 // EDIT
-router.put("/:id", check, productController.edit);
-router.patch("/:id", check, productController.edit);
+router.put("/:slug", check, productController.edit);
+router.patch("/:slug", check, productController.edit);
 // REMOVE
-router.delete("/:id", check, productController.remove);
+router.delete("/:slug", check, productController.remove);
 export default router;

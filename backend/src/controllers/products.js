@@ -1,10 +1,11 @@
+import slugify from "slugify";
 import productModel from "../models/Product";
 const productController = {
 	// GET ALL RECORDS
 	async getAll(req, res) {
 		try {
-			const product = await productModel.find().exec();
-			res.status(200).json(product);
+			const products = await productModel.find().exec();
+			res.status(200).json(products);
 		} catch (error) {
 			res.status(400).json({ message: error });
 		}
@@ -12,7 +13,7 @@ const productController = {
 	// GET BY ID
 	async getById(req, res) {
 		try {
-			const product = await productModel.find({ _id: req.params.id }).exec();
+			const product = await productModel.find({ slug: req.params.slug }).exec();
 			res.status(200).json(product);
 		} catch (error) {
 			res.status(400).json({ message: error });
@@ -20,6 +21,7 @@ const productController = {
 	},
 	// CREATE
 	create(req, res) {
+		req.body.slug = slugify(req.body.title);
 		try {
 			const product = new productModel(req.body).save();
 			res.status(200).json(product);
@@ -30,7 +32,9 @@ const productController = {
 	// UPDATE
 	async edit(req, res) {
 		try {
-			const product = await productModel.findByIdAndUpdate({ _id: req.params.id }, req.body).exec();
+			const product = await productModel
+				.findByIdAndUpdate({ slug: req.params.slug }, req.body)
+				.exec();
 			res.status(200).json(product);
 		} catch (error) {
 			res.status(400).json({ message: error });
@@ -39,7 +43,7 @@ const productController = {
 	// REMOVE
 	async remove(req, res) {
 		try {
-			const product = await productModel.findByIdAndDelete({ _id: req.params.id }).exec();
+			const product = await productModel.findByIdAndDelete({ slug: req.params.slug }).exec();
 			res.status(200).json(product);
 		} catch (error) {
 			res.status(400).json({ message: error });
@@ -58,7 +62,7 @@ const productController = {
 						},
 					},
 					{
-						_id: 0,
+						slug: 0,
 						_v: 0,
 					}
 				)
