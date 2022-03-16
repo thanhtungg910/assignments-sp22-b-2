@@ -45,6 +45,7 @@ const categoryControll = {
 		let products;
 		try {
 			const category = await categoryModel.findOne({ slug: req.params.slug }).exec();
+			console.log(category);
 			if (!req.query.q) {
 				products = await productModel.find({ category: category }).exec();
 			} else {

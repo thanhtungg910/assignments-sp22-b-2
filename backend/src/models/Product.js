@@ -41,6 +41,9 @@ const productSchema = mongoose.Schema(
 			type: ObjectId,
 			ref: "Categories",
 		},
+		options: {
+			type: [{ name: { type: String }, value: [String] }],
+		},
 	},
 	{
 		timestamps: true,

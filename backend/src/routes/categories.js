@@ -5,7 +5,7 @@ const router = Router();
 
 // GET ALL
 router.get("/", check, categoryControll.getAll);
-// DETAILS
+//
 router.get("/:slug", check, categoryControll.getproductsBySlug);
 // CREATE
 router.post("/", check, categoryControll.create);

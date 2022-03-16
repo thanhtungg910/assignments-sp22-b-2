@@ -25,9 +25,9 @@ const UserSchema = mongoose.Schema({
 	phone: {
 		type: Number,
 	},
-	status: {
+	isActive: {
 		type: Boolean,
-		default: false,
+		default: true,
 	},
 });
 export default mongoose.model("Users", UserSchema);
