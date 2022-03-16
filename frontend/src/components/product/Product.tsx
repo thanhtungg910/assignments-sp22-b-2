@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
-import { Chip } from "@mui/material";
 
 const Product: React.FC = () => {
 	return (
@@ -22,16 +21,13 @@ const Product: React.FC = () => {
 						/>
 					</Link>
 				</div>
-				<div className="flex   absolute opacity-0 px-4 gap-2 right-4 cursor-pointer transition ease-in-out delay-250 bottom-20 z-10 group-hover:opacity-100 py-2 bg-white text-black hover:bg-black hover:text-white">
+				<div className="flex absolute opacity-0 px-4 gap-2 right-4 cursor-pointer transition ease-in-out delay-250 bottom-20 z-10 group-hover:opacity-100 py-2 bg-white text-black hover:bg-black hover:text-white">
 					<h4 className="font-bold border-r-2 pr-3">Add to Cart</h4>
 					<AddShoppingCartOutlinedIcon />
 				</div>
 				<div className="italic absolute top-2 right-4 font-mono text-xl">0%</div>
-				<Chip
-					icon={
-						<FavoriteBorderOutlinedIcon className="absolute top-2 left-4 font-mono text-black" />
-					}
-				></Chip>
+
+				<FavoriteBorderOutlinedIcon className="absolute top-2 left-4 font-mono text-black" />
 			</div>
 			<div className="mt-4 flex justify-between">
 				<div>
