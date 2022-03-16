@@ -1,10 +1,17 @@
-import mongoose from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 const productSchema = mongoose.Schema(
 	{
 		title: {
 			type: String,
 			required: true,
 			minlength: 5,
+		},
+		slug: {
+			type: String,
+			unique: true,
+			index: true,
+			minlength: 5,
+			lowercase: true,
 		},
 		image: {
 			type: String,
@@ -29,6 +36,10 @@ const productSchema = mongoose.Schema(
 		quantity: {
 			type: Number,
 			default: 1,
+		},
+		category: {
+			type: ObjectId,
+			ref: "Categories",
 		},
 	},
 	{

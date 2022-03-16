@@ -6,5 +6,12 @@ const CategorySchema = mongoose.Schema({
 		required: true,
 		minlength: 5,
 	},
+	slug: {
+		type: String,
+		minlength: 5,
+		lowercase: true,
+		index: true,
+		unique: true,
+	},
 });
 export default mongoose.model("Categories", CategorySchema);
