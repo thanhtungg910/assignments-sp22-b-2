@@ -2,10 +2,8 @@ import { Router } from "express";
 import productController from "../controllers/products";
 import check from "../middleware/check";
 const router = Router();
-// GET ALL
+// GET & SEARCH ALL
 router.get("/", check, productController.getAll);
-// SEARCH
-router.get("/search/:title", check, productController.searchTitle);
 // GET BY ID
 router.get("/:slug", check, productController.getById);
 // CREATE
