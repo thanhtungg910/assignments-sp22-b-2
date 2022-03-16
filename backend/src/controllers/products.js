@@ -60,28 +60,5 @@ const productController = {
 			res.status(400).json({ message: error });
 		}
 	},
-	// SEARC BY TITLE
-	async searchTitle(req, res) {
-		const q = req.params.title;
-		try {
-			// const regex = new RegExp(escapeRegex(req.params.title), "gi");
-			const products = await productModel
-				.find(
-					{
-						title: {
-							$regex: new RegExp(q),
-						},
-					},
-					{
-						slug: 0,
-						_v: 0,
-					}
-				)
-				.exec();
-			res.status(200).json(products);
-		} catch (error) {
-			res.status(400).json({ message: error });
-		}
-	},
 };
 export default productController;
