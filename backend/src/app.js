@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import db from "./config/connect";
@@ -9,6 +10,7 @@ const app = express();
 // MIDDLEWARE
 app.use(morgan());
 app.use(express.json());
+app.use(cors());
 
 //ROUTING
 app.use("/api/products", products);
