@@ -19,8 +19,8 @@ const HomePage: React.FC = () => {
 				<div className="grid grid-cols-4">
 					{Array(4)
 						.fill(null)
-						.map((item) => (
-							<Categories />
+						.map((item, index) => (
+							<Categories key={index} />
 						))}
 				</div>
 			</div>

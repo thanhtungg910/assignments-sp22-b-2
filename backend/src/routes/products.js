@@ -4,7 +4,7 @@ import check from "../middleware/check";
 const router = Router();
 // GET & SEARCH ALL
 router.get("/", check, productController.getAll);
-// GET BY ID
+// GET ONE BY ID
 router.get("/:slug", check, productController.getById);
 // CREATE
 router.post("/", check, productController.create);

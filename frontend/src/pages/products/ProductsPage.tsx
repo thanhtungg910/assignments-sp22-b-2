@@ -48,6 +48,7 @@ const ProductsPage: React.FC = () => {
 								saleoff={item.saleoff}
 								options={item.options}
 								image={item.image}
+								albums={item.albums}
 								slug={item.slug}
 							/>
 						))}

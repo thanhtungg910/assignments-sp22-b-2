@@ -6,7 +6,7 @@ import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import products from "../../interfaces/products";
 import { Checkbox } from "@mui/material";
 
-const Product: React.FC<products> = ({ title, price, image, slug, saleoff }) => {
+const Product: React.FC<products> = ({ title, price, image, slug, saleoff, albums }) => {
 	return (
 		<div className="group relative">
 			<div className="w-full min-h-[483px] bg-gray-200 aspect-w-1 aspect-h-1  overflow-hidden lg:h-80 lg:aspect-none">
@@ -18,7 +18,7 @@ const Product: React.FC<products> = ({ title, price, image, slug, saleoff }) => 
 							className="w-full h-full absolute object-center object-cover lg:w-full lg:h-full"
 						/>
 						<img
-							src={`${image}`}
+							src={albums[1].toString()}
 							alt="Front of men&#039;s Basic Tee in black."
 							className="w-full h-full absolute object-center object-cover lg:w-full lg:h-full opacity-0 group-hover:opacity-100"
 						/>

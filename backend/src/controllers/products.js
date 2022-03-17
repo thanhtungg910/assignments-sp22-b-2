@@ -30,6 +30,16 @@ const productController = {
 			res.status(400).json({ message: error });
 		}
 	},
+	// GET BY Slug
+	async getSlug(req, res) {
+		console.log(req.params);
+		try {
+			// const product = await productModel.find({ slug: req.params.slug }).exec();
+			res.status(200).json(product);
+		} catch (error) {
+			res.status(400).json({ message: error });
+		}
+	},
 	// CREATE
 	create(req, res) {
 		req.body.slug = slugify(req.body.title);
