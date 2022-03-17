@@ -22,6 +22,7 @@ const ProductsPage: React.FC = () => {
 		};
 		getproducts();
 	}, []);
+	console.log(checked);
 
 	return (
 		<div>
