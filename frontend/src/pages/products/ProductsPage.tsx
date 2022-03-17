@@ -7,14 +7,18 @@ import Flexs from "../../components/layouts/Flexs";
 import Grids from "../../components/layouts/Grids";
 import { getProducts } from "../../api/products";
 import products from "../../interfaces/products";
+import { getCategories } from "../../api/categories";
 
 const ProductsPage: React.FC = () => {
 	const [toggle, setToggle] = useState<boolean>(false);
 	const [data, setData] = useState<products[]>([]);
+	const [checked, setChecked] = useState<{}>({});
+	const [categories, setCategories] = useState<[]>([]);
 	useEffect(() => {
 		const getproducts = async () => {
-			const { data } = await getProducts();
-			setData(data);
+			const [products, categories] = await Promise.all([getProducts(), getCategories()]);
+			setData(products.data);
+			setCategories(categories.data);
 		};
 		getproducts();
 	}, []);
@@ -26,20 +30,23 @@ const ProductsPage: React.FC = () => {
 			<Flexs className="px-10 my-10">
 				{!toggle && (
 					<div className="w-[30%] transition-all">
-						<AccordionProduct />
+						<AccordionProduct
+							categories={categories}
+							setCategories={setChecked}
+							checked={checked}
+						/>
 					</div>
 				)}
 				<Grids className="col-span-2 w-full">
 					{data.length > 0 &&
 						data.map((item, index) => (
 							<Product
-								keys={index}
+								key={index}
 								title={item.title}
 								price={item.price}
 								saleoff={item.saleoff}
 								options={item.options}
 								image={item.image}
-								albums={[]}
 								slug={item.slug}
 							/>
 						))}

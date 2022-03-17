@@ -4,13 +4,13 @@ type Ioptions = {
 };
 interface products {
 	_id?: String;
-	keys?: React.Key;
+	key?: React.Key;
 	title: String;
 	price: Number;
 	saleoff: Number;
-	options: Ioptions[];
+	options?: Ioptions[];
 	image: String;
-	albums: String[];
+	albums?: String[];
 	slug: String;
 }
 export default products;

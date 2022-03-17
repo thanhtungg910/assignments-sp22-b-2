@@ -3,20 +3,15 @@ import { Link } from "react-router-dom";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import Favorite from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import Radio from "@mui/material/Radio";
 import products from "../../interfaces/products";
-import Flexs from "../layouts/Flexs";
 import { Checkbox } from "@mui/material";
-import { red } from "@mui/material/colors";
 
-const Product: React.FC<products> = ({ keys, title, options, price, image, slug, saleoff }) => {
-	console.log(options[0].value);
-
+const Product: React.FC<products> = ({ title, price, image, slug, saleoff }) => {
 	return (
-		<div className="group relative" key={keys}>
+		<div className="group relative">
 			<div className="w-full min-h-[483px] bg-gray-200 aspect-w-1 aspect-h-1  overflow-hidden lg:h-80 lg:aspect-none">
 				<div className="relative w-full h-full">
-					<Link to="/">
+					<Link to={`/${slug}`}>
 						<img
 							src={`${image}`}
 							alt="Front of men&#039;s Basic Tee in black."
@@ -42,28 +37,13 @@ const Product: React.FC<products> = ({ keys, title, options, price, image, slug,
 			</div>
 			<div className="mt-4 flex justify-between">
 				<div>
-					<h3 className="text-sm text-gray-700">
-						<Link to="/">{title}</Link>
+					<h3 className="text-lg  text-gray-700">
+						<Link to={`/${slug}`}>{title}</Link>
 					</h3>
-					<Flexs className="items-center justify-center">
-						<p className="mt-1 text-sm text-gray-500">color </p>
-						<div className="flex items-center space-x-3">
-							<Radio
-								sx={{
-									color: red,
-									"& .MuiSvgIcon-root": {
-										fontSize: 30,
-									},
-								}}
-							/>
-						</div>
-					</Flexs>
 				</div>
-				<p className="text-sm font-sans text-gray-900">123213</p>
+				<p className="text-sm font-sans text-gray-900">{price.toLocaleString()}</p>
 			</div>
 		</div>
 	);
 };
 export default Product;
-/* 	{options[0].value.map((color) => ( 
-							))} */
