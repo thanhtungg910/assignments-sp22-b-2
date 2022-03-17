@@ -4,20 +4,9 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
-type IaccordionProduct = {
-	categories: { _id?: String; title: String; slug?: String }[];
-	setCategories: React.Dispatch<React.SetStateAction<{}>>;
-	checked: {};
-};
-const AccordionProduct: React.FC<IaccordionProduct> = ({ categories, setCategories, checked }) => {
+const AccordionProduct: React.FC = () => {
 	const [expanded, setExpanded] = React.useState<boolean>(true);
-	const handleChange = (event: React.ChangeEvent<EventTarget & HTMLInputElement>) => {
-		setCategories({
-			...checked,
-			[event.target.name]: event.target.checked,
-		});
-	};
+
 	return (
 		<div>
 			<Accordion expanded={expanded}>
@@ -25,18 +14,10 @@ const AccordionProduct: React.FC<IaccordionProduct> = ({ categories, setCategori
 					<Typography>Categories</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<FormGroup>
-						{categories.length > 0 &&
-							categories.map((category, index) => (
-								<FormControlLabel
-									key={index}
-									control={<Checkbox />}
-									label={category.title.toString()}
-									name={category.slug?.toString()}
-									onChange={handleChange}
-								/>
-							))}
-					</FormGroup>
+					<Typography>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+						sit amet blandit leo lobortis eget.
+					</Typography>
 				</AccordionDetails>
 			</Accordion>
 

@@ -7,13 +7,15 @@ import Flexs from "../../components/layouts/Flexs";
 import Grids from "../../components/layouts/Grids";
 import { getProducts } from "../../api/products";
 import products from "../../interfaces/products";
-import { getCategories } from "../../api/categories";
+import { getCategories, getProductsByCategory } from "../../api/categories";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ProductsPage: React.FC = () => {
 	const [toggle, setToggle] = useState<boolean>(false);
 	const [data, setData] = useState<products[]>([]);
-	const [checked, setChecked] = useState<{}>({});
+	const [url, setUrl] = useState<{}>({});
 	const [categories, setCategories] = useState<[]>([]);
+	const navigate = useNavigate();
 	useEffect(() => {
 		const getproducts = async () => {
 			const [products, categories] = await Promise.all([getProducts(), getCategories()]);
@@ -22,20 +24,26 @@ const ProductsPage: React.FC = () => {
 		};
 		getproducts();
 	}, []);
-	console.log(checked);
+	useEffect(() => {
+		// const param = useParams();
+		console.log(url);
+		// navigate(url, { replace: true });
+
+		const getproducts = async () => {
+			const { data } = await getProductsByCategory(url);
+			// console.log(data);
+		};
+		getproducts();
+	}, [url]);
 
 	return (
 		<div>
 			<BasicBreadcrumbs />
-			<Filters toggle={toggle} onClick={setToggle} />
+			<Filters categories={categories} setCategories={setUrl} toggle={toggle} onClick={setToggle} />
 			<Flexs className="px-10 my-10">
 				{!toggle && (
 					<div className="w-[30%] transition-all">
-						<AccordionProduct
-							categories={categories}
-							setCategories={setChecked}
-							checked={checked}
-						/>
+						<AccordionProduct />
 					</div>
 				)}
 				<Grids className="col-span-2 w-full">
