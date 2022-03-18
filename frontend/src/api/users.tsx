@@ -5,7 +5,7 @@ const signup = (data: Object) => {
 	return instance.post(url, data);
 };
 
-const signin = (data: Object) => {
+const signin = (data: Object | undefined) => {
 	const url = `/users/signin`;
 	return instance.post(url, data);
 };
