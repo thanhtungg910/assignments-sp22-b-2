@@ -1,6 +1,6 @@
-import { Button, FormControl, TextField } from "@mui/material";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
+import { Button, FormControl } from "@mui/material";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { signup } from "../api/users";
 
 interface IFormInput {
 	email: String;
@@ -13,7 +13,10 @@ export default function SignUp() {
 		formState: { errors },
 		handleSubmit,
 	} = useForm<IFormInput>();
-	const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+	const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+		const res = await signup(data);
+		console.log(res);
+	};
 
 	return (
 		<FormControl

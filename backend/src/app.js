@@ -16,7 +16,7 @@ app.use(cors());
 //ROUTING
 app.use("/api/products", products);
 app.use("/api/categories", categories);
-app.use("/api/auth", auth);
+app.use("/api/users", auth);
 app.get("/", (req, res) => {
 	res.send("<h1>HOME PAGE</h1>");
 });
