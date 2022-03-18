@@ -8,12 +8,17 @@ import Flexs from "../../components/layouts/Flexs";
 import Grids from "../../components/layouts/Grids";
 import { getProducts } from "../../api/products";
 import products from "../../interfaces/products";
-import { getCategories, getProductsByCategory } from "../../api/categories";
+import {
+	getCategories,
+	getProductsByCategory,
+	searchProductsByCategory,
+} from "../../api/categories";
 
 const ProductsPage: React.FC = () => {
 	const [toggle, setToggle] = useState<boolean>(false);
 	const [data, setData] = useState<products[]>([]);
 	const [url, setUrl] = useState<Object | String>("");
+	const [query, setQuery] = useState<String>("");
 	const [categories, setCategories] = useState<[]>([]);
 	const navigate = useNavigate();
 	const pa = useParams();
@@ -22,8 +27,9 @@ const ProductsPage: React.FC = () => {
 	useEffect(() => {
 		navigate(url, { replace: true });
 		getCategories().then(({ data }) => setCategories(data));
-		console.log(local.pathname);
 		if (url == "/products" || local.pathname == "/products") {
+			console.log(local.pathname);
+
 			const getproducts = async () => {
 				const { data } = await getProducts();
 				setData(data);
@@ -42,6 +48,17 @@ const ProductsPage: React.FC = () => {
 		return () => setUrl("");
 	}, [url]);
 
+	useEffect(() => {
+		const path = url || local.pathname;
+		const getproducts = async () => {
+			const {
+				data: { products },
+			} = await searchProductsByCategory(path, query);
+			setData(products);
+		};
+		getproducts();
+	}, [query]);
+
 	return (
 		<div>
 			<BasicBreadcrumbs />
@@ -49,7 +66,7 @@ const ProductsPage: React.FC = () => {
 			<Flexs className="px-10 my-10">
 				{!toggle && (
 					<div className="w-[30%] transition-all">
-						<AccordionProduct />
+						<AccordionProduct query={query} setQuery={setQuery} />
 					</div>
 				)}
 				<Grids className="col-span-2 w-full">

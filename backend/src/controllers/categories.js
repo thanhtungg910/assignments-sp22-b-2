@@ -51,7 +51,7 @@ const categoryControll = {
 				products = await productModel
 					.find({
 						category: category,
-						title: {
+						slug: {
 							$regex: new RegExp(req.query.q),
 						},
 					})

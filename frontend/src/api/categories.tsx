@@ -8,5 +8,14 @@ const getProductsByCategory = (slug: String | Object) => {
 	const url = `${slug}`;
 	return instance.get(url);
 };
+/**
+ *
+ * @param slug path name
+ * @param key search key
+ */
+const searchProductsByCategory = (slug: String | Object, key: String) => {
+	const url = `${slug}?q=${key}`;
+	return instance.get(url);
+};
 
-export { getCategories, getProductsByCategory };
+export { getCategories, getProductsByCategory, searchProductsByCategory };
