@@ -40,19 +40,8 @@ UserSchema.virtual("password").set(function (password) {
 	this.salt = uuid4();
 	this.hashed_password = this.encrytPassword(password);
 });
-
-UserSchema.methods = {
-	/**
-	 *
-	 * @param {*} password DÙNG ĐỂ ĐĂNG NHẬP
-	 */
-	authenticate(password) {
-		return this.encrytPassword(password) == this.hashed_password;
-	},
-	/**
-	 *
-	 * @param {*} password DÙNG ĐỂ MÃ HÓA
-	 */
+UserSchema.method({
+	purr: function () {},
 	encrytPassword(password) {
 		if (!password) return;
 		try {
@@ -61,7 +50,28 @@ UserSchema.methods = {
 			console.log(error);
 		}
 	},
-};
+});
+// UserSchema.methods = {
+// 	/**
+// 	 *
+// 	 * @param {*} password DÙNG ĐỂ ĐĂNG NHẬP
+// 	 */
+// 	authenticate(password) {
+// 		return this.encrytPassword(password) == this.hashed_password;
+// 	},
+// 	/**
+// 	 *
+// 	 * @param {*} password DÙNG ĐỂ MÃ HÓA
+// 	 */
+// 	encrytPassword(password) {
+// 		if (!password) return;
+// 		try {
+// 			return createHmac("sha256", this.salt).update(password).digest("hex");
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+// 	},
+// };
 
 // UserSchema.virtual("password").set(function (password) {
 // 	// abcde
