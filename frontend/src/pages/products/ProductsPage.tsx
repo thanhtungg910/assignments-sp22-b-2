@@ -21,15 +21,12 @@ const ProductsPage: React.FC = () => {
 	const [query, setQuery] = useState<String>("");
 	const [categories, setCategories] = useState<[]>([]);
 	const navigate = useNavigate();
-	const pa = useParams();
 	const local = useLocation();
 
 	useEffect(() => {
 		navigate(url, { replace: true });
 		getCategories().then(({ data }) => setCategories(data));
 		if (url == "/products" || local.pathname == "/products") {
-			console.log(local.pathname);
-
 			const getproducts = async () => {
 				const { data } = await getProducts();
 				setData(data);
@@ -49,16 +46,17 @@ const ProductsPage: React.FC = () => {
 	}, [url]);
 
 	useEffect(() => {
-		const path = url || local.pathname;
-		const getproducts = async () => {
-			const {
-				data: { products },
-			} = await searchProductsByCategory(path, query);
-			setData(products);
-		};
-		getproducts();
+		if (query !== "") {
+			const path = url || local.pathname;
+			const getproducts = async () => {
+				const {
+					data: { products },
+				} = await searchProductsByCategory(path, query);
+				setData(products);
+			};
+			getproducts();
+		}
 	}, [query]);
-
 	return (
 		<div>
 			<BasicBreadcrumbs />

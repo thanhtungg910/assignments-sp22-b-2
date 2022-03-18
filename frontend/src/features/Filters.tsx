@@ -1,9 +1,8 @@
 import React from "react";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Button, FormControl } from "@mui/material";
 import ICategories from "../interfaces/categories";
 import Categories from "../components/home/Categories";
-import { Link } from "react-router-dom";
 import SelectUnstyled, {
 	SelectUnstyledProps,
 	selectUnstyledClasses,
@@ -147,7 +146,7 @@ type Props = {
 	toggle: boolean;
 	onClick: React.Dispatch<React.SetStateAction<boolean>>;
 	categories: ICategories[];
-	setCategories: React.Dispatch<React.SetStateAction<String>>;
+	setCategories: React.Dispatch<React.SetStateAction<String | Object>>;
 };
 
 const Filters: React.FC<Props> = ({ toggle, onClick, categories, setCategories }) => {

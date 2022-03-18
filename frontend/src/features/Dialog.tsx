@@ -1,4 +1,6 @@
 import * as React from "react";
+import { signInWithPopup } from "firebase/auth";
+import auth, { provider } from "../firebase/config";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -10,7 +12,7 @@ import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	"& .MuiDialogContent-root": {
 		padding: theme.spacing(3),
@@ -58,6 +60,14 @@ export default function DialogForm({ open, onClose, children }: DialogForm) {
 	const handleClose = () => {
 		onClose(false);
 	};
+	const handleLoginWithGoogle = async () => {
+		try {
+			const { user } = await signInWithPopup(auth, provider);
+			console.log(user);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<div>
@@ -83,7 +93,7 @@ export default function DialogForm({ open, onClose, children }: DialogForm) {
 						<IconButton>
 							<FacebookIcon color="info" />
 						</IconButton>
-						<IconButton>
+						<IconButton onClick={handleLoginWithGoogle}>
 							<LanguageOutlinedIcon color="primary" />
 						</IconButton>
 					</Box>
