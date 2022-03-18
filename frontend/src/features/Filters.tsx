@@ -147,11 +147,10 @@ type Props = {
 	toggle: boolean;
 	onClick: React.Dispatch<React.SetStateAction<boolean>>;
 	categories: ICategories[];
-	setCategories: React.Dispatch<React.SetStateAction<{}>>;
+	setCategories: React.Dispatch<React.SetStateAction<String>>;
 };
 
 const Filters: React.FC<Props> = ({ toggle, onClick, categories, setCategories }) => {
-	const url = window.location.origin;
 	return (
 		<div className="flex items-center justify-items-start border-2 px-10">
 			<Button
@@ -167,7 +166,7 @@ const Filters: React.FC<Props> = ({ toggle, onClick, categories, setCategories }
 			<div className="font-bold border-x-2 py-3 w-[100%] px-5 mr-2">1234</div>
 			<FormControl className="border-l-2 w-[30%] ml-4">
 				<CustomSelect onChange={setCategories}>
-					{<StyledOption value="/products">All</StyledOption>}
+					<StyledOption value={`/products`}>All</StyledOption>
 					{Categories.length > 0 &&
 						categories.map((category, index) => (
 							<StyledOption key={index} value={`/categories/${category.slug}`}>

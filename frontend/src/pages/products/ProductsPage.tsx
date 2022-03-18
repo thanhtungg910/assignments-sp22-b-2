@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BasicBreadcrumbs from "../../components/common/BasicBreadcrumbs";
 import Filters from "../../features/Filters";
 import Product from "../../components/product/Product";
@@ -8,32 +9,37 @@ import Grids from "../../components/layouts/Grids";
 import { getProducts } from "../../api/products";
 import products from "../../interfaces/products";
 import { getCategories, getProductsByCategory } from "../../api/categories";
-import { useNavigate, useParams } from "react-router-dom";
 
 const ProductsPage: React.FC = () => {
 	const [toggle, setToggle] = useState<boolean>(false);
 	const [data, setData] = useState<products[]>([]);
-	const [url, setUrl] = useState<{}>({});
+	const [url, setUrl] = useState<Object | String>("");
 	const [categories, setCategories] = useState<[]>([]);
 	const navigate = useNavigate();
-	useEffect(() => {
-		const getproducts = async () => {
-			const [products, categories] = await Promise.all([getProducts(), getCategories()]);
-			setData(products.data);
-			setCategories(categories.data);
-		};
-		getproducts();
-	}, []);
-	useEffect(() => {
-		// const param = useParams();
-		console.log(url);
-		// navigate(url, { replace: true });
+	const pa = useParams();
+	const local = useLocation();
 
-		const getproducts = async () => {
-			const { data } = await getProductsByCategory(url);
-			// console.log(data);
-		};
-		getproducts();
+	useEffect(() => {
+		navigate(url, { replace: true });
+		getCategories().then(({ data }) => setCategories(data));
+		console.log(local.pathname);
+		if (url == "/products" || local.pathname == "/products") {
+			const getproducts = async () => {
+				const { data } = await getProducts();
+				setData(data);
+			};
+			getproducts();
+		} else {
+			const path = url || local.pathname;
+			const getproducts = async () => {
+				const {
+					data: { products },
+				} = await getProductsByCategory(path);
+				setData(products);
+			};
+			getproducts();
+		}
+		return () => setUrl("");
 	}, [url]);
 
 	return (
@@ -47,7 +53,8 @@ const ProductsPage: React.FC = () => {
 					</div>
 				)}
 				<Grids className="col-span-2 w-full">
-					{data.length > 0 &&
+					{data &&
+						data.length > 0 &&
 						data.map((item, index) => (
 							<Product
 								key={index}
