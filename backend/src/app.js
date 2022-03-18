@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import db from "./config/connect";
 import products from "./routes/products";
 import categories from "./routes/categories";
+import auth from "./routes/auth";
 dotenv.config();
 const app = express();
 // MIDDLEWARE
@@ -15,7 +16,7 @@ app.use(cors());
 //ROUTING
 app.use("/api/products", products);
 app.use("/api/categories", categories);
-
+app.use("/api/auth", auth);
 app.get("/", (req, res) => {
 	res.send("<h1>HOME PAGE</h1>");
 });
