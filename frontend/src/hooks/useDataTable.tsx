@@ -60,7 +60,11 @@ const useDataTable = () => {
 		);
 	}, [filterText, resetPaginationToggle]);
 
+	const handleRowClicked = (row: object, event: object) => {
+		console.log(event);
+	};
 	return {
+		handleRowClicked,
 		setData,
 		resetPaginationToggle,
 		handleRowSelected,

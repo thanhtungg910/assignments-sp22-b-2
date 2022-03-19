@@ -43,13 +43,6 @@ const columns: any = [
 		selector: (row: IProducts) => `${row.saleoff}%`,
 	},
 	{
-		id: "sale",
-		name: "Sale",
-		sortable: true,
-		sortField: "sale",
-		selector: (row: IProducts) => `${row.saleoff}%`,
-	},
-	{
 		id: "createat",
 		name: "Create at",
 		sortable: true,
@@ -74,6 +67,7 @@ const ProductsManager: React.FC = () => {
 		toggleCleared,
 		filteredItems,
 		subHeaderComponentMemo,
+		handleRowClicked,
 	} = useDataTable();
 
 	useEffect(() => {
@@ -92,10 +86,18 @@ const ProductsManager: React.FC = () => {
 			pagination
 			paginationResetDefaultPage={resetPaginationToggle}
 			subHeader
+			selectableRowsHighlight
+			onRowClicked={handleRowClicked}
+			// Text search start
 			subHeaderComponent={subHeaderComponentMemo}
+			// Text search end
+			// Check box start
 			selectableRows
-			persistTableHead
+			// Check box end
+			/* persistTableHead */
+			// Content check start
 			contextActions={contextActions}
+			// Content check end
 			onSelectedRowsChange={handleRowSelected}
 			clearSelectedRows={toggleCleared}
 		/>
