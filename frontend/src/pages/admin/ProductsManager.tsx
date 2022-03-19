@@ -4,6 +4,8 @@ import { getProducts } from "../../api/products";
 import DataTable from "react-data-table-component";
 import styled from "styled-components";
 import useDataTable from "../../hooks/useDataTable";
+import { Button, ListItemButton } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const ImageField: any = styled.img`
 	width: 150px;
@@ -49,13 +51,21 @@ const columns: any = [
 		sortField: "createat",
 		selector: (row: IProducts) => row.createdAt,
 	},
-
 	{
 		id: "updatedat",
 		name: "Updated at",
 		sortable: true,
 		sortField: "updatedat",
 		selector: (row: IProducts) => row.updatedAt,
+	},
+	{
+		id: "edit",
+		name: "",
+		selector: (row: IProducts) => (
+			<ListItemButton component={Link} to={`${row.slug}`}>
+				<Button>Edit</Button>
+			</ListItemButton>
+		),
 	},
 ];
 const ProductsManager: React.FC = () => {

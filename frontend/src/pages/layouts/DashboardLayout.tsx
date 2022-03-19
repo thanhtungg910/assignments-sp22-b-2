@@ -157,7 +157,7 @@ const DashboardLayout: React.FC = () => {
 					}}
 				>
 					<Toolbar />
-					<Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+					<Container maxWidth="xl" sx={{ mt: 4, mb: 4, pl: 4, pr: 4 }}>
 						{/* MAIN START */}
 						<Outlet />
 						{/* MAIN END */}
