@@ -11,7 +11,7 @@ const Product: React.FC<products> = ({ title, price, image, slug, saleoff, album
 		<div className="group relative">
 			<div className="w-full min-h-[483px] bg-gray-200 aspect-w-1 aspect-h-1  overflow-hidden lg:h-80 lg:aspect-none">
 				<div className="relative w-full h-full">
-					<Link to={`/${slug}`}>
+					<Link to={`${slug}`}>
 						<img
 							src={`${image}`}
 							alt="Front of men&#039;s Basic Tee in black."

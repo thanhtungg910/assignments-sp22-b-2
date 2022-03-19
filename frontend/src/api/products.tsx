@@ -4,7 +4,7 @@ const getProducts = () => {
 	const url = "/products";
 	return instance.get(url);
 };
-const getProduct = (slug: String) => {
+const getProduct = (slug: String | undefined) => {
 	const url = `/products/${slug}`;
 	return instance.get(url);
 };
