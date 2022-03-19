@@ -12,5 +12,8 @@ interface IProducts {
 	image: String;
 	albums?: String[];
 	slug: String;
+	quantity: Number;
+	createdAt: Date;
+	updatedAt: Date;
 }
 export default IProducts;
