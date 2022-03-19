@@ -40,7 +40,7 @@ const Sidebar: React.FC = () => {
 				</ListItemIcon>
 				<ListItemText primary="Orders" />
 			</ListItemButton>
-			<ListItemButton>
+			<ListItemButton component={Link} to="customers">
 				<ListItemIcon>
 					<PeopleIcon />
 				</ListItemIcon>
