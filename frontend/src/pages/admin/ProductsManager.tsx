@@ -6,7 +6,6 @@ import styled from "styled-components";
 import useDataTable from "../../hooks/useDataTable";
 import { Button, ListItemButton } from "@mui/material";
 import { Link } from "react-router-dom";
-
 const ImageField: any = styled.img`
 	width: 150px;
 `;

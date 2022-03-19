@@ -1,6 +1,9 @@
-import { Button } from "@mui/material";
 import React, { useCallback, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 import FilterComponent from "../features/admin/FilterComponent";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import Flexs from "../components/layouts/Flexs";
 
 const useDataTable = () => {
 	const [data, setData] = useState<any[]>([]);
@@ -28,7 +31,7 @@ const useDataTable = () => {
 		};
 
 		return (
-			<Button key="delete" onClick={handleDelete} color="error" variant="contained">
+			<Button key="delete" title="Clear" onClick={handleDelete} color="error">
 				Delete
 			</Button>
 		);
@@ -52,11 +55,16 @@ const useDataTable = () => {
 			}
 		};
 		return (
-			<FilterComponent
-				onFilter={(e: React.ChangeEvent<HTMLInputElement>) => setFilterText(e.target.value)}
-				onClear={handleClear}
-				filterText={filterText}
-			/>
+			<Flexs className="items-center">
+				<FilterComponent
+					onFilter={(e: React.ChangeEvent<HTMLInputElement>) => setFilterText(e.target.value)}
+					onClear={handleClear}
+					filterText={filterText}
+				/>
+				<Button component={Link} to="add" size="medium" variant="contained" color="primary">
+					<AddCircleIcon titleAccess="Add"></AddCircleIcon>
+				</Button>
+			</Flexs>
 		);
 	}, [filterText, resetPaginationToggle]);
 
