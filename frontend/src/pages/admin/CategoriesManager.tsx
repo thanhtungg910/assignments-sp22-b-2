@@ -1,35 +1,17 @@
 import React, { useEffect } from "react";
-import IProducts from "../../interfaces/products";
-import { getProducts } from "../../api/products";
-import DataTable from "react-data-table-component";
-import styled from "styled-components";
+import DataTable, { TableColumn } from "react-data-table-component";
+import { getCategories } from "../../api/categories";
 import useDataTable from "../../hooks/useDataTable";
+import ICategories from "../../interfaces/categories";
 
-const ImageField: any = styled.img`
-	width: 200px;
-`;
-const columns: any = [
+const columns: TableColumn<ICategories>[] | any = [
 	{
 		id: "title",
 		name: "Title",
-		sortable: true,
-		sortField: "title",
-		selector: (row: IProducts) => row.title,
-	},
-	{
-		id: "image",
-		name: "image",
-		selector: (row: IProducts) => <ImageField src={row?.image} />,
-	},
-	{
-		id: "price",
-		name: "price",
-		sortable: true,
-		sortField: "price",
-		selector: (row: IProducts) => row.price,
+		selector: (row: ICategories) => row.title,
 	},
 ];
-const ProductsManager: React.FC = () => {
+const CategoriesManager: React.FC = () => {
 	const {
 		setData,
 		resetPaginationToggle,
@@ -42,7 +24,9 @@ const ProductsManager: React.FC = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const { data } = await getProducts();
+			const { data } = await getCategories();
+			console.log(data);
+
 			setData(data);
 		};
 		fetchData();
@@ -50,7 +34,7 @@ const ProductsManager: React.FC = () => {
 
 	return (
 		<DataTable
-			title="Product List"
+			title="Categories List"
 			columns={columns}
 			data={filteredItems}
 			pagination
@@ -66,4 +50,4 @@ const ProductsManager: React.FC = () => {
 	);
 };
 
-export default ProductsManager;
+export default CategoriesManager;

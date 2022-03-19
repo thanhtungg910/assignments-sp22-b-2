@@ -3,14 +3,14 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useParams } from "react-router-dom";
 import { getProduct } from "../../api/products";
-import products from "../../interfaces/products";
+import IProducts from "../../interfaces/products";
 import Images from "../../components/overview/ImageList";
 import Contents from "../../components/overview/Contents";
 import Likes from "../../components/overview/Likes";
 
 const DetailPage: React.FC = () => {
 	const { slugs } = useParams<string>();
-	const [data, setData] = useState<products[]>([]);
+	const [data, setData] = useState<IProducts[]>([]);
 	useEffect(() => {
 		const fetchData = async () => {
 			const { data } = await getProduct(slugs);

@@ -2,7 +2,7 @@ type Ioptions = {
 	name: String;
 	value: [String];
 };
-interface products {
+interface IProducts {
 	_id?: String;
 	key?: React.Key;
 	title: String;
@@ -13,4 +13,4 @@ interface products {
 	albums?: String[];
 	slug: String;
 }
-export default products;
+export default IProducts;

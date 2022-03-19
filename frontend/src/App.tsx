@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./components/admin/Dashboard";
+import CategoriesManager from "./pages/admin/CategoriesManager";
 import ProductsManager from "./pages/admin/ProductsManager";
 import HomePage from "./pages/home/HomePage";
 import DashboardLayout from "./pages/layouts/DashboardLayout";
@@ -26,7 +27,7 @@ const App: React.FC = () => {
 				</Route>
 				<Route path="/admin" element={<DashboardLayout />}>
 					<Route index element={<Dashboard />}></Route>
-					<Route path="categories" element={<h1>categories</h1>}></Route>
+					<Route path="categories" element={<CategoriesManager />}></Route>
 					<Route path="products" element={<ProductsManager />}></Route>
 					<Route path="orders" element={<h1>orders</h1>}></Route>
 					<Route path="customers" element={<h1>customers</h1>}></Route>

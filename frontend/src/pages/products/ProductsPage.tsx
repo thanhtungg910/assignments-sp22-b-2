@@ -7,7 +7,7 @@ import AccordionProduct from "../../components/product/Accordion ";
 import Flexs from "../../components/layouts/Flexs";
 import Grids from "../../components/layouts/Grids";
 import { getProducts } from "../../api/products";
-import products from "../../interfaces/products";
+import IProducts from "../../interfaces/products";
 import {
 	getCategories,
 	getProductsByCategory,
@@ -16,7 +16,7 @@ import {
 
 const ProductsPage: React.FC = () => {
 	const [toggle, setToggle] = useState<boolean>(false);
-	const [data, setData] = useState<products[]>([]);
+	const [data, setData] = useState<IProducts[]>([]);
 	const [url, setUrl] = useState<Object | String>("");
 	const [query, setQuery] = useState<String>("");
 	const [categories, setCategories] = useState<[]>([]);

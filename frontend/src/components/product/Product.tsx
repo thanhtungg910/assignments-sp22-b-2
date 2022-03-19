@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import Favorite from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import products from "../../interfaces/products";
+import IProducts from "../../interfaces/products";
 import { Checkbox } from "@mui/material";
 
-const Product: React.FC<products> = ({ title, price, image, slug, saleoff, albums }) => {
+const Product: React.FC<IProducts> = ({ title, price, image, slug, saleoff, albums }) => {
 	return (
 		<div className="group relative">
 			<div className="w-full min-h-[483px] bg-gray-200 aspect-w-1 aspect-h-1  overflow-hidden lg:h-80 lg:aspect-none">
