@@ -18,7 +18,8 @@ import { Theme, useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Chip from "@mui/material/Chip";
 import UploadImages from "./UploadImages";
-import FormSelectOption from "./FormSelectOption";
+import FormSelectOption from "../../common/FormSelectOption";
+import InputField from "../../common/InputField";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -72,7 +73,7 @@ const AddProduct = (props: Props) => {
 			title: "",
 			price: "",
 			category: "",
-			images: "",
+			images: [],
 			sale: "",
 			amount: "",
 			color: [],
@@ -124,26 +125,25 @@ const AddProduct = (props: Props) => {
 						>
 							<Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 								<Grid item xs={6}>
-									<Controller
-										name="title"
-										rules={{ required: true }}
-										control={control}
-										render={({ field }) => (
-											<TextField fullWidth label="Title" variant="standard" {...field} />
-										)}
+									{/* Title start */}
+									<InputField
+										title="title"
+										label="Title"
+										controls={control}
+										errors={errors?.title}
 									/>
-									{errors?.title && <Typography color="error">This is required</Typography>}
+									{/* Title end */}
 								</Grid>
 								<Grid item xs={6}>
-									<Controller
-										name="price"
-										rules={{ required: true }}
-										control={control}
-										render={({ field }) => (
-											<TextField fullWidth label="Price" variant="standard" {...field} />
-										)}
+									{/* Title start */}
+									<InputField
+										title="price"
+										label="Price"
+										type="number"
+										controls={control}
+										errors={errors?.price}
 									/>
-									{errors?.price && <Typography color="error">This is required</Typography>}
+									{/* Title end */}
 								</Grid>
 
 								<Grid item xs={6}>
@@ -172,21 +172,14 @@ const AddProduct = (props: Props) => {
 									{/* Form sale end */}
 								</Grid>
 								<Grid item xs={6}>
-									<Controller
-										name="amount"
-										rules={{ required: true }}
-										control={control}
-										render={({ field }) => (
-											<TextField
-												type="number"
-												fullWidth
-												label="Amount"
-												variant="standard"
-												{...field}
-											/>
-										)}
+									{/* Amount start */}
+									<InputField
+										title="amount"
+										label="Amount"
+										controls={control}
+										errors={errors?.amount}
 									/>
-									{errors?.amount && <Typography color="error">This is required</Typography>}
+									{/* Amount end */}
 								</Grid>
 								<Grid item xs={6}>
 									<Controller
