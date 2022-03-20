@@ -1,9 +1,5 @@
 import {
 	Button,
-	Card,
-	CardActions,
-	CardContent,
-	CardHeader,
 	FormControl,
 	Grid,
 	InputLabel,
@@ -22,7 +18,7 @@ import { Theme, useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Chip from "@mui/material/Chip";
 import UploadImages from "./UploadImages";
-import ReactHookFormSelect from "./ReactHookFormSelect";
+import FormSelectOption from "./FormSelectOption";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -151,68 +147,43 @@ const AddProduct = (props: Props) => {
 								</Grid>
 
 								<Grid item xs={6}>
-									<Controller
-										name="category"
-										rules={{ required: true }}
-										control={control}
-										render={({ field }) => (
-											<FormControl variant="standard" fullWidth>
-												<InputLabel>Category</InputLabel>
-												<Select
-													value={category}
-													onChange={handleChangeCategory}
-													fullWidth
-													label="category"
-													variant="standard"
-													{...field}
-												>
-													<MenuItem value="">
-														<em>None</em>
-													</MenuItem>
-													<MenuItem value={"Ten"}>Ten</MenuItem>
-													<MenuItem value={"Twenty"}>Twenty</MenuItem>
-													<MenuItem value={"Thirty"}>Thirty</MenuItem>
-												</Select>
-											</FormControl>
-										)}
+									{/* Form category start */}
+									<FormSelectOption
+										title="category"
+										label="Category"
+										controls={control}
+										state={category}
+										handleChangeState={handleChangeCategory}
+										errors={errors?.category}
 									/>
-									{errors?.category && <Typography color="error">This is required</Typography>}
+									{/* Form category end */}
 								</Grid>
 
 								<Grid item xs={6}>
-									<FormControl variant="standard" fullWidth>
-										<InputLabel>Sale off</InputLabel>
-										<Controller
-											name="sale"
-											rules={{ required: true }}
-											control={control}
-											render={({ formState }) => (
-												<Select
-													value={sale}
-													onChange={handleChangeSale}
-													label="Sale"
-													fullWidth
-													{...formState}
-												>
-													<MenuItem value="">
-														<em>None</em>
-													</MenuItem>
-													<MenuItem value={10}>Ten</MenuItem>
-													<MenuItem value={20}>Twenty</MenuItem>
-													<MenuItem value={30}>Thirty</MenuItem>
-												</Select>
-											)}
-										/>
-										{errors?.sale && <Typography color="error">This is required</Typography>}
-									</FormControl>
+									{/* Form sale start */}
+									<FormSelectOption
+										title="sale"
+										label="Sale"
+										controls={control}
+										state={sale}
+										handleChangeState={handleChangeSale}
+										errors={errors?.sale}
+									/>
+									{/* Form sale end */}
 								</Grid>
 								<Grid item xs={6}>
 									<Controller
 										name="amount"
-										// rules={{ required: true }}
+										rules={{ required: true }}
 										control={control}
 										render={({ field }) => (
-											<TextField fullWidth label="Amount" variant="standard" {...field} />
+											<TextField
+												type="number"
+												fullWidth
+												label="Amount"
+												variant="standard"
+												{...field}
+											/>
 										)}
 									/>
 									{errors?.amount && <Typography color="error">This is required</Typography>}
@@ -246,7 +217,7 @@ const AddProduct = (props: Props) => {
 						{/* color start */}
 						<Controller
 							name="color"
-							rules={{ required: true }}
+							// rules={{ required: true }}
 							control={control}
 							render={({ field }) => (
 								<FormControl fullWidth>
@@ -281,7 +252,7 @@ const AddProduct = (props: Props) => {
 						{/* Size start */}
 						<Controller
 							name="size"
-							rules={{ required: true }}
+							// rules={{ required: true }}
 							control={control}
 							render={({ formState }) => (
 								<FormControl fullWidth>
