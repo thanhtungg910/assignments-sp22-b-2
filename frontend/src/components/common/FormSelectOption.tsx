@@ -23,7 +23,7 @@ const FormSelectOption: React.FC<Props> = ({
 		<>
 			<Controller
 				name={title}
-				rules={{ required: true }}
+				// rules={{ required: true }}
 				control={controls}
 				render={({ field }) => {
 					return (

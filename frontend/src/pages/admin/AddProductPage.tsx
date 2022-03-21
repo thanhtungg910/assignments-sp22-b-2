@@ -64,6 +64,8 @@ const AddProductPage: React.FC = (props: Props) => {
 	const [sale, setSale] = React.useState("");
 	const [color, setColor] = React.useState<string[]>([]);
 	const [size, setSize] = React.useState<string[]>([]);
+	const [colorName, setColorName] = React.useState<string[]>([]);
+
 	const {
 		control,
 		register,
@@ -82,6 +84,15 @@ const AddProductPage: React.FC = (props: Props) => {
 			description: "",
 		},
 	});
+	useEffect(() => {
+		const getColors = () => {
+			axios
+				.get("https://colornames.org/fresh/json")
+				.then((res) => console.log(res))
+				.catch((err) => console.log(err));
+		};
+		getColors();
+	}, []);
 
 	const handleChangeColor = (event: SelectChangeEvent<typeof color>) => {
 		const {
@@ -192,7 +203,7 @@ const AddProductPage: React.FC = (props: Props) => {
 
 								<Grid item xs={6}>
 									<UploadImages
-										field={register("images", { required: true })}
+										field={register("images", { required: false })}
 										errors={errors?.images}
 									/>
 								</Grid>
