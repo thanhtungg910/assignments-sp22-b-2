@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Button,
 	FormControl,
@@ -10,6 +10,7 @@ import {
 	TextField,
 	Typography,
 	SelectChangeEvent,
+	Alert,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useForm, Controller } from "react-hook-form";
@@ -61,6 +62,7 @@ type Props = {};
 
 const AddProductPage: React.FC = (props: Props) => {
 	const theme = useTheme();
+	const [loading, setLoading] = useState<boolean>(false);
 	const [category, setCategory] = React.useState("");
 	const [sale, setSale] = React.useState("");
 	const [color, setColor] = React.useState<string[]>([]);
@@ -79,12 +81,12 @@ const AddProductPage: React.FC = (props: Props) => {
 			title: "",
 			price: "",
 			category: "",
-			images: [],
 			sale: "",
-			amount: "",
+			amount: 1,
+			description: "",
 			color: [],
 			size: [],
-			description: "",
+			images: [],
 		},
 	});
 	useEffect(() => {
@@ -123,11 +125,13 @@ const AddProductPage: React.FC = (props: Props) => {
 	};
 
 	const onSubmit: any = async (data: any) => {
+		setLoading(true);
 		const response = Array.from(data.images).map(async (file: any) => {
 			return await uploadFile(file);
 		});
 		const images = await Promise.all(response);
 		data.images = images;
+		setLoading(false);
 		console.log(data);
 	};
 	return (
@@ -208,7 +212,7 @@ const AddProductPage: React.FC = (props: Props) => {
 
 								<Grid item xs={6}>
 									<UploadImages
-										field={register("images", { required: false })}
+										field={register("images", { required: true })}
 										errors={errors?.images}
 									/>
 								</Grid>
@@ -259,6 +263,7 @@ const AddProductPage: React.FC = (props: Props) => {
 							value={size}
 							onChange={handleChangeSize}
 							MenuProps={MenuProps}
+							errors={errors?.size}
 						>
 							{sizes.length > 0 &&
 								sizes.map((sizeValue) => (
@@ -271,7 +276,6 @@ const AddProductPage: React.FC = (props: Props) => {
 									</MenuItem>
 								))}
 						</SelectMultiple>
-						{errors?.size && <Typography color="error">This is required</Typography>}
 
 						{/* Size end */}
 						<Button color="primary" variant="contained" type="submit">

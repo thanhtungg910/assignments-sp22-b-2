@@ -42,7 +42,7 @@ const SelectMultiple: React.FC<Props> = ({
 			<FormControl fullWidth>
 				<InputLabel id="demo-multiple-chip-label">{title}</InputLabel>
 				<Select
-					{...register(title)}
+					{...register(title, { required: true })}
 					multiple
 					value={value}
 					onChange={onChange}
