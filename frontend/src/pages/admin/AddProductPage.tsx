@@ -66,6 +66,7 @@ const AddProductPage: React.FC = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
+		reset,
 	} = useForm({
 		defaultValues: {
 			title: "",
@@ -123,6 +124,7 @@ const AddProductPage: React.FC = () => {
 		data.images = images;
 		setLoading(false);
 		console.log(data);
+		reset();
 		setToggle(true);
 	};
 
@@ -197,6 +199,7 @@ const AddProductPage: React.FC = () => {
 									<InputField
 										title="amount"
 										label="Amount"
+										type="number"
 										controls={control}
 										errors={errors?.amount}
 									/>
