@@ -34,23 +34,23 @@ const MenuProps = {
 	},
 };
 
-const names = [
-	"Oliver Hansen",
-	"Van Henry",
-	"April Tucker",
-	"Ralph Hubbard",
-	"Omar Alexander",
-	"Carlos Abbott",
-	"Miriam Wagner",
-	"Bradley Wilkerson",
-	"Virginia Andrews",
-	"Kelly Snyder",
-];
+// const names = [
+// 	"Oliver Hansen",
+// 	"Van Henry",
+// 	"April Tucker",
+// 	"Ralph Hubbard",
+// 	"Omar Alexander",
+// 	"Carlos Abbott",
+// 	"Miriam Wagner",
+// 	"Bradley Wilkerson",
+// 	"Virginia Andrews",
+// 	"Kelly Snyder",
+// ];
 
-function getStyles(name: string, personName: readonly string[], theme: Theme) {
+function getStyles(name: string, color: String, theme: Theme) {
 	return {
 		fontWeight:
-			personName.indexOf(name) === -1
+			color.indexOf(name) === -1
 				? theme.typography.fontWeightRegular
 				: theme.typography.fontWeightMedium,
 	};
@@ -64,7 +64,9 @@ const AddProductPage: React.FC = (props: Props) => {
 	const [sale, setSale] = React.useState("");
 	const [color, setColor] = React.useState<string[]>([]);
 	const [size, setSize] = React.useState<string[]>([]);
-	const [colorName, setColorName] = React.useState<string[]>([]);
+	const [colorName, setColorName] = React.useState<
+		{ nameId: Number; hexCode: String; name: String; key?: React.Key }[]
+	>([]);
 
 	const {
 		control,
@@ -85,11 +87,13 @@ const AddProductPage: React.FC = (props: Props) => {
 		},
 	});
 	useEffect(() => {
-		const getColors = () => {
-			axios
-				.get("https://colornames.org/fresh/json")
-				.then((res) => console.log(res))
-				.catch((err) => console.log(err));
+		const getColors = async () => {
+			try {
+				const { data } = await axios.get("http://localhost:5001/api/colors");
+				setColorName(data);
+			} catch (error) {
+				console.log(error);
+			}
 		};
 		getColors();
 	}, []);
@@ -225,38 +229,7 @@ const AddProductPage: React.FC = (props: Props) => {
 						}}
 					>
 						{/* color start */}
-						{/* <Controller
-							name="color"
-							// rules={{ required: true }}
-							control={control}
-							render={({ field }) => (
-								<FormControl fullWidth>
-									<InputLabel id="demo-multiple-chip-label">Color</InputLabel>
-									<Select
-										{...field}
-										multiple
-										value={color}
-										onChange={handleChangeColor}
-										input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-										renderValue={(selected) => (
-											<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-												{selected.map((value) => (
-													<Chip key={value} label={value} />
-												))}
-											</Box>
-										)}
-										MenuProps={MenuProps}
-									>
-										{names.map((name) => (
-											<MenuItem key={name} value={name} style={getStyles(name, color, theme)}>
-												{name}
-											</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-							)}
-						/>
-						{errors?.color && <Typography color="error">This is required</Typography>} */}
+						{/*errors?.color && <Typography color="error">This is required</Typography>} */}
 						<FormControl fullWidth>
 							<InputLabel id="demo-multiple-chip-label">Color</InputLabel>
 							<Select
@@ -274,11 +247,16 @@ const AddProductPage: React.FC = (props: Props) => {
 								)}
 								MenuProps={MenuProps}
 							>
-								{names.map((name) => (
-									<MenuItem key={name} value={name} style={getStyles(name, color, theme)}>
-										{name}
-									</MenuItem>
-								))}
+								{colorName.length > 0 &&
+									colorName.map(({ nameId, hexCode, name: title }) => (
+										<MenuItem
+											key={nameId}
+											value={hexCode}
+											style={getStyles(`${title}`, `${title}`, theme)}
+										>
+											{title}
+										</MenuItem>
+									))}
 							</Select>
 						</FormControl>
 						{/* color end */}
@@ -306,11 +284,11 @@ const AddProductPage: React.FC = (props: Props) => {
 										)}
 										MenuProps={MenuProps}
 									>
-										{names.map((name) => (
+										{/* names.map((name) => (
 											<MenuItem key={name} value={name} style={getStyles(name, size, theme)}>
 												{name}
 											</MenuItem>
-										))}
+										)) */}
 									</Select>
 								</FormControl>
 							)}
