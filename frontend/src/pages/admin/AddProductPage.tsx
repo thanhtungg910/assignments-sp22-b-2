@@ -1,29 +1,23 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useForm } from "react-hook-form";
 import {
 	Button,
-	FormControl,
 	Grid,
-	InputLabel,
 	MenuItem,
 	Paper,
-	Select,
 	TextField,
 	Typography,
 	SelectChangeEvent,
-	Alert,
 } from "@mui/material";
-import { Box } from "@mui/system";
-import { useForm, Controller } from "react-hook-form";
 
 import { Theme, useTheme } from "@mui/material/styles";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import Chip from "@mui/material/Chip";
 import InputField from "../../components/common/InputField";
 import FormSelectOption from "../../components/common/FormSelectOption";
 import UploadImages from "../../components/admin/product/UploadImages";
-import axios from "axios";
 import uploadFile from "../../utils/uploadFile";
 import SelectMultiple from "../../components/common/SelectMultiple";
+import Alerts from "../../components/common/Alerts";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -58,19 +52,15 @@ function getStyles(name: string, color: String, theme: Theme) {
 	};
 }
 
-type Props = {};
-
-const AddProductPage: React.FC = (props: Props) => {
+const AddProductPage: React.FC = () => {
 	const theme = useTheme();
 	const [loading, setLoading] = useState<boolean>(false);
+	const [toggle, setToggle] = React.useState<boolean>(false);
 	const [category, setCategory] = React.useState("");
 	const [sale, setSale] = React.useState("");
 	const [color, setColor] = React.useState<string[]>([]);
 	const [size, setSize] = React.useState<string[]>([]);
-	const [colorName, setColorName] = React.useState<
-		{ nameId: String | Number; hexCode: String; name: String; key?: React.Key }[]
-	>([]);
-
+	const [colorName, setColorName] = React.useState<any[]>([]);
 	const {
 		control,
 		register,
@@ -133,9 +123,12 @@ const AddProductPage: React.FC = (props: Props) => {
 		data.images = images;
 		setLoading(false);
 		console.log(data);
+		setToggle(true);
 	};
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
+			<Alerts loading={loading} open={toggle} setToggle={setToggle} />
 			<Grid container spacing={3}>
 				<Grid item xs={12} md={8} lg={9}>
 					<Paper
