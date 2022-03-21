@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	Button,
 	FormControl,
@@ -20,6 +20,7 @@ import Chip from "@mui/material/Chip";
 import InputField from "../../components/common/InputField";
 import FormSelectOption from "../../components/common/FormSelectOption";
 import UploadImages from "../../components/admin/product/UploadImages";
+import axios from "axios";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -62,7 +63,8 @@ const AddProductPage: React.FC = (props: Props) => {
 	const [sale, setSale] = React.useState("");
 	const [color, setColor] = React.useState<string[]>([]);
 	const [size, setSize] = React.useState<string[]>([]);
-
+	const [image, setImage] = React.useState<"">("");
+	const [imageList, setImageList] = React.useState<String[]>([]);
 	const {
 		control,
 		register,
@@ -73,7 +75,7 @@ const AddProductPage: React.FC = (props: Props) => {
 			title: "",
 			price: "",
 			category: "",
-			images: [],
+			images: imageList,
 			sale: "",
 			amount: "",
 			color: [],
@@ -81,6 +83,31 @@ const AddProductPage: React.FC = (props: Props) => {
 			description: "",
 		},
 	});
+	function uploadFile(File: string | Blob) {
+		const API_CLOUDDINARY = "https://api.cloudinary.com/v1_1/dhfndew6y/image/upload";
+		const UPLOAD_PRESET = "njlgbczl";
+		const formData = new FormData();
+
+		formData.append("file", File);
+		formData.append("upload_preset", UPLOAD_PRESET);
+		axios
+			.post(API_CLOUDDINARY, formData, {
+				headers: {
+					"content-type": "multipart/form-data",
+				},
+			})
+			.then(({ data }) => {
+				setImage(data.secure_url);
+			})
+			.catch((err) => console.log(err));
+	}
+	useEffect(() => {
+		if (image !== "") {
+			setImageList([...imageList, image]);
+		}
+		return () => {};
+	}, [image]);
+
 	const handleChangeColor = (event: SelectChangeEvent<typeof color>) => {
 		const {
 			target: { value },
@@ -103,6 +130,14 @@ const AddProductPage: React.FC = (props: Props) => {
 	const handleChangeSale = (event: any) => {
 		setSale(event.target.value);
 	};
+	const handleChangeImage = (event: any) => {
+		Array.from(event.target.files).forEach((file: any) => {
+			uploadFile(file);
+		});
+		// setImage(event.target.files);
+		// setImageList([{ ...image }]);
+	};
+
 	const onSubmit: any = (data: any) => {
 		console.log(data);
 	};
@@ -181,14 +216,14 @@ const AddProductPage: React.FC = (props: Props) => {
 									/>
 									{/* Amount end */}
 								</Grid>
+
 								<Grid item xs={6}>
-									<Controller
+									<UploadImages
 										name="images"
-										control={control}
-										rules={{ required: true }}
-										render={({ field }) => <UploadImages field={{ ...field }} />}
+										onChange={handleChangeImage}
+										field={register}
+										errors={errors?.images}
 									/>
-									{errors?.images && <Typography color="error">This is required</Typography>}
 								</Grid>
 							</Grid>
 						</Grid>
