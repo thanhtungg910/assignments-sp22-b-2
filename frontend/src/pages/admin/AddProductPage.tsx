@@ -22,6 +22,7 @@ import FormSelectOption from "../../components/common/FormSelectOption";
 import UploadImages from "../../components/admin/product/UploadImages";
 import axios from "axios";
 import uploadFile from "../../utils/uploadFile";
+import SelectMultiple from "../../components/common/SelectMultiple";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -34,18 +35,18 @@ const MenuProps = {
 	},
 };
 
-// const names = [
-// 	"Oliver Hansen",
-// 	"Van Henry",
-// 	"April Tucker",
-// 	"Ralph Hubbard",
-// 	"Omar Alexander",
-// 	"Carlos Abbott",
-// 	"Miriam Wagner",
-// 	"Bradley Wilkerson",
-// 	"Virginia Andrews",
-// 	"Kelly Snyder",
-// ];
+const sizes = [
+	"Oliver Hansen",
+	"Van Henry",
+	"April Tucker",
+	"Ralph Hubbard",
+	"Omar Alexander",
+	"Carlos Abbott",
+	"Miriam Wagner",
+	"Bradley Wilkerson",
+	"Virginia Andrews",
+	"Kelly Snyder",
+];
 
 function getStyles(name: string, color: String, theme: Theme) {
 	return {
@@ -65,7 +66,7 @@ const AddProductPage: React.FC = (props: Props) => {
 	const [color, setColor] = React.useState<string[]>([]);
 	const [size, setSize] = React.useState<string[]>([]);
 	const [colorName, setColorName] = React.useState<
-		{ nameId: Number; hexCode: String; name: String; key?: React.Key }[]
+		{ nameId: String | Number; hexCode: String; name: String; key?: React.Key }[]
 	>([]);
 
 	const {
@@ -229,70 +230,47 @@ const AddProductPage: React.FC = (props: Props) => {
 						}}
 					>
 						{/* color start */}
-						{/*errors?.color && <Typography color="error">This is required</Typography>} */}
-						<FormControl fullWidth>
-							<InputLabel id="demo-multiple-chip-label">Color</InputLabel>
-							<Select
-								{...register("color")}
-								multiple
-								value={color}
-								onChange={handleChangeColor}
-								input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-								renderValue={(selected) => (
-									<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-										{selected.map((value) => (
-											<Chip key={value} label={value} />
-										))}
-									</Box>
-								)}
-								MenuProps={MenuProps}
-							>
-								{colorName.length > 0 &&
-									colorName.map(({ nameId, hexCode, name: title }) => (
-										<MenuItem
-											key={nameId}
-											value={hexCode}
-											style={getStyles(`${title}`, `${title}`, theme)}
-										>
-											{title}
-										</MenuItem>
-									))}
-							</Select>
-						</FormControl>
+						<SelectMultiple
+							register={register}
+							title="color"
+							value={color}
+							onChange={handleChangeColor}
+							MenuProps={MenuProps}
+							errors={errors.color}
+						>
+							{colorName.length > 0 &&
+								colorName.map(({ nameId, hexCode, name: title }) => (
+									<MenuItem
+										key={nameId}
+										value={hexCode}
+										style={getStyles(`${title}`, `${title}`, theme)}
+									>
+										{title}
+									</MenuItem>
+								))}
+						</SelectMultiple>
+						{/* </FormControl> */}
 						{/* color end */}
 						{/* Size start */}
-						<Controller
-							name="size"
-							// rules={{ required: true }}
-							control={control}
-							render={({ formState }) => (
-								<FormControl fullWidth>
-									<InputLabel id="demo-multiple-chip-label">Size</InputLabel>
-									<Select
-										labelId="demo-multiple-chip-label"
-										id="demo-multiple-chip"
-										multiple
-										value={size}
-										onChange={handleChangeSize}
-										input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-										renderValue={(selected) => (
-											<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-												{selected.map((value) => (
-													<Chip key={value} label={value} />
-												))}
-											</Box>
-										)}
-										MenuProps={MenuProps}
+
+						<SelectMultiple
+							register={register}
+							title="size"
+							value={size}
+							onChange={handleChangeSize}
+							MenuProps={MenuProps}
+						>
+							{sizes.length > 0 &&
+								sizes.map((sizeValue) => (
+									<MenuItem
+										key={sizeValue}
+										value={sizeValue}
+										style={getStyles(sizeValue, sizeValue, theme)}
 									>
-										{/* names.map((name) => (
-											<MenuItem key={name} value={name} style={getStyles(name, size, theme)}>
-												{name}
-											</MenuItem>
-										)) */}
-									</Select>
-								</FormControl>
-							)}
-						/>
+										{sizeValue}
+									</MenuItem>
+								))}
+						</SelectMultiple>
 						{errors?.size && <Typography color="error">This is required</Typography>}
 
 						{/* Size end */}
