@@ -83,30 +83,28 @@ const AddProductPage: React.FC = (props: Props) => {
 			description: "",
 		},
 	});
-	function uploadFile(File: string | Blob) {
+	async function uploadFile(File: string | Blob) {
 		const API_CLOUDDINARY = "https://api.cloudinary.com/v1_1/dhfndew6y/image/upload";
 		const UPLOAD_PRESET = "njlgbczl";
 		const formData = new FormData();
 
 		formData.append("file", File);
 		formData.append("upload_preset", UPLOAD_PRESET);
-		axios
-			.post(API_CLOUDDINARY, formData, {
-				headers: {
-					"content-type": "multipart/form-data",
-				},
-			})
-			.then(({ data }) => {
-				setImage(data.secure_url);
-			})
-			.catch((err) => console.log(err));
+		const res = await axios.post(API_CLOUDDINARY, formData, {
+			headers: {
+				"content-type": "multipart/form-data",
+			},
+		});
+		const data = await res.data;
+		const img = await data.secure_url;
+		return img;
 	}
-	useEffect(() => {
-		if (image !== "") {
-			setImageList([...imageList, image]);
-		}
-		return () => {};
-	}, [image]);
+	// useEffect(() => {
+	// 	if (image !== "") {
+	// 		setImageList([...imageList, image]);
+	// 	}
+	// 	return () => {};
+	// }, [image]);
 
 	const handleChangeColor = (event: SelectChangeEvent<typeof color>) => {
 		const {
@@ -130,15 +128,18 @@ const AddProductPage: React.FC = (props: Props) => {
 	const handleChangeSale = (event: any) => {
 		setSale(event.target.value);
 	};
-	const handleChangeImage = (event: any) => {
-		Array.from(event.target.files).forEach((file: any) => {
-			uploadFile(file);
-		});
-		// setImage(event.target.files);
-		// setImageList([{ ...image }]);
-	};
+	// const handleChangeImage = (event: any) => {
+	// 	Array.from(event.target.files).forEach((file: any) => {
+	// 		uploadFile(file);
+	// 	});
+	// };
 
-	const onSubmit: any = (data: any) => {
+	const onSubmit: any = async (data: any) => {
+		const response = Array.from(data.images).map(async (file: any) => {
+			return await uploadFile(file);
+		});
+		const images = await Promise.all(response);
+		data.images = images;
 		console.log(data);
 	};
 	return (
@@ -219,9 +220,9 @@ const AddProductPage: React.FC = (props: Props) => {
 
 								<Grid item xs={6}>
 									<UploadImages
-										name="images"
-										onChange={handleChangeImage}
-										field={register}
+										// name="images"
+										// onChange={handleChangeImage}
+										field={register("images", { required: true })}
 										errors={errors?.images}
 									/>
 								</Grid>

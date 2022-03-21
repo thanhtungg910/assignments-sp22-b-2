@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import React from "react";
 
-type Props = { field?: Object; onChange?: (event: any) => void; errors: any; name: string };
+type Props = { field?: Object; onChange?: (event: any) => void; errors: any; name?: string };
 
 const UploadImages: React.FC<Props> = ({ field, onChange, errors, name }: Props) => {
 	return (
@@ -22,7 +22,6 @@ const UploadImages: React.FC<Props> = ({ field, onChange, errors, name }: Props)
 								id="file-upload"
 								multiple
 								onChange={onChange}
-								name={name}
 								type="file"
 								className="sr-only"
 								{...field}
