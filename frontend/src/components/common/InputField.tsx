@@ -25,7 +25,7 @@ const InputField: React.FC<Props> = ({
 		<div>
 			<Controller
 				name={title}
-				rules={{ required: true }}
+				// rules={{ required: true }}
 				control={controls}
 				render={({ field }) => (
 					<TextField fullWidth label={label} type={type} variant="standard" {...field} />

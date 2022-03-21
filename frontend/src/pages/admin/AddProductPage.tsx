@@ -21,6 +21,7 @@ import InputField from "../../components/common/InputField";
 import FormSelectOption from "../../components/common/FormSelectOption";
 import UploadImages from "../../components/admin/product/UploadImages";
 import axios from "axios";
+import uploadFile from "../../utils/uploadFile";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -63,8 +64,6 @@ const AddProductPage: React.FC = (props: Props) => {
 	const [sale, setSale] = React.useState("");
 	const [color, setColor] = React.useState<string[]>([]);
 	const [size, setSize] = React.useState<string[]>([]);
-	const [image, setImage] = React.useState<"">("");
-	const [imageList, setImageList] = React.useState<String[]>([]);
 	const {
 		control,
 		register,
@@ -75,7 +74,7 @@ const AddProductPage: React.FC = (props: Props) => {
 			title: "",
 			price: "",
 			category: "",
-			images: imageList,
+			images: [],
 			sale: "",
 			amount: "",
 			color: [],
@@ -83,28 +82,6 @@ const AddProductPage: React.FC = (props: Props) => {
 			description: "",
 		},
 	});
-	async function uploadFile(File: string | Blob) {
-		const API_CLOUDDINARY = "https://api.cloudinary.com/v1_1/dhfndew6y/image/upload";
-		const UPLOAD_PRESET = "njlgbczl";
-		const formData = new FormData();
-
-		formData.append("file", File);
-		formData.append("upload_preset", UPLOAD_PRESET);
-		const res = await axios.post(API_CLOUDDINARY, formData, {
-			headers: {
-				"content-type": "multipart/form-data",
-			},
-		});
-		const data = await res.data;
-		const img = await data.secure_url;
-		return img;
-	}
-	// useEffect(() => {
-	// 	if (image !== "") {
-	// 		setImageList([...imageList, image]);
-	// 	}
-	// 	return () => {};
-	// }, [image]);
 
 	const handleChangeColor = (event: SelectChangeEvent<typeof color>) => {
 		const {
@@ -128,11 +105,6 @@ const AddProductPage: React.FC = (props: Props) => {
 	const handleChangeSale = (event: any) => {
 		setSale(event.target.value);
 	};
-	// const handleChangeImage = (event: any) => {
-	// 	Array.from(event.target.files).forEach((file: any) => {
-	// 		uploadFile(file);
-	// 	});
-	// };
 
 	const onSubmit: any = async (data: any) => {
 		const response = Array.from(data.images).map(async (file: any) => {
@@ -220,8 +192,6 @@ const AddProductPage: React.FC = (props: Props) => {
 
 								<Grid item xs={6}>
 									<UploadImages
-										// name="images"
-										// onChange={handleChangeImage}
 										field={register("images", { required: true })}
 										errors={errors?.images}
 									/>
@@ -244,7 +214,7 @@ const AddProductPage: React.FC = (props: Props) => {
 						}}
 					>
 						{/* color start */}
-						<Controller
+						{/* <Controller
 							name="color"
 							// rules={{ required: true }}
 							control={control}
@@ -275,8 +245,31 @@ const AddProductPage: React.FC = (props: Props) => {
 								</FormControl>
 							)}
 						/>
-						{errors?.color && <Typography color="error">This is required</Typography>}
-
+						{errors?.color && <Typography color="error">This is required</Typography>} */}
+						<FormControl fullWidth>
+							<InputLabel id="demo-multiple-chip-label">Color</InputLabel>
+							<Select
+								{...register("color")}
+								multiple
+								value={color}
+								onChange={handleChangeColor}
+								input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+								renderValue={(selected) => (
+									<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+										{selected.map((value) => (
+											<Chip key={value} label={value} />
+										))}
+									</Box>
+								)}
+								MenuProps={MenuProps}
+							>
+								{names.map((name) => (
+									<MenuItem key={name} value={name} style={getStyles(name, color, theme)}>
+										{name}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
 						{/* color end */}
 						{/* Size start */}
 						<Controller
