@@ -34,7 +34,7 @@ const categoryControll = {
 	// REMOVE
 	async remove(req, res) {
 		try {
-			const category = await categoryModel.findByIdAndDelete({ slug: req.params.slug }).exec();
+			const category = await categoryModel.findOneAndDelete({ slug: req.params.slug }).exec();
 			res.status(200).json(category);
 		} catch (error) {
 			res.status(400).json({ message: error });

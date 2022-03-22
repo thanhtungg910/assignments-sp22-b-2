@@ -118,7 +118,7 @@ const productController = {
 	async edit(req, res) {
 		try {
 			const product = await productModel
-				.findByIdAndUpdate({ slug: req.params.slug }, req.body)
+				.findOneAndUpdate({ slug: req.params.slug }, req.body)
 				.exec();
 			res.status(200).json(product);
 		} catch (error) {
@@ -128,7 +128,7 @@ const productController = {
 	// REMOVE
 	async remove(req, res) {
 		try {
-			const product = await productModel.findByIdAndDelete({ slug: req.params.slug }).exec();
+			const product = await productModel.findOneAndDelete({ slug: req.params.slug }).exec();
 			res.status(200).json(product);
 		} catch (error) {
 			res.status(400).json({ message: error });
