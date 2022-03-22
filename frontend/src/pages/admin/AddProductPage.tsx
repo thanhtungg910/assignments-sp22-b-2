@@ -160,15 +160,20 @@ const AddProductPage: React.FC = () => {
 			type: "SUBMIT",
 			loading: false,
 			toggle: true,
-			payload: product,
+			payload: {
+				data: product,
+				color: [],
+				size: [],
+				images: [],
+			},
 		});
-
-		// dispath({
-		// 	type: "LOADING",
-		// 	payload: false,
-		// });
 		reset();
-		// setToggle(true);
+		setTimeout(() => {
+			dispath({
+				type: "TOGGLE",
+				toggle: false,
+			});
+		}, 2000);
 	};
 
 	return (

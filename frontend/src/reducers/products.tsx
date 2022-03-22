@@ -13,11 +13,18 @@ const handleReducer = (state: any, action: any) => {
 		case "SUBMIT":
 			console.log({ action, state });
 			const createProduct = async () => {
-				await create(action.payload);
+				await create(action.payload.data);
 			};
 			createProduct();
-			return { ...state, loading: action.loading, toggle: action.toggle };
-
+			return {
+				...state,
+				loading: action.loading,
+				toggle: action.toggle,
+				color: action.payload.color,
+				size: action.payload.size,
+			};
+		case "TOGGLE":
+			return { ...state, toggle: action.toggle };
 		default:
 			break;
 	}
