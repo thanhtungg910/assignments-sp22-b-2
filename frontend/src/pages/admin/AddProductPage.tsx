@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import {
@@ -18,8 +18,8 @@ import UploadImages from "../../components/admin/product/UploadImages";
 import uploadFile from "../../utils/uploadFile";
 import SelectMultiple from "../../components/common/SelectMultiple";
 import Alerts from "../../components/common/Alerts";
-import { create } from "../../api/products";
 import IProducts from "../../interfaces/products";
+import handleReducer from "../../reducers/products";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -42,16 +42,18 @@ function getStyles(name: string, color: String, theme: Theme) {
 				: theme.typography.fontWeightMedium,
 	};
 }
-
+const initial: any = {
+	loading: false,
+	toggle: false,
+	category: "",
+	sale: "",
+	color: [],
+	size: [],
+	colorName: [],
+};
 const AddProductPage: React.FC = () => {
 	const theme = useTheme();
-	const [loading, setLoading] = useState<boolean>(false);
-	const [toggle, setToggle] = React.useState<boolean>(false);
-	const [category, setCategory] = React.useState("");
-	const [sale, setSale] = React.useState("");
-	const [color, setColor] = React.useState<string[]>([]);
-	const [size, setSize] = React.useState<string[]>([]);
-	const [colorName, setColorName] = React.useState<any[]>([]);
+	const [state, dispath] = useReducer(handleReducer, initial);
 	const {
 		control,
 		register,
@@ -75,7 +77,11 @@ const AddProductPage: React.FC = () => {
 		const getColors = async () => {
 			try {
 				const { data } = await axios.get("http://localhost:5001/api/colors");
-				setColorName(data);
+				dispath({
+					type: "SET_COLOR",
+					payload: data,
+				});
+				// setColorName(data);
 			} catch (error) {
 				console.log(error);
 			}
@@ -83,37 +89,52 @@ const AddProductPage: React.FC = () => {
 		getColors();
 	}, []);
 
-	const handleChangeColor = (event: SelectChangeEvent<typeof color>) => {
+	const handleChangeColor = (event: SelectChangeEvent<typeof state.color>) => {
 		const {
 			target: { value },
 		} = event;
-		setColor(typeof value === "string" ? value.split(",") : value);
+		dispath({
+			type: "CHANGE_MULTI",
+			brand: "color",
+			payload: typeof value === "string" ? value.split(",") : value,
+		});
 	};
-	const handleChangeSize = (event: SelectChangeEvent<typeof size>) => {
+	const handleChangeSize = (event: SelectChangeEvent<typeof state.size>) => {
 		const {
 			target: { value },
 		} = event;
-		setSize(
-			// On autofill we get a stringified value.
-			typeof value === "string" ? value.split(",") : value
-		);
+		dispath({
+			type: "CHANGE_MULTI",
+			brand: "size",
+			payload: typeof value === "string" ? value.split(",") : value,
+		});
 	};
 
 	const handleChangeCategory = (event: any) => {
-		setCategory(event.target.value);
+		dispath({
+			type: "CHANGE",
+			brand: "category",
+			payload: event.target.value,
+		});
 	};
 	const handleChangeSale = (event: any) => {
-		setSale(event.target.value);
+		dispath({
+			type: "CHANGE",
+			brand: "sale",
+			payload: event.target.value,
+		});
 	};
 
 	const onSubmit: any = async (data: any) => {
-		setLoading(true);
+		dispath({
+			type: "LOADING",
+			payload: true,
+		});
 		const response = Array.from(data.images).map(async (file: any) => {
 			return await uploadFile(file);
 		});
 		const images = await Promise.all(response);
 		data.images = images;
-		setLoading(false);
 		const product: IProducts = {
 			title: data.title,
 			saleoff: /* +data.sale */ 10,
@@ -133,17 +154,26 @@ const AddProductPage: React.FC = () => {
 			],
 			price: +data.price,
 			description:
-				"By 1970, the Chuck Taylor All Star evolved into one of the best basketball sneakers, ever. The Chuck 70 celebrates that heritage by bringing together archival-inspired details with modern comfort updates. Ortholite insole cushioning and winged tongue stitching takes the comfort level up a notch. A glossy, egret midsole and signature star ankle patch brings out the shoe's iconic, vintage style. Updated in archival color on premium canvas.",
+				"asdsd 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f",
 		};
-		console.log(product);
-		await create(product);
+		dispath({
+			type: "SUBMIT",
+			loading: false,
+			toggle: true,
+			payload: product,
+		});
+
+		// dispath({
+		// 	type: "LOADING",
+		// 	payload: false,
+		// });
 		reset();
-		setToggle(true);
+		// setToggle(true);
 	};
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<Alerts loading={loading} open={toggle} setToggle={setToggle} />
+			<Alerts loading={state.loading} open={state.toggle} setToggle={() => {}} />
 			<Grid container spacing={3}>
 				<Grid item xs={12} md={8} lg={9}>
 					<Paper
@@ -179,36 +209,30 @@ const AddProductPage: React.FC = () => {
 										controls={control}
 										errors={errors?.price}
 									/>
-									{/* Title end */}
 								</Grid>
 
 								<Grid item xs={6}>
-									{/* Form category start */}
 									<FormSelectOption
 										title="category"
 										label="Category"
 										controls={control}
-										state={category}
+										state={state.category}
 										handleChangeState={handleChangeCategory}
 										errors={errors?.category}
 									/>
-									{/* Form category end */}
 								</Grid>
 
 								<Grid item xs={6}>
-									{/* Form sale start */}
 									<FormSelectOption
 										title="sale"
 										label="Sale"
 										controls={control}
-										state={sale}
+										state={state.sale}
 										handleChangeState={handleChangeSale}
 										errors={errors?.sale}
 									/>
-									{/* Form sale end */}
 								</Grid>
 								<Grid item xs={6}>
-									{/* Amount start */}
 									<InputField
 										title="amount"
 										label="Amount"
@@ -216,7 +240,6 @@ const AddProductPage: React.FC = () => {
 										controls={control}
 										errors={errors?.amount}
 									/>
-									{/* Amount end */}
 								</Grid>
 
 								<Grid item xs={6}>
@@ -229,9 +252,6 @@ const AddProductPage: React.FC = () => {
 						</Grid>
 					</Paper>
 				</Grid>
-				{/**
-				 * Options start
-				 */}
 				<Grid item xs={12} md={4} lg={3}>
 					<Paper
 						sx={{
@@ -242,17 +262,16 @@ const AddProductPage: React.FC = () => {
 							minHeight: 240,
 						}}
 					>
-						{/* color start */}
 						<SelectMultiple
 							register={register}
 							title="color"
-							value={color}
+							value={state.color}
 							onChange={handleChangeColor}
 							MenuProps={MenuProps}
 							errors={errors.color}
 						>
-							{colorName.length > 0 &&
-								colorName.map(({ nameId, hexCode, name: title }) => (
+							{state.colorName.length > 0 &&
+								state.colorName.map(({ nameId, hexCode, name: title }) => (
 									<MenuItem
 										key={nameId}
 										value={hexCode}
@@ -262,14 +281,10 @@ const AddProductPage: React.FC = () => {
 									</MenuItem>
 								))}
 						</SelectMultiple>
-						{/* </FormControl> */}
-						{/* color end */}
-						{/* Size start */}
-
 						<SelectMultiple
 							register={register}
 							title="size"
-							value={size}
+							value={state.size}
 							onChange={handleChangeSize}
 							MenuProps={MenuProps}
 							errors={errors?.size}
