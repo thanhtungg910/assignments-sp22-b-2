@@ -20,6 +20,7 @@ import SelectMultiple from "../../components/common/SelectMultiple";
 import Alerts from "../../components/common/Alerts";
 import IProducts from "../../interfaces/products";
 import handleReducer from "../../reducers/products";
+import { getCategories } from "../../api/categories";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -42,18 +43,29 @@ function getStyles(name: string, color: String, theme: Theme) {
 				: theme.typography.fontWeightMedium,
 	};
 }
-const initial: any = {
+type TInitial = {
+	loading: boolean;
+	toggle: boolean;
+	category: String;
+	sale: String;
+	color: String[];
+	size: String[];
+	colorList: String[];
+	categoryList: any[];
+};
+const initial: TInitial = {
 	loading: false,
 	toggle: false,
 	category: "",
 	sale: "",
 	color: [],
 	size: [],
-	colorName: [],
+	colorList: [],
+	categoryList: [],
 };
 const AddProductPage: React.FC = () => {
 	const theme = useTheme();
-	const [state, dispath] = useReducer(handleReducer, initial);
+	const [state, dispatch] = useReducer(handleReducer, initial);
 	const {
 		control,
 		register,
@@ -77,23 +89,36 @@ const AddProductPage: React.FC = () => {
 		const getColors = async () => {
 			try {
 				const { data } = await axios.get("http://localhost:5001/api/colors");
-				dispath({
-					type: "SET_COLOR",
+				dispatch({
+					type: "SET_DATA",
+					brand: "colorList",
 					payload: data,
 				});
-				// setColorName(data);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		const getCategoryList = async () => {
+			try {
+				const { data } = await getCategories();
+				dispatch({
+					type: "SET_DATA",
+					brand: "categoryList",
+					payload: data,
+				});
 			} catch (error) {
 				console.log(error);
 			}
 		};
 		getColors();
+		getCategoryList();
 	}, []);
 
 	const handleChangeColor = (event: SelectChangeEvent<typeof state.color>) => {
 		const {
 			target: { value },
 		} = event;
-		dispath({
+		dispatch({
 			type: "CHANGE_MULTI",
 			brand: "color",
 			payload: typeof value === "string" ? value.split(",") : value,
@@ -103,7 +128,7 @@ const AddProductPage: React.FC = () => {
 		const {
 			target: { value },
 		} = event;
-		dispath({
+		dispatch({
 			type: "CHANGE_MULTI",
 			brand: "size",
 			payload: typeof value === "string" ? value.split(",") : value,
@@ -111,14 +136,14 @@ const AddProductPage: React.FC = () => {
 	};
 
 	const handleChangeCategory = (event: any) => {
-		dispath({
+		dispatch({
 			type: "CHANGE",
 			brand: "category",
 			payload: event.target.value,
 		});
 	};
 	const handleChangeSale = (event: any) => {
-		dispath({
+		dispatch({
 			type: "CHANGE",
 			brand: "sale",
 			payload: event.target.value,
@@ -126,7 +151,7 @@ const AddProductPage: React.FC = () => {
 	};
 
 	const onSubmit: any = async (data: any) => {
-		dispath({
+		dispatch({
 			type: "LOADING",
 			payload: true,
 		});
@@ -137,11 +162,11 @@ const AddProductPage: React.FC = () => {
 		data.images = images;
 		const product: IProducts = {
 			title: data.title,
-			saleoff: /* +data.sale */ 10,
+			saleoff: +data.sale,
 			albums: [...data.images],
-			image: data.images[1],
+			image: data.images[0],
 			quantity: +data.amount,
-			category: /* data.category */ "6231ee6c535ea7fef6738b6f",
+			category: data.category,
 			options: [
 				{
 					name: "color",
@@ -156,7 +181,7 @@ const AddProductPage: React.FC = () => {
 			description:
 				"asdsd 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f",
 		};
-		dispath({
+		dispatch({
 			type: "SUBMIT",
 			loading: false,
 			toggle: true,
@@ -169,7 +194,7 @@ const AddProductPage: React.FC = () => {
 		});
 		reset();
 		setTimeout(() => {
-			dispath({
+			dispatch({
 				type: "TOGGLE",
 				toggle: false,
 			});
@@ -224,7 +249,14 @@ const AddProductPage: React.FC = () => {
 										state={state.category}
 										handleChangeState={handleChangeCategory}
 										errors={errors?.category}
-									/>
+									>
+										{state.categoryList.length > 0 &&
+											state.categoryList.map((cate: any) => (
+												<MenuItem key={cate._id} value={cate._id}>
+													{cate.title}
+												</MenuItem>
+											))}
+									</FormSelectOption>
 								</Grid>
 
 								<Grid item xs={6}>
@@ -235,7 +267,20 @@ const AddProductPage: React.FC = () => {
 										state={state.sale}
 										handleChangeState={handleChangeSale}
 										errors={errors?.sale}
-									/>
+									>
+										{Array(10)
+											.fill("")
+											.map((cate, index) => (
+												<MenuItem
+													key={index}
+													value={`${index * 10}`}
+													sx={{ display: "flex", justifyContent: "space-between" }}
+												>
+													{`${index * 10}%`}
+													<span>ass</span>
+												</MenuItem>
+											))}
+									</FormSelectOption>
 								</Grid>
 								<Grid item xs={6}>
 									<InputField
@@ -275,8 +320,8 @@ const AddProductPage: React.FC = () => {
 							MenuProps={MenuProps}
 							errors={errors.color}
 						>
-							{state.colorName.length > 0 &&
-								state.colorName.map(({ nameId, hexCode, name: title }) => (
+							{state.colorList.length > 0 &&
+								state.colorList.map(({ nameId, hexCode, name: title }) => (
 									<MenuItem
 										key={nameId}
 										value={hexCode}

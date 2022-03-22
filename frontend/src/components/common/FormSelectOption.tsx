@@ -9,6 +9,7 @@ type Props = {
 	state: string;
 	handleChangeState: (event: any) => void;
 	errors: FieldError | undefined;
+	children: any;
 };
 
 const FormSelectOption: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const FormSelectOption: React.FC<Props> = ({
 	state,
 	handleChangeState,
 	errors,
+	children,
 }: Props) => {
 	return (
 		<>
@@ -40,9 +42,10 @@ const FormSelectOption: React.FC<Props> = ({
 								<MenuItem value="">
 									<em>None</em>
 								</MenuItem>
-								<MenuItem value={"Ten"}>Ten</MenuItem>
+								{/* <{MenuItem value={"Ten"}>Ten</MenuItem>
 								<MenuItem value={"Twenty"}>Twenty</MenuItem>
-								<MenuItem value={"Thirty"}>Thirty</MenuItem>
+								<MenuItem value={"Thirty"}>Thirty</MenuItem>} */}
+								{children}
 							</Select>
 						</FormControl>
 					);

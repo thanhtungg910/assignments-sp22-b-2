@@ -4,8 +4,8 @@ const handleReducer = (state: any, action: any) => {
 	switch (action.type) {
 		case "LOADING":
 			return { ...state, loading: action.payload };
-		case "SET_COLOR":
-			return { ...state, colorName: [...action.payload] };
+		case "SET_DATA":
+			return { ...state, [action.brand]: [...action.payload] };
 		case "CHANGE_MULTI":
 			return { ...state, [action.brand]: [...action.payload] };
 		case "CHANGE":
