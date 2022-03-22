@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import {
@@ -231,7 +231,7 @@ const AddProductPage: React.FC = () => {
 									{/* Title end */}
 								</Grid>
 								<Grid item xs={6}>
-									{/* Title start */}
+									{/* Price start */}
 									<InputField
 										title="price"
 										label="Price"
@@ -277,7 +277,6 @@ const AddProductPage: React.FC = () => {
 													sx={{ display: "flex", justifyContent: "space-between" }}
 												>
 													{`${index * 10}%`}
-													<span>ass</span>
 												</MenuItem>
 											))}
 									</FormSelectOption>
