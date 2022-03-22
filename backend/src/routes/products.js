@@ -8,6 +8,7 @@ router.get("/", check, productController.getAll);
 router.get("/:slug", check, productController.getById);
 // CREATE
 router.post("/", check, productController.create);
+router.post("/search", check, productController.searchfilter);
 // EDIT
 router.put("/:slug", check, productController.edit);
 router.patch("/:slug", check, productController.edit);

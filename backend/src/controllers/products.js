@@ -1,5 +1,21 @@
 import slugify from "slugify";
 import productModel from "../models/Product";
+
+async function handlePrice(req, res, price) {
+	try {
+		const products = await productModel
+			.find({
+				price: {
+					$gte: price[0],
+					$lte: price[1],
+				},
+			})
+			.exec();
+		res.status(200).json(products);
+	} catch (error) {
+		res.status(400).json({ message: error });
+	}
+}
 const productController = {
 	// GET & SEARCH ALL RECORDS
 	async getAll(req, res) {
@@ -68,6 +84,13 @@ const productController = {
 			res.status(200).json(product);
 		} catch (error) {
 			res.status(400).json({ message: error });
+		}
+	},
+	async searchfilter(req, res) {
+		const { price } = req.body;
+		// [20, 100]
+		if (price != undefined) {
+			await handlePrice(req, res, price);
 		}
 	},
 };
