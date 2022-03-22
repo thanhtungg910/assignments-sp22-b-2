@@ -16,6 +16,54 @@ async function handlePrice(req, res, price) {
 		res.status(400).json({ message: error });
 	}
 }
+/* async function handleColor(req, res, color) {
+	console.log(color);
+	try {
+		const products = await productModel
+			.find({
+				options: {
+					$elemMatch: {
+						name: "color",
+						value: color,
+					},
+				},
+			})
+			.exec();
+		res.status(200).json(products);
+	} catch (error) {
+		res.status(400).json({ messages: error });
+	}
+} */
+async function handleOptions(req, res, options) {
+	const { color, size } = options;
+	try {
+		const products = await productModel
+			.find({
+				$and: [
+					{
+						options: {
+							$elemMatch: {
+								name: "color",
+								value: { $in: color },
+							},
+						},
+					},
+					{
+						options: {
+							$elemMatch: {
+								name: "size",
+								value: { $in: size },
+							},
+						},
+					},
+				],
+			})
+			.exec();
+		res.status(200).json(products);
+	} catch (error) {
+		res.status(400).json({ messages: error });
+	}
+}
 const productController = {
 	// GET & SEARCH ALL RECORDS
 	async getAll(req, res) {
@@ -87,10 +135,14 @@ const productController = {
 		}
 	},
 	async searchfilter(req, res) {
-		const { price } = req.body;
+		const { price, options } = req.body;
 		// [20, 100]
 		if (price != undefined) {
 			await handlePrice(req, res, price);
+		}
+		// [color, size]
+		if (options) {
+			await handleOptions(req, res, options);
 		}
 	},
 };
