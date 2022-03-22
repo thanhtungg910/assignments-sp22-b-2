@@ -1,3 +1,4 @@
+import IProducts from "../interfaces/products";
 import instance from "./instance";
 
 const getProducts = () => {
@@ -12,4 +13,8 @@ const createProduct = () => {
 	const url = "/products";
 	return instance.get(url);
 };
-export { getProducts, createProduct, getProduct };
+const create = (data: IProducts) => {
+	const url = "/products";
+	return instance.post(url, data);
+};
+export { getProducts, createProduct, getProduct, create };

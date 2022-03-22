@@ -1,6 +1,6 @@
 type Ioptions = {
 	name: String;
-	value: [String];
+	value: String[];
 };
 interface IProducts {
 	_id?: String;
@@ -11,9 +11,11 @@ interface IProducts {
 	options?: Ioptions[];
 	image: String;
 	albums?: String[];
-	slug: String;
+	slug?: String;
+	category?: String;
+	description: String;
 	quantity: Number;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt?: Date;
+	updatedAt?: Date;
 }
 export default IProducts;

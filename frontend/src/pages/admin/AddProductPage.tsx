@@ -18,6 +18,8 @@ import UploadImages from "../../components/admin/product/UploadImages";
 import uploadFile from "../../utils/uploadFile";
 import SelectMultiple from "../../components/common/SelectMultiple";
 import Alerts from "../../components/common/Alerts";
+import { create } from "../../api/products";
+import IProducts from "../../interfaces/products";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -112,7 +114,29 @@ const AddProductPage: React.FC = () => {
 		const images = await Promise.all(response);
 		data.images = images;
 		setLoading(false);
-		console.log(data);
+		const product: IProducts = {
+			title: data.title,
+			saleoff: /* +data.sale */ 10,
+			albums: [...data.images],
+			image: data.images[1],
+			quantity: +data.amount,
+			category: /* data.category */ "6231ee6c535ea7fef6738b6f",
+			options: [
+				{
+					name: "color",
+					value: [...data.color],
+				},
+				{
+					name: "size",
+					value: [...data.size],
+				},
+			],
+			price: +data.price,
+			description:
+				"By 1970, the Chuck Taylor All Star evolved into one of the best basketball sneakers, ever. The Chuck 70 celebrates that heritage by bringing together archival-inspired details with modern comfort updates. Ortholite insole cushioning and winged tongue stitching takes the comfort level up a notch. A glossy, egret midsole and signature star ankle patch brings out the shoe's iconic, vintage style. Updated in archival color on premium canvas.",
+		};
+		console.log(product);
+		await create(product);
 		reset();
 		setToggle(true);
 	};
