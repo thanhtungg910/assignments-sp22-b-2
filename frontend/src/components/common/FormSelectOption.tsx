@@ -6,8 +6,8 @@ type Props = {
 	title: string;
 	controls: any;
 	label: string;
-	state: string;
-	handleChangeState: (event: any) => void;
+	state: any;
+	handleChangeState: (event: any) => any;
 	errors: FieldError | undefined;
 	children: any;
 };

@@ -17,4 +17,10 @@ const create = (data: IProducts) => {
 	const url = "/products";
 	return instance.post(url, data);
 };
-export { getProducts, createProduct, getProduct, create };
+
+const remove = (slug: String | undefined) => {
+	const url = "/products/" + slug;
+	return instance.delete(url);
+};
+
+export { getProducts, createProduct, getProduct, create, remove };

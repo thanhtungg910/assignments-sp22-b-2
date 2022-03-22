@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import FilterComponent from "../features/admin/FilterComponent";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Flexs from "../components/layouts/Flexs";
+import { getProducts, remove } from "../api/products";
 
 const useDataTable = () => {
 	const [data, setData] = useState<any[]>([]);
@@ -15,19 +16,27 @@ const useDataTable = () => {
 	const [selectedRows, setSelectedRows] = useState([]);
 	const [toggleCleared, setToggleCleared] = useState<boolean>(false);
 	const handleRowSelected = useCallback((state) => {
-		console.log(state);
-
 		setSelectedRows(state.selectedRows);
 	}, []);
 
 	const contextActions = useMemo(() => {
-		const handleDelete = () => {
-			// if (
-			// 	window.confirm(`Are you sure you want to delete:\r ${selectedRows.map((r) => r?.title)}?`)
-			// ) {
-			setToggleCleared(!toggleCleared);
-			// 	// setData(differenceBy(data, selectedRows, "title"));
-			// }
+		const handleDelete = async () => {
+			if (
+				window.confirm(`Are you sure you want to delete:\r ${selectedRows.map((r) => r?.title)}?`)
+			) {
+				selectedRows.forEach((r: any) => {
+					console.log(r.slug);
+					try {
+						remove(r.slug);
+					} catch (error) {
+						console.log(error);
+					}
+				});
+				const { data: products } = await getProducts();
+
+				setToggleCleared(!toggleCleared);
+				// setData(differenceBy(data, selectedRows, "title"));
+			}
 		};
 
 		return (
