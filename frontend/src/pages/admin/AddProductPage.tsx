@@ -30,18 +30,7 @@ const MenuProps = {
 	},
 };
 
-const sizes = [
-	"Oliver Hansen",
-	"Van Henry",
-	"April Tucker",
-	"Ralph Hubbard",
-	"Omar Alexander",
-	"Carlos Abbott",
-	"Miriam Wagner",
-	"Bradley Wilkerson",
-	"Virginia Andrews",
-	"Kelly Snyder",
-];
+const sizes = ["S", "M", "L", "XL", "XXL"];
 
 function getStyles(name: string, color: String, theme: Theme) {
 	return {

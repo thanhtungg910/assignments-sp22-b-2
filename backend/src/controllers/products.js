@@ -134,6 +134,7 @@ const productController = {
 			res.status(400).json({ message: error });
 		}
 	},
+	// Filter
 	async searchfilter(req, res) {
 		const { price, options } = req.body;
 		// [20, 100]
