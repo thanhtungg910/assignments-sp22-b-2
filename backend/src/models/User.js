@@ -5,14 +5,13 @@ const UserSchema = mongoose.Schema(
 	{
 		username: {
 			type: String,
-			default: "",
 		},
 		email: {
 			type: String,
 			required: true,
 			minLength: 5,
 		},
-		hashed_password: {
+		password: {
 			type: String,
 			required: true,
 			minLength: 5,
@@ -30,6 +29,9 @@ const UserSchema = mongoose.Schema(
 			type: Number,
 			required: false,
 		},
+		salt: {
+			type: String,
+		},
 		isActive: {
 			type: Boolean,
 			default: true,
@@ -37,12 +39,18 @@ const UserSchema = mongoose.Schema(
 	},
 	{ timestamps: true }
 );
-UserSchema.virtual("password").set(function (password) {
-	this.salt = uuid4();
-	this.hashed_password = this.encrytPassword(password);
-});
-UserSchema.method({
-	purr: function () {},
+
+// -------------------------------------C1----------------------------------------
+UserSchema.methods = {
+	authenticate(password) {
+		console.log(this);
+		if (!password) return;
+		try {
+			return this.password == this.encrytPassword(password);
+		} catch (error) {
+			console.log(error);
+		}
+	},
 	encrytPassword(password) {
 		if (!password) return;
 		try {
@@ -51,30 +59,22 @@ UserSchema.method({
 			console.log(error);
 		}
 	},
+};
+
+UserSchema.pre("save", function (next) {
+	if (!this.password) return;
+	this.salt = uuid4();
+	console.log(this);
+	this.password = this.encrytPassword(this.password);
+	return next();
 });
-// UserSchema.methods = {
-// 	/**
+
+// -------------------------------------C2----------------------------------------
+// UserSchema.virtual("password").set(function (password) {
+//		/**
 // 	 *
 // 	 * @param {*} password DÙNG ĐỂ ĐĂNG NHẬP
 // 	 */
-// 	authenticate(password) {
-// 		return this.encrytPassword(password) == this.hashed_password;
-// 	},
-// 	/**
-// 	 *
-// 	 * @param {*} password DÙNG ĐỂ MÃ HÓA
-// 	 */
-// 	encrytPassword(password) {
-// 		if (!password) return;
-// 		try {
-// 			return createHmac("sha256", this.salt).update(password).digest("hex");
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	},
-// };
-
-// UserSchema.virtual("password").set(function (password) {
 // 	// abcde
 // 	this.salt = uuid4(); //9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
 // 	this.hashed_password = this.encrytPassword(password);
@@ -83,6 +83,10 @@ UserSchema.method({
 // 	authenticate(password) {
 // 		return this.encrytPassword(password) == this.hashed_password;
 // 	},
+// 	/**
+// 	 *
+// 	 * @param {*} password DÙNG ĐỂ MÃ HÓA
+// 	 */
 // 	encrytPassword(password) {
 // 		if (!password) return;
 // 		try {
