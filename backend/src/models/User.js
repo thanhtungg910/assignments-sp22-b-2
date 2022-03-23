@@ -43,7 +43,6 @@ const UserSchema = mongoose.Schema(
 // -------------------------------------C1----------------------------------------
 UserSchema.methods = {
 	authenticate(password) {
-		console.log(this);
 		if (!password) return;
 		try {
 			return this.password == this.encrytPassword(password);
