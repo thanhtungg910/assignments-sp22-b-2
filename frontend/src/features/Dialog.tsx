@@ -11,7 +11,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { Box } from "@mui/system";
-import { Typography } from "@mui/material";
+import { Tab, Tabs, Typography } from "@mui/material";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	"& .MuiDialogContent-root": {
@@ -56,7 +58,24 @@ type DialogForm = {
 	children: React.ReactNode;
 	onClose: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
+interface TabPanelProps {
+	children?: React.ReactNode;
+	index: number;
+	value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+	const { children, value, index } = props;
+
+	return (
+		<div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`}>
+			{value === index && <Box>{children}</Box>}
+		</div>
+	);
+}
 export default function DialogForm({ open, onClose, children }: DialogForm) {
+	const [value, setValue] = React.useState(0);
 	const handleClose = () => {
 		onClose(false);
 	};
@@ -69,13 +88,30 @@ export default function DialogForm({ open, onClose, children }: DialogForm) {
 		}
 	};
 
+	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+		setValue(newValue);
+	};
+
 	return (
 		<div>
 			<BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
 				<BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-					Login
+					<Box>
+						<Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+							<Tab label="SIGN IN" />
+							<Tab label="SIGN UP" />
+						</Tabs>
+					</Box>
 				</BootstrapDialogTitle>
-				<DialogContent dividers>{children}</DialogContent>
+				{/* {children} */}
+				<DialogContent dividers>
+					<TabPanel value={value} index={0}>
+						<SignIn />
+					</TabPanel>
+					<TabPanel value={value} index={1}>
+						<SignUp />
+					</TabPanel>
+				</DialogContent>
 				<DialogActions
 					sx={{
 						display: "flex",
@@ -98,7 +134,7 @@ export default function DialogForm({ open, onClose, children }: DialogForm) {
 						</IconButton>
 					</Box>
 					<Typography>
-						Not a member?<a href="/">Sign up</a>
+						Not a member?<span>Sign up</span>
 					</Typography>
 				</DialogActions>
 			</BootstrapDialog>

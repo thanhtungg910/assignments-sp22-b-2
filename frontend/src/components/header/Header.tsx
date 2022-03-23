@@ -7,7 +7,7 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PromoBanner from "../common/PromoBanner";
 import logo from "../../logo.svg";
 import DialogForm from "../../features/Dialog";
-import SignUp from "../../features/SignUp";
+import SignIn from "../../features/SignIn";
 
 const Header: React.FC = () => {
 	const [openAccount, setOpenAccount] = useState<boolean>(false);
@@ -15,7 +15,7 @@ const Header: React.FC = () => {
 		<>
 			<PromoBanner />
 			<DialogForm open={openAccount} onClose={setOpenAccount}>
-				<SignUp />
+				{/* <SignIn /> */}
 			</DialogForm>
 			<header className="w-full bg-white flex justify-between items-center px-10 py-3">
 				<picture className="w-20 ml-4">
