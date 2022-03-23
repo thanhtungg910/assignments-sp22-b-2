@@ -7,7 +7,6 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PromoBanner from "../common/PromoBanner";
 import logo from "../../logo.svg";
 import DialogForm from "../../features/Dialog";
-import SignIn from "../../features/SignIn";
 
 const Header: React.FC = () => {
 	const [openAccount, setOpenAccount] = useState<boolean>(false);

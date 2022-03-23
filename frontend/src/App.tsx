@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Dashboard from "./components/admin/Dashboard";
 import AddProductPage from "./pages/admin/AddProductPage";
 import CategoriesManager from "./pages/admin/CategoriesManager";
@@ -10,6 +10,33 @@ import WebsiteLayout from "./pages/layouts/WebsiteLayout";
 import DetailPage from "./pages/products/DetailPage";
 import ProductsPage from "./pages/products/ProductsPage";
 const App: React.FC = () => {
+	const { pathname } = useLocation();
+	useEffect(() => {
+		const getLocation = () => {
+			switch (pathname) {
+				case "/":
+					document.title = "Home";
+					return;
+				case "/products":
+					document.title = "Products";
+					return;
+				case "/intro":
+					document.title = "Intro";
+					return;
+				case "/products":
+					document.title = "Products";
+					return;
+				case "/orders":
+					document.title = "Products";
+					return;
+
+				default:
+					break;
+			}
+		};
+		getLocation();
+	}, [pathname]);
+
 	return (
 		<>
 			<Routes>
