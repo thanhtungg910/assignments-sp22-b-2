@@ -12,7 +12,7 @@ export default function SignUp() {
 		register,
 		formState: { errors },
 		handleSubmit,
-	} = useForm<IFormInput>();
+	} = useForm<IFormInput>({ mode: "onBlur" });
 	const onSubmit: SubmitHandler<IFormInput> = async (data) => {
 		// const res = await signup(data);
 		console.log(data);
