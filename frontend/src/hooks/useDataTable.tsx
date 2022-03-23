@@ -22,7 +22,11 @@ const useDataTable = () => {
 	const contextActions = useMemo(() => {
 		const handleDelete = async () => {
 			if (
-				window.confirm(`Are you sure you want to delete:\r ${selectedRows.map((r) => r?.title)}?`)
+				window.confirm(
+					`Are you sure you want to delete:\r ${selectedRows.map(
+						(r: { title: String }) => r?.title
+					)}?`
+				)
 			) {
 				selectedRows.forEach((r: any) => {
 					console.log(r.slug);
