@@ -14,7 +14,7 @@ interface IProducts {
 	slug?: String;
 	category?: String;
 	description?: String;
-	quantity: Number;
+	quantity?: Number;
 	createdAt?: Date;
 	updatedAt?: Date;
 }

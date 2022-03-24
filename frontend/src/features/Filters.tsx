@@ -128,7 +128,7 @@ const StyledPopper = styled(PopperUnstyled)`
 `;
 
 function CustomSelect(
-	props: SelectUnstyledProps<number | String | React.Dispatch<React.SetStateAction<{}>>>
+	props: SelectUnstyledProps<number | any | String | React.Dispatch<React.SetStateAction<{}>>>
 ) {
 	const components: SelectUnstyledProps<
 		number | String | React.Dispatch<React.SetStateAction<{}>>
@@ -147,9 +147,10 @@ type Props = {
 	onClick: React.Dispatch<React.SetStateAction<boolean>>;
 	categories: ICategories[];
 	setCategories: React.Dispatch<React.SetStateAction<String | Object>>;
+	pathname: Object;
 };
 
-const Filters: React.FC<Props> = ({ toggle, onClick, categories, setCategories }) => {
+const Filters: React.FC<Props> = ({ toggle, onClick, categories, setCategories, pathname }) => {
 	return (
 		<div className="flex items-center justify-items-start border-2 px-10">
 			<Button
@@ -164,9 +165,10 @@ const Filters: React.FC<Props> = ({ toggle, onClick, categories, setCategories }
 			</Button>
 			<div className="font-bold border-x-2 py-3 w-[100%] px-5 mr-2">1234</div>
 			<FormControl className="border-l-2 w-[30%] ml-4">
-				<CustomSelect onChange={setCategories}>
+				<CustomSelect onChange={setCategories} value={pathname}>
 					<StyledOption value={`/products`}>All</StyledOption>
-					{Categories.length > 0 &&
+					{Categories &&
+						Categories.length > 0 &&
 						categories.map((category, index) => (
 							<StyledOption key={index} value={`/categories/${category.slug}`}>
 								{category.title}

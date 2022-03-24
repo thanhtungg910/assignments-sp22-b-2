@@ -20,6 +20,7 @@ const ProductsPage: React.FC = () => {
 	const [url, setUrl] = useState<any>("");
 	const [query, setQuery] = useState<String>("");
 	const [categories, setCategories] = useState<[]>([]);
+
 	const navigate = useNavigate();
 	const local = useLocation();
 
@@ -60,7 +61,13 @@ const ProductsPage: React.FC = () => {
 	return (
 		<div>
 			<BasicBreadcrumbs />
-			<Filters categories={categories} setCategories={setUrl} toggle={toggle} onClick={setToggle} />
+			<Filters
+				categories={categories}
+				setCategories={setUrl}
+				toggle={toggle}
+				onClick={setToggle}
+				pathname={local.pathname}
+			/>
 			<Flexs className="px-10 my-10">
 				{!toggle && (
 					<div className="w-[30%] transition-all">
