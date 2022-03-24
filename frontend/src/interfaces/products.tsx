@@ -10,11 +10,11 @@ interface IProducts {
 	saleoff: Number;
 	options?: Ioptions[];
 	image: String;
-	albums?: String[];
+	albums?: String[] | any;
 	slug?: String;
 	category?: String;
-	description: String;
-	quantity: Number;
+	description?: String;
+	quantity?: Number;
 	createdAt?: Date;
 	updatedAt?: Date;
 }

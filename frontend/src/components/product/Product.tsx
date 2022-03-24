@@ -18,7 +18,7 @@ const Product: React.FC<IProducts> = ({ title, price, image, slug, saleoff, albu
 							className="w-full h-full absolute object-center object-cover lg:w-full lg:h-full"
 						/>
 						<img
-							src={albums[1].toString()}
+							src={`${albums[1]}`}
 							alt="Front of men&#039;s Basic Tee in black."
 							className="w-full h-full absolute object-center object-cover lg:w-full lg:h-full opacity-0 group-hover:opacity-100"
 						/>

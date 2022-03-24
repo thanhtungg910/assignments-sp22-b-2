@@ -17,7 +17,7 @@ import {
 const ProductsPage: React.FC = () => {
 	const [toggle, setToggle] = useState<boolean>(false);
 	const [data, setData] = useState<IProducts[]>([]);
-	const [url, setUrl] = useState<Object | String>("");
+	const [url, setUrl] = useState<any>("");
 	const [query, setQuery] = useState<String>("");
 	const [categories, setCategories] = useState<[]>([]);
 	const navigate = useNavigate();
