@@ -21,6 +21,7 @@ import Alerts from "../../components/common/Alerts";
 import IProducts from "../../interfaces/products";
 import handleReducer from "../../reducers/products";
 import { getCategories } from "../../api/categories";
+import { addProduct } from "../../actions/products";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -181,17 +182,19 @@ const AddProductPage: React.FC = () => {
 			description:
 				"asdsd 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f",
 		};
-		dispatch({
-			type: "SUBMIT",
-			loading: false,
-			toggle: true,
-			payload: {
-				data: product,
-				color: [],
-				size: [],
-				images: [],
-			},
-		});
+		dispatch(
+			addProduct({
+				type: "SUBMIT",
+				loading: false,
+				toggle: true,
+				payload: {
+					data: product,
+					color: [],
+					size: [],
+					images: [],
+				},
+			})
+		);
 		reset();
 		setTimeout(() => {
 			dispatch({
@@ -320,7 +323,7 @@ const AddProductPage: React.FC = () => {
 							errors={errors.color}
 						>
 							{state.colorList.length > 0 &&
-								state.colorList.map(({ nameId, hexCode, name: title }) => (
+								state.colorList.map(({ nameId, hexCode, name: title }: any) => (
 									<MenuItem
 										key={nameId}
 										value={hexCode}

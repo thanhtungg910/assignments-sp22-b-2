@@ -21,6 +21,9 @@ import Alerts from "../../components/common/Alerts";
 import IProducts from "../../interfaces/products";
 import handleReducer from "../../reducers/products";
 import { getCategories } from "../../api/categories";
+import { useParams } from "react-router-dom";
+import { getProduct } from "../../api/products";
+import { updateProduct } from "../../actions/products";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -66,6 +69,7 @@ const initial: TInitial = {
 const EditProductPage: React.FC = () => {
 	const theme = useTheme();
 	const [state, dispatch] = useReducer(handleReducer, initial);
+	const { slug } = useParams();
 	const {
 		control,
 		register,
@@ -110,6 +114,38 @@ const EditProductPage: React.FC = () => {
 				console.log(error);
 			}
 		};
+		const fetchProducts = async () => {
+			const { data } = await getProduct(slug);
+			const [product] = data;
+
+			const {
+				albums,
+				options: [color, size],
+				saleoff,
+				description,
+				category,
+				title,
+				price,
+			} = product;
+			reset({
+				price,
+				title,
+				sale: saleoff,
+				category: category,
+				images: albums,
+				description: description,
+				color: color.value,
+				size: size.value,
+			});
+			dispatch({
+				type: "SET_INITIAL",
+				payload: {
+					color: color.value,
+					size: size.value,
+				},
+			});
+		};
+		fetchProducts();
 		getColors();
 		getCategoryList();
 	}, []);
@@ -181,18 +217,18 @@ const EditProductPage: React.FC = () => {
 			description:
 				"asdsd 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f",
 		};
-		dispatch({
-			type: "SUBMIT",
-			loading: false,
-			toggle: true,
-			payload: {
-				data: product,
-				color: [],
-				size: [],
-				images: [],
-			},
-		});
-		reset();
+		dispatch(
+			updateProduct({
+				loading: false,
+				toggle: true,
+				payload: {
+					data: product,
+					color: [],
+					size: [],
+					images: [],
+				},
+			})
+		);
 		setTimeout(() => {
 			dispatch({
 				type: "TOGGLE",
@@ -200,7 +236,6 @@ const EditProductPage: React.FC = () => {
 			});
 		}, 2000);
 	};
-
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<Alerts loading={state.loading} open={state.toggle} setToggle={() => {}} />
@@ -273,6 +308,7 @@ const EditProductPage: React.FC = () => {
 											.map((cate, index) => (
 												<MenuItem
 													key={index}
+													defaultValue={state.sale}
 													value={`${index * 10}`}
 													sx={{ display: "flex", justifyContent: "space-between" }}
 												>
@@ -293,7 +329,10 @@ const EditProductPage: React.FC = () => {
 
 								<Grid item xs={6}>
 									<UploadImages
-										field={register("images", { required: true })}
+										name="images"
+										field={register("images", {
+											/* required: true */
+										})}
 										errors={errors?.images}
 									/>
 								</Grid>
@@ -320,7 +359,7 @@ const EditProductPage: React.FC = () => {
 							errors={errors.color}
 						>
 							{state.colorList.length > 0 &&
-								state.colorList.map(({ nameId, hexCode, name: title }) => (
+								state.colorList.map(({ nameId, hexCode, name: title }: any) => (
 									<MenuItem
 										key={nameId}
 										value={hexCode}

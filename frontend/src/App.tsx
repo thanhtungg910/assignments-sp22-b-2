@@ -57,7 +57,7 @@ const App: React.FC = () => {
 					<Route path="products">
 						<Route index element={<ProductsManager />} />
 						<Route path="add" element={<AddProductPage />} />
-						<Route path="edit/:slug" element={<EditProductPage />} />
+						<Route path=":slug" element={<EditProductPage />} />
 					</Route>
 					<Route path="orders" element={<h1>orders</h1>}></Route>
 					<Route path="customers" element={<h1>customers</h1>}></Route>
