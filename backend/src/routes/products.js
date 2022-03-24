@@ -10,8 +10,8 @@ router.get("/:slug", check, productController.getById);
 router.post("/", check, productController.create);
 router.post("/search", check, productController.searchfilter);
 // EDIT
-router.put("/:slug", check, productController.edit);
-router.patch("/:slug", check, productController.edit);
+router.put("/:id", check, productController.edit);
+router.patch("/:id", check, productController.edit);
 // REMOVE
 router.delete("/:slug", check, productController.remove);
 export default router;

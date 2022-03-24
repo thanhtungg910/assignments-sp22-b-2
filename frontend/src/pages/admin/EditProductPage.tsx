@@ -24,7 +24,7 @@ import { getCategories } from "../../api/categories";
 import { useParams } from "react-router-dom";
 import { getProduct } from "../../api/products";
 import { updateProduct } from "../../actions/products";
-
+import useHandleChange from "../../hooks/useHandleChange";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -69,6 +69,10 @@ const initial: TInitial = {
 const EditProductPage: React.FC = () => {
 	const theme = useTheme();
 	const [state, dispatch] = useReducer(handleReducer, initial);
+	const [objectId, setOjectId] = useState("");
+	const [handleChangeColor, handleChangeSize, handleChangeCategory, handleChangeSale] =
+		useHandleChange({ color: state.color, size: state.size }, dispatch);
+
 	const { slug } = useParams();
 	const {
 		control,
@@ -119,6 +123,7 @@ const EditProductPage: React.FC = () => {
 			const [product] = data;
 
 			const {
+				_id,
 				albums,
 				options: [color, size],
 				saleoff,
@@ -127,7 +132,7 @@ const EditProductPage: React.FC = () => {
 				title,
 				price,
 			} = product;
-			console.log(albums);
+			setOjectId(_id);
 
 			reset({
 				price,
@@ -153,42 +158,6 @@ const EditProductPage: React.FC = () => {
 		return () => reset();
 	}, []);
 
-	const handleChangeColor = (event: SelectChangeEvent<typeof state.color>) => {
-		const {
-			target: { value },
-		} = event;
-		dispatch({
-			type: "CHANGE_MULTI",
-			brand: "color",
-			payload: typeof value === "string" ? value.split(",") : value,
-		});
-	};
-	const handleChangeSize = (event: SelectChangeEvent<typeof state.size>) => {
-		const {
-			target: { value },
-		} = event;
-		dispatch({
-			type: "CHANGE_MULTI",
-			brand: "size",
-			payload: typeof value === "string" ? value.split(",") : value,
-		});
-	};
-
-	const handleChangeCategory = (event: any) => {
-		dispatch({
-			type: "CHANGE",
-			brand: "category",
-			payload: event.target.value,
-		});
-	};
-	const handleChangeSale = (event: any) => {
-		dispatch({
-			type: "CHANGE",
-			brand: "sale",
-			payload: event.target.value,
-		});
-	};
-
 	const onSubmit: any = async (data: any) => {
 		dispatch({
 			type: "LOADING",
@@ -200,6 +169,7 @@ const EditProductPage: React.FC = () => {
 		const images = await Promise.all(response);
 		data.images = images;
 		const product: IProducts = {
+			_id: objectId,
 			title: data.title,
 			saleoff: +data.sale,
 			albums: [...data.images],
@@ -222,14 +192,10 @@ const EditProductPage: React.FC = () => {
 		};
 		dispatch(
 			updateProduct({
-				loading: false,
-				toggle: true,
-				payload: {
-					data: product,
-					color: [],
-					size: [],
-					images: [],
-				},
+				data: product,
+				color: [],
+				size: [],
+				images: [],
 			})
 		);
 		setTimeout(() => {

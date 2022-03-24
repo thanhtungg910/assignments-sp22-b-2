@@ -9,6 +9,8 @@ const addProduct = (payload: Object) => {
 const updateProduct = (payload: Object) => {
 	return {
 		type: "UPDATE_PRODUCT",
+		loading: false,
+		toggle: true,
 		payload: payload,
 	};
 };

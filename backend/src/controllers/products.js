@@ -96,9 +96,8 @@ const productController = {
 	},
 	// GET BY Slug
 	async getSlug(req, res) {
-		console.log(req.params);
 		try {
-			// const product = await productModel.find({ slug: req.params.slug }).exec();
+			const product = await productModel.find({ slug: req.params.slug }).exec();
 			res.status(200).json(product);
 		} catch (error) {
 			res.status(400).json({ message: error });
@@ -116,10 +115,9 @@ const productController = {
 	},
 	// UPDATE
 	async edit(req, res) {
+		req.body.slug = slugify(req.body.title);
 		try {
-			const product = await productModel
-				.findOneAndUpdate({ slug: req.params.slug }, req.body)
-				.exec();
+			const product = await productModel.findOneAndUpdate({ _id: req.params.id }, req.body).exec();
 			res.status(200).json(product);
 		} catch (error) {
 			res.status(400).json({ message: error });

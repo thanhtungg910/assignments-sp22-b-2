@@ -1,7 +1,5 @@
-import { create } from "../api/products";
+import { create, update } from "../api/products";
 const handleReducer = (state: any, action: any) => {
-	console.log(state);
-
 	switch (action.type) {
 		case "SET_INITIAL":
 			return {
@@ -23,6 +21,18 @@ const handleReducer = (state: any, action: any) => {
 				await create(action.payload.data);
 			};
 			createProduct();
+			return {
+				...state,
+				loading: action.loading,
+				toggle: action.toggle,
+				color: action.payload.color,
+				size: action.payload.size,
+			};
+		case "UPDATE_PRODUCT":
+			const updateProduct = async () => {
+				await update(action.payload.data);
+			};
+			updateProduct();
 			return {
 				...state,
 				loading: action.loading,
