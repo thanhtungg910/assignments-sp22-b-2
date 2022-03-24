@@ -1,8 +1,9 @@
 import React from "react";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { IconButton, ImageList, ImageListItem, ImageListItemBar } from "@mui/material";
 import Description from "./Description";
-type Props = {};
+type Props = {
+	albums: String[];
+};
 
 function srcset(image: string, width: number, height: number, rows = 1, cols = 1) {
 	return {
@@ -11,17 +12,17 @@ function srcset(image: string, width: number, height: number, rows = 1, cols = 1
 	};
 }
 
-const Images: React.FC = (props: Props) => {
+const Images: React.FC<Props> = ({ albums }: Props) => {
 	return (
 		<div>
 			<ImageList gap={1}>
-				{itemData.map((item) => {
-					const cols = item.featured ? 2 : 1;
-					const rows = item.featured ? 2 : 1;
+				{albums.map((item, index) => {
+					const cols = item?.featured ? 2 : 1;
+					const rows = item?.featured ? 2 : 1;
 
 					return (
-						<ImageListItem key={item.img} cols={cols} rows={rows}>
-							<img {...srcset(item.img, 250, 200, rows, cols)} alt={item.title} loading="lazy" />
+						<ImageListItem key={index} cols={cols} rows={rows}>
+							<img {...srcset(item, 250, 200, rows, cols)} loading="lazy" />
 						</ImageListItem>
 					);
 				})}

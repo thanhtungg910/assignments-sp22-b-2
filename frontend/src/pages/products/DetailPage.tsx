@@ -10,22 +10,23 @@ import Likes from "../../components/overview/Likes";
 
 const DetailPage: React.FC = () => {
 	const { slugs } = useParams<string>();
-	const [data, setData] = useState<IProducts[]>([]);
+	const [data, setData] = useState<IProducts | any>({});
 	useEffect(() => {
 		const fetchData = async () => {
 			const { data } = await getProduct(slugs);
-			setData(data);
+			setData(data[0]);
 		};
 		fetchData();
 	}, [slugs]);
+
 	return (
 		<Box sx={{ flexGrow: 1, marginTop: 2 }} className="px-10">
 			<Grid container spacing={2}>
 				<Grid item xs={6} md={8}>
-					<Images />
+					{data && data?.albums?.length > 0 && <Images albums={data?.albums} />}
 				</Grid>
 				<Grid item xs={6} md={4} className="relative">
-					<Contents />
+					{data && data?.options?.length > 0 && <Contents options={data.options} />}
 				</Grid>
 			</Grid>
 			<Likes />
