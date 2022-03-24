@@ -22,6 +22,7 @@ import IProducts from "../../interfaces/products";
 import handleReducer from "../../reducers/products";
 import { getCategories } from "../../api/categories";
 import { addProduct } from "../../actions/products";
+import useHandleChange from "../../hooks/useHandleChange";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -66,7 +67,7 @@ const initial: TInitial = {
 };
 const AddProductPage: React.FC = () => {
 	const theme = useTheme();
-	const [state, dispatch] = useReducer(handleReducer, initial);
+	const [state, dispatch] = useReducer<(state: any, action: any) => any>(handleReducer, initial);
 	const {
 		control,
 		register,
@@ -86,6 +87,9 @@ const AddProductPage: React.FC = () => {
 			images: [],
 		},
 	});
+	const [handleChangeColor, handleChangeSize, handleChangeCategory, handleChangeSale] =
+		useHandleChange({ color: state.color, size: state.size }, dispatch);
+
 	useEffect(() => {
 		const getColors = async () => {
 			try {
@@ -115,54 +119,19 @@ const AddProductPage: React.FC = () => {
 		getCategoryList();
 	}, []);
 
-	const handleChangeColor = (event: SelectChangeEvent<typeof state.color>) => {
-		const {
-			target: { value },
-		} = event;
-		dispatch({
-			type: "CHANGE_MULTI",
-			brand: "color",
-			payload: typeof value === "string" ? value.split(",") : value,
-		});
-	};
-	const handleChangeSize = (event: SelectChangeEvent<typeof state.size>) => {
-		const {
-			target: { value },
-		} = event;
-		dispatch({
-			type: "CHANGE_MULTI",
-			brand: "size",
-			payload: typeof value === "string" ? value.split(",") : value,
-		});
-	};
-
-	const handleChangeCategory = (event: any) => {
-		dispatch({
-			type: "CHANGE",
-			brand: "category",
-			payload: event.target.value,
-		});
-	};
-	const handleChangeSale = (event: any) => {
-		dispatch({
-			type: "CHANGE",
-			brand: "sale",
-			payload: event.target.value,
-		});
-	};
-
 	const onSubmit: any = async (data: any) => {
 		dispatch({
 			type: "LOADING",
 			payload: true,
 		});
+
 		const response = Array.from(data.images).map(async (file: any) => {
 			return await uploadFile(file);
 		});
 		const images = await Promise.all(response);
 		data.images = images;
 		const product: IProducts = {
-			title: data.title,
+			title: data.title.trim(),
 			saleoff: +data.sale,
 			albums: [...data.images],
 			image: data.images[0],
@@ -184,15 +153,10 @@ const AddProductPage: React.FC = () => {
 		};
 		dispatch(
 			addProduct({
-				type: "SUBMIT",
-				loading: false,
-				toggle: true,
-				payload: {
-					data: product,
-					color: [],
-					size: [],
-					images: [],
-				},
+				data: product,
+				color: [],
+				size: [],
+				images: [],
 			})
 		);
 		reset();

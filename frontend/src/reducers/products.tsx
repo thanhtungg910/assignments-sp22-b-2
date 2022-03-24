@@ -1,5 +1,7 @@
 import { create } from "../api/products";
 const handleReducer = (state: any, action: any) => {
+	console.log(state);
+
 	switch (action.type) {
 		case "SET_INITIAL":
 			return {

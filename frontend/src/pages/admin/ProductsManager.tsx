@@ -34,7 +34,7 @@ const columns: any = [
 		name: "Amount",
 		sortable: true,
 		sortField: "quantity",
-		selector: (row: IProducts) => row.quantity.toLocaleString(),
+		selector: (row: IProducts) => row?.quantity.toLocaleString(),
 	},
 	{
 		id: "sale",
@@ -61,8 +61,8 @@ const columns: any = [
 		id: "edit",
 		name: "",
 		selector: (row: IProducts) => (
-			<ListItemButton component={Link} to={`${row.slug}`}>
-				<Button>Edit</Button>
+			<ListItemButton component={Link} to={`edit/${row.slug}`}>
+				Edit
 			</ListItemButton>
 		),
 	},

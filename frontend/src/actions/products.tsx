@@ -1,13 +1,15 @@
-const addProduct = (action: Object) => {
+const addProduct = (payload: Object) => {
 	return {
 		type: "CREATE_PRODUCT",
-		payload: action,
+		loading: false,
+		toggle: true,
+		payload: payload,
 	};
 };
-const updateProduct = (action: Object) => {
+const updateProduct = (payload: Object) => {
 	return {
 		type: "UPDATE_PRODUCT",
-		payload: action,
+		payload: payload,
 	};
 };
 export { addProduct, updateProduct };

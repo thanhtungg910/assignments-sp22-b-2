@@ -127,6 +127,8 @@ const EditProductPage: React.FC = () => {
 				title,
 				price,
 			} = product;
+			console.log(albums);
+
 			reset({
 				price,
 				title,
@@ -148,6 +150,7 @@ const EditProductPage: React.FC = () => {
 		fetchProducts();
 		getColors();
 		getCategoryList();
+		return () => reset();
 	}, []);
 
 	const handleChangeColor = (event: SelectChangeEvent<typeof state.color>) => {

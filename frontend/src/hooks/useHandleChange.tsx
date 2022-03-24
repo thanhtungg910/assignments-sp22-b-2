@@ -1,9 +1,44 @@
 import React from "react";
+import { SelectChangeEvent } from "@mui/material";
 
-type Props = {};
+const useHandleChange = (state: any, dispatch: React.Dispatch<any>) => {
+	const handleChangeColor = (event: SelectChangeEvent<typeof state.color>) => {
+		const {
+			target: { value },
+		} = event;
+		dispatch({
+			type: "CHANGE_MULTI",
+			brand: "color",
+			payload: typeof value === "string" ? value.split(",") : value,
+		});
+	};
+	const handleChangeSize = (event: SelectChangeEvent<typeof state.size>) => {
+		const {
+			target: { value },
+		} = event;
+		dispatch({
+			type: "CHANGE_MULTI",
+			brand: "size",
+			payload: typeof value === "string" ? value.split(",") : value,
+		});
+	};
 
-const useHandleChange = (props: Props) => {
-	return <div>useHandleChange</div>;
+	const handleChangeCategory = (event: any) => {
+		dispatch({
+			type: "CHANGE",
+			brand: "category",
+			payload: event.target.value,
+		});
+	};
+	const handleChangeSale = (event: any) => {
+		dispatch({
+			type: "CHANGE",
+			brand: "sale",
+			payload: event.target.value,
+		});
+	};
+
+	return [handleChangeColor, handleChangeSize, handleChangeCategory, handleChangeSale];
 };
 
 export default useHandleChange;
