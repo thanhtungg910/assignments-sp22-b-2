@@ -1,4 +1,4 @@
-type Ioptions = {
+export type Ioptions = {
 	name: String;
 	value: String[];
 };

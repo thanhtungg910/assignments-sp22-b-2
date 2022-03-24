@@ -5,7 +5,7 @@ type Props = {
 	albums: String[];
 };
 
-function srcset(image: string, width: number, height: number, rows = 1, cols = 1) {
+function srcset(image: String, width: number, height: number, rows = 1, cols = 1) {
 	return {
 		src: `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format`,
 		srcSet: `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format&dpr=2 2x`,
@@ -16,7 +16,7 @@ const Images: React.FC<Props> = ({ albums }: Props) => {
 	return (
 		<div>
 			<ImageList gap={1}>
-				{albums.map((item, index) => {
+				{albums.map((item: String, index) => {
 					const cols = item?.featured ? 2 : 1;
 					const rows = item?.featured ? 2 : 1;
 

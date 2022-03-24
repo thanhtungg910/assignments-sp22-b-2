@@ -2,6 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import styled, { css } from "styled-components";
 import { Button, Rating, Typography } from "@mui/material";
+import { Ioptions } from "../../interfaces/products";
 const LabelStyled = styled.label`
 	${(props) =>
 		props.color
@@ -11,12 +12,11 @@ const LabelStyled = styled.label`
 			: ""}
 `;
 type Props = {
-	options: any;
+	options: Ioptions[];
 };
 
 const Contents: React.FC<Props> = ({ options }: Props) => {
 	const [colorList, sizeList] = options;
-	console.log(colorList.value);
 	return (
 		<Box className="sticky top-32">
 			<Typography variant="h3">Tieu de</Typography>
@@ -32,8 +32,8 @@ const Contents: React.FC<Props> = ({ options }: Props) => {
 				<div className="flex items-center space-x-3">
 					{colorList.value &&
 						colorList.value.length > 0 &&
-						colorList.value.map((color: String) => (
-							<div className="relative">
+						colorList.value.map((color: String, index: React.Key) => (
+							<div className="relative" key={index}>
 								<input className="sr-only peer" type="radio" name="color" id={`#${color}`} />
 								<LabelStyled
 									color={`#${color}`}
@@ -49,8 +49,8 @@ const Contents: React.FC<Props> = ({ options }: Props) => {
 				<div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
 					{sizeList?.value &&
 						sizeList?.value.length > 0 &&
-						sizeList?.value.map((size: String) => (
-							<div className="relative">
+						sizeList?.value.map((size: String, index: React.Key) => (
+							<div className="relative" key={index}>
 								<input
 									className="sr-only peer"
 									type="radio"
