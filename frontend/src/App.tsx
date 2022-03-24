@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Dashboard from "./components/admin/Dashboard";
-import AddProductPage from "./pages/admin/AddProductPage";
+import AddProductPage from "./pages/admin/EditProductPage";
 import CategoriesManager from "./pages/admin/CategoriesManager";
 import ProductsManager from "./pages/admin/ProductsManager";
 import HomePage from "./pages/home/HomePage";
@@ -9,6 +9,7 @@ import DashboardLayout from "./pages/layouts/DashboardLayout";
 import WebsiteLayout from "./pages/layouts/WebsiteLayout";
 import DetailPage from "./pages/products/DetailPage";
 import ProductsPage from "./pages/products/ProductsPage";
+import EditProductPage from "./pages/admin/EditProductPage";
 const App: React.FC = () => {
 	const { pathname } = useLocation();
 	useEffect(() => {
@@ -22,9 +23,6 @@ const App: React.FC = () => {
 					return;
 				case "/intro":
 					document.title = "Intro";
-					return;
-				case "/products":
-					document.title = "Products";
 					return;
 				case "/orders":
 					document.title = "Products";
@@ -59,6 +57,7 @@ const App: React.FC = () => {
 					<Route path="products">
 						<Route index element={<ProductsManager />} />
 						<Route path="add" element={<AddProductPage />} />
+						<Route path="edit/:slug" element={<EditProductPage />} />
 					</Route>
 					<Route path="orders" element={<h1>orders</h1>}></Route>
 					<Route path="customers" element={<h1>customers</h1>}></Route>
