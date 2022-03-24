@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import FilterComponent from "../features/admin/FilterComponent";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Flexs from "../components/layouts/Flexs";
+import differenceBy from "lodash/differenceBy";
 import { getProducts, remove } from "../api/products";
 
 const useDataTable = () => {
@@ -28,18 +29,15 @@ const useDataTable = () => {
 					)}?`
 				)
 			) {
+				setToggleCleared(!toggleCleared);
+				setData(differenceBy(data, selectedRows, "title"));
 				selectedRows.forEach((r: any) => {
-					console.log(r.slug);
 					try {
 						remove(r.slug);
 					} catch (error) {
 						console.log(error);
 					}
 				});
-				const { data: products } = await getProducts();
-
-				setToggleCleared(!toggleCleared);
-				// setData(differenceBy(data, selectedRows, "title"));
 			}
 		};
 
