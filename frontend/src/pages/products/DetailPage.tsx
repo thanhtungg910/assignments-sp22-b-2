@@ -26,7 +26,14 @@ const DetailPage: React.FC = () => {
 					{data && data?.albums?.length > 0 && <Images albums={data?.albums} />}
 				</Grid>
 				<Grid item xs={6} md={4} className="relative">
-					{data && data?.options?.length > 0 && <Contents options={data.options} />}
+					{data && data?.options?.length > 0 && (
+						<Contents
+							title={data.title}
+							price={data.price}
+							saleoff={data.saleoff}
+							options={data.options}
+						/>
+					)}
 				</Grid>
 			</Grid>
 			<Likes />

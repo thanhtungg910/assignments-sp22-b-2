@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import styled, { css } from "styled-components";
 import { Button, Rating, Typography } from "@mui/material";
-import { Ioptions } from "../../interfaces/products";
+import IProducts, { Ioptions } from "../../interfaces/products";
 const LabelStyled = styled.label`
 	${(props) =>
 		props.color
@@ -13,14 +13,19 @@ const LabelStyled = styled.label`
 `;
 type Props = {
 	options: Ioptions[];
+	title: String;
+	price: Number;
+	saleoff: Number;
 };
 
-const Contents: React.FC<Props> = ({ options }: Props) => {
+const Contents: React.FC<Props> = ({ options, title, price, saleoff }: Props) => {
 	const [colorList, sizeList] = options;
 	return (
 		<Box className="sticky top-32">
-			<Typography variant="h3">Tieu de</Typography>
-			<Typography variant="h6">100000D</Typography>
+			<Typography variant="h3">{title}</Typography>
+			<Typography variant="h6">
+				{price.toLocaleString()} {`${saleoff && saleoff}%`}
+			</Typography>
 			<Rating name="simple-controlled" />
 			<Typography>
 				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam perferendis nostrum eius

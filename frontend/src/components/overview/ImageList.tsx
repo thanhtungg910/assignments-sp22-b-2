@@ -17,8 +17,8 @@ const Images: React.FC<Props> = ({ albums }: Props) => {
 		<div>
 			<ImageList gap={1}>
 				{albums.map((item: String, index) => {
-					const cols = item?.featured ? 2 : 1;
-					const rows = item?.featured ? 2 : 1;
+					const cols = index == 0 ? 2 : 1;
+					const rows = /* item?.featured ? 2 : */ 1;
 
 					return (
 						<ImageListItem key={index} cols={cols} rows={rows}>
