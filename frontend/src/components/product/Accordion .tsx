@@ -6,6 +6,16 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FormControl } from "@mui/material";
+import styled, { css } from "styled-components";
+
+const LabelStyled = styled.label`
+	${(props) =>
+		props.color
+			? css`
+					background-color: ${props.color};
+			  `
+			: ""}
+`;
 type IAccor = {
 	query: String;
 	setQuery: React.Dispatch<React.SetStateAction<String>>;
@@ -13,7 +23,7 @@ type IAccor = {
 
 const AccordionProduct: React.FC<IAccor> = ({ query, setQuery }) => {
 	const [expanded, setExpanded] = React.useState<boolean>(true);
-	const handleOnchange = (event: React.HTMLInputTypeAttribute) => {
+	const handleOnchange = (event: { target: { value: string } }) => {
 		setQuery(event.target.value);
 	};
 	return (
@@ -31,13 +41,60 @@ const AccordionProduct: React.FC<IAccor> = ({ query, setQuery }) => {
 
 			<Accordion>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-					<Typography>Accordion 2</Typography>
+					<Typography>Color</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-						sit amet blandit leo lobortis eget.
-					</Typography>
+					<ul className="flex gap-x-5 max-w-md mx-auto">
+						<li className="relative">
+							<input className="sr-only peer" type="checkbox" value="yes" id="answer_yes" />
+							<LabelStyled
+								color="#ccc"
+								className="flex w-8 h-8 border rounded-full border-gray-300 cursor-pointer focus:outline-none peer-checked:ring-gray-400 peer-checked:ring-offset-1 peer-checked:ring-2  peer-checked:border-transparent"
+								htmlFor="answer_yes"
+							></LabelStyled>
+							<div className="absolute hidden w-5 h-5 peer-checked:block top-5 right-3"></div>
+						</li>
+
+						<li className="relative">
+							<input className="sr-only peer" type="checkbox" value="maybe" id="answer_maybe" />
+							<LabelStyled
+								color="#000"
+								className="flex w-8 h-8 border rounded-full border-gray-300 cursor-pointer focus:outline-none peer-checked:ring-gray-400 peer-checked:ring-offset-1 peer-checked:ring-2 peer-checked:border-transparent"
+								htmlFor="answer_maybe"
+							></LabelStyled>
+
+							<div className="absolute hidden w-5 h-5 peer-checked:block top-5 right-3"></div>
+						</li>
+					</ul>
+				</AccordionDetails>
+			</Accordion>
+
+			<Accordion>
+				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+					<Typography>Size</Typography>
+				</AccordionSummary>
+				<AccordionDetails>
+					<ul className="flex gap-x-5 max-w-md mx-auto">
+						<li className="relative">
+							<input className="sr-only peer" type="checkbox" value="yes" id="answer_size" />
+							<LabelStyled
+								className="flex w-8 h-8 border rounded-full border-gray-300 cursor-pointer focus:outline-none peer-checked:ring-gray-400 peer-checked:ring-offset-1 peer-checked:ring-2  peer-checked:border-transparent"
+								htmlFor="answer_size"
+							></LabelStyled>
+							<div className="absolute hidden w-5 h-5 peer-checked:block top-5 right-3"></div>
+						</li>
+
+						<li className="relative">
+							<input className="sr-only peer" type="checkbox" value="maybe" id="answer_size" />
+							<LabelStyled
+								color="#000"
+								className="flex w-8 h-8 border rounded-full border-gray-300 cursor-pointer focus:outline-none peer-checked:ring-gray-400 peer-checked:ring-offset-1 peer-checked:ring-2 peer-checked:border-transparent"
+								htmlFor="answer_size"
+							></LabelStyled>
+
+							<div className="absolute hidden w-5 h-5 peer-checked:block top-5 right-3"></div>
+						</li>
+					</ul>
 				</AccordionDetails>
 			</Accordion>
 		</div>

@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import styled, { css } from "styled-components";
 import { Button, Rating, Typography } from "@mui/material";
-import IProducts, { Ioptions } from "../../interfaces/products";
+import { Ioptions } from "../../interfaces/products";
 const LabelStyled = styled.label`
 	${(props) =>
 		props.color
@@ -44,7 +44,7 @@ const Contents: React.FC<Props> = ({ options, title, price, saleoff }: Props) =>
 								<input className="sr-only peer" type="radio" name="color" id={`#${color}`} />
 								<LabelStyled
 									color={`#${color}`}
-									className="flex h-8 w-8  border rounded-full border-gray-300  cursor-pointer focus:outline-none  peer-checked:ring-gray-400 peer-checked:ring-offset-1 peer-checked:ring-2  peer-checked:border-transparent"
+									className="flex h-8 w-8 border rounded-full border-gray-300 cursor-pointer focus:outline-none peer-checked:ring-gray-400 peer-checked:ring-offset-1 peer-checked:ring-2  peer-checked:border-transparent"
 									htmlFor={`#${color}`}
 								/>
 							</div>
