@@ -23,6 +23,7 @@ import handleReducer from "../../reducers/products";
 import { getCategories } from "../../api/categories";
 import { addProduct } from "../../actions/products";
 import useHandleChange from "../../hooks/useHandleChange";
+import initial from "../../reducers/initial";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -35,8 +36,6 @@ const MenuProps = {
 	},
 };
 
-const sizes = ["S", "M", "L", "XL", "XXL"];
-
 function getStyles(name: string, color: String, theme: Theme) {
 	return {
 		fontWeight:
@@ -45,28 +44,10 @@ function getStyles(name: string, color: String, theme: Theme) {
 				: theme.typography.fontWeightMedium,
 	};
 }
-type TInitial = {
-	loading: boolean;
-	toggle: boolean;
-	category: String;
-	sale: String;
-	color: String[];
-	size: String[];
-	colorList: String[];
-	categoryList: any[];
-};
-const initial: TInitial = {
-	loading: false,
-	toggle: false,
-	category: "",
-	sale: "",
-	color: [],
-	size: [],
-	colorList: [],
-	categoryList: [],
-};
+
 const AddProductPage: React.FC = () => {
 	const theme = useTheme();
+	const sizes = ["S", "M", "L", "XL", "XXL"];
 	const [state, dispatch] = useReducer<(state: any, action: any) => any>(handleReducer, initial);
 	const {
 		control,

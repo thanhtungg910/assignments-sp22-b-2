@@ -25,6 +25,7 @@ import { useParams } from "react-router-dom";
 import { getProduct } from "../../api/products";
 import { updateProduct } from "../../actions/products";
 import useHandleChange from "../../hooks/useHandleChange";
+import initial from "../../reducers/initial";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -46,26 +47,7 @@ function getStyles(name: string, color: String, theme: Theme) {
 				: theme.typography.fontWeightMedium,
 	};
 }
-type TInitial = {
-	loading: boolean;
-	toggle: boolean;
-	category: String;
-	sale: String;
-	color: String[];
-	size: String[];
-	colorList: String[];
-	categoryList: any[];
-};
-const initial: TInitial = {
-	loading: false,
-	toggle: false,
-	category: "",
-	sale: "",
-	color: [],
-	size: [],
-	colorList: [],
-	categoryList: [],
-};
+
 const EditProductPage: React.FC = () => {
 	const theme = useTheme();
 	const [state, dispatch] = useReducer(handleReducer, initial);
