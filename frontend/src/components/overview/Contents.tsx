@@ -23,17 +23,19 @@ const Contents: React.FC<Props> = ({ options, title, price, saleoff }: Props) =>
 	return (
 		<Box className="sticky top-32">
 			<Typography variant="h3">{title}</Typography>
-			<Typography variant="h6">
+			<Typography variant="h6" className="py-3">
 				{price.toLocaleString()} {`${saleoff && saleoff}%`}
 			</Typography>
-			<Rating name="simple-controlled" />
+			<Rating name="simple-controlled" className="py-4" />
 			<Typography>
 				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam perferendis nostrum eius
 				quidem odio omnis laboriosam fugit, nemo cum excepturi quod, incidunt minus sequi, ipsum
 				pariatur. Quas quasi consequuntur itaque.
 			</Typography>
 			<Box sx={{ borderTop: 1, marginTop: 2, padding: 4 }}>
-				<Typography variant="subtitle1">Color</Typography>
+				<Typography variant="subtitle1" className="pb-4">
+					Color
+				</Typography>
 				<div className="flex items-center space-x-3">
 					{colorList.value &&
 						colorList.value.length > 0 &&
@@ -50,7 +52,9 @@ const Contents: React.FC<Props> = ({ options, title, price, saleoff }: Props) =>
 				</div>
 			</Box>
 			<Box sx={{ borderTop: 1, marginTop: 2, padding: 4 }}>
-				<Typography variant="subtitle1">Size</Typography>
+				<Typography variant="subtitle1" className="pb-4">
+					Size
+				</Typography>
 				<div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
 					{sizeList?.value &&
 						sizeList?.value.length > 0 &&
