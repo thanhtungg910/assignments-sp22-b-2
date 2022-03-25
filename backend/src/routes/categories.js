@@ -1,14 +1,14 @@
 import { Router } from "express";
 import categoryControll from "../controllers/categories";
-import check from "../middleware/check";
+import verify from "../middleware/verify";
 const router = Router();
 
 // GET ALL
-router.get("/", check, categoryControll.getAll);
+router.get("/", verify, categoryControll.getAll);
 //
-router.get("/:slug", check, categoryControll.getproductsBySlug);
+router.get("/:slug", verify, categoryControll.getproductsBySlug);
 // CREATE
-router.post("/", check, categoryControll.create);
+router.post("/", verify, categoryControll.create);
 // DELETE
-router.delete("/:slug", check, categoryControll.remove);
+router.delete("/:slug", verify, categoryControll.remove);
 export default router;
