@@ -19,6 +19,7 @@ app.use("/api/products", products);
 app.use("/api/categories", categories);
 app.use("/api/users", auth);
 app.use("/api/colors", colors);
+
 app.get("/", (req, res) => {
 	res.send("<h1>HOME PAGE</h1>");
 });

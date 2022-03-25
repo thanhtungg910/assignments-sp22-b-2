@@ -1,8 +1,6 @@
 export {};
-const initial: { email: String | null; username: String | null; password: String | null } = {
+const initial: { username: String | null } = {
 	username: null,
-	email: null,
-	password: null,
 };
 const useReducer = (state = initial, action: { type: String; payload: Object }) => {
 	switch (action.type) {
