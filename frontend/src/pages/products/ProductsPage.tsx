@@ -1,3 +1,4 @@
+import lodash from "lodash";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BasicBreadcrumbs from "../../components/common/BasicBreadcrumbs";
@@ -13,6 +14,7 @@ import {
 	getProductsByCategory,
 	searchProductsByCategory,
 } from "../../api/categories";
+import { async } from "@firebase/util";
 
 const ProductsPage: React.FC = () => {
 	const [toggle, setToggle] = useState<boolean>(false);
@@ -49,13 +51,16 @@ const ProductsPage: React.FC = () => {
 	useEffect(() => {
 		if (query !== "") {
 			const path = url || local.pathname;
-			const getproducts = async () => {
-				const {
-					data: { products },
-				} = await searchProductsByCategory(path, query);
-				setData(products);
-			};
-			getproducts();
+			lodash.delay(
+				async () => {
+					const {
+						data: { products },
+					} = await searchProductsByCategory(path, query);
+					setData(products);
+				},
+				1000,
+				query
+			);
 		}
 	}, [query]);
 	return (
