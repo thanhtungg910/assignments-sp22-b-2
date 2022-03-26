@@ -8,11 +8,15 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PromoBanner from "../common/PromoBanner";
 import Navigation from "../navigation/Navigation";
 import logo from "../../logo.svg";
-import DialogForm from "../../features/Dialog";
+import DialogForm from "../../features/DialogForm";
 import { getLocal, removeLocal } from "../../utils/localstorage";
 import { logout } from "../../actions/users";
 
 const Header: React.FC = () => {
+	const [messageErr, setMessageErr] = React.useState<any>({
+		message: null,
+		type: null,
+	});
 	const { username } = useSelector((state: { users: { username: String | null } }) => state.users);
 	const dispatch = useDispatch();
 	const [openAccount, setOpenAccount] = useState<boolean>(false);
@@ -35,12 +39,21 @@ const Header: React.FC = () => {
 		removeLocal("refreshToken");
 		saveExist(false);
 		dispatch(logout(null));
+		setMessageErr({
+			message: null,
+			type: null,
+		});
 		setAnchorEl(null);
 	};
 	return (
 		<>
 			<PromoBanner />
-			<DialogForm open={openAccount} onClose={setOpenAccount}>
+			<DialogForm
+				open={openAccount}
+				onClose={setOpenAccount}
+				messageErr={messageErr}
+				setMessageErr={setMessageErr}
+			>
 				{/* <SignIn /> */}
 			</DialogForm>
 			<header className="w-full bg-white flex justify-between items-center px-10 py-3">

@@ -57,6 +57,8 @@ type DialogForm = {
 	open: boolean;
 	children: React.ReactNode;
 	onClose: React.Dispatch<React.SetStateAction<boolean>>;
+	messageErr: any;
+	setMessageErr: any;
 };
 
 interface TabPanelProps {
@@ -74,15 +76,7 @@ function TabPanel(props: TabPanelProps) {
 		</div>
 	);
 }
-type Ierror = {
-	message: String;
-	type: String;
-};
-export default function DialogForm({ open, onClose, children }: DialogForm) {
-	const [messageErr, setMessageErr] = React.useState<any>({
-		message: null,
-		type: "error",
-	});
+export default function DialogForm({ open, onClose, messageErr, setMessageErr }: DialogForm) {
 	const [value, setValue] = React.useState(0);
 	const handleCloseDialog = () => {
 		onClose(false);
@@ -97,7 +91,10 @@ export default function DialogForm({ open, onClose, children }: DialogForm) {
 	};
 
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-		setMessageErr("");
+		setMessageErr({
+			message: null,
+			type: null,
+		});
 		setValue(newValue);
 	};
 
