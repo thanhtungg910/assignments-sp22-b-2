@@ -4,7 +4,7 @@ const signup = (payload: String | Number | Object) => {
 const login = (payload: String | Number | Object) => {
 	return { type: "SIGN_IN", payload: payload };
 };
-const logout = (payload: String | Number | Object) => {
+const logout = (payload: String | Number | Object | null) => {
 	return { type: "SIGN_OUT", payload: payload };
 };
 const localStorage = (payload: String | Number | Object) => {
