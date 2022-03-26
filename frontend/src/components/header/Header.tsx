@@ -13,15 +13,15 @@ import { getLocal } from "../../utils/localstorage";
 const Header: React.FC = () => {
 	const [openAccount, setOpenAccount] = useState<boolean>(false);
 	const [exist, saveExist] = useState(() => getLocal("user") ?? false);
-	const { saveLocal } = useSelector(
-		(state: { users: { username: String | null; saveLocal: boolean } }) => state.users
-	);
+	const { username } = useSelector((state: { users: { username: String | null } }) => state.users);
 
 	useEffect(() => {
-		console.log({ isuser: saveLocal, exist: exist });
-		saveExist(exist || saveLocal);
+		console.log({ isuser: username, exist: exist });
+		saveExist(exist || username);
+		console.log(exist);
+
 		return () => saveExist(false);
-	}, [saveLocal, exist]);
+	}, [username, exist]);
 
 	return (
 		<>
@@ -35,7 +35,7 @@ const Header: React.FC = () => {
 				</picture>
 				<Navigation></Navigation>
 				<div className="flex gap-5">
-					{exist && <h1>Hi! TUng</h1>}
+					{exist && <h1>Hi! {username || exist.username}</h1>}
 					<AccountCircleOutlinedIcon
 						onClick={() => setOpenAccount(true)}
 						className="cursor-pointer"

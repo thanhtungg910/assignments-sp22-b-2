@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { signin } from "../api/users";
 import { saveLocal } from "../utils/localstorage";
-import { localStorage } from "../actions/users";
+import { login } from "../actions/users";
 interface IFormInput {
 	email: any;
 	password: String;
@@ -20,18 +20,18 @@ export default function SignIn() {
 		const { data } = await signin(payload);
 		const newData = {
 			accessToken: data.accessToken,
-			email: data.email,
-			isActive: data.isActive,
-			role: data.role,
-			username: data.username,
-			_id: data._id,
+			email: data.user.email,
+			isActive: data.user.isActive,
+			role: data.user.role,
+			username: data.user.username,
+			_id: data.user._id,
 		};
 		const refreshToken = {
 			refreshToken: data.refreshToken,
 		};
 		saveLocal("user", newData);
 		saveLocal("refreshToken", refreshToken);
-		dispatch(localStorage(true));
+		dispatch(login(data.user.username));
 		return;
 	};
 
