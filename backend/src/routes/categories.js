@@ -4,9 +4,9 @@ import verify from "../middleware/verify";
 const router = Router();
 
 // GET ALL
-router.get("/", verify, categoryControll.getAll);
+router.get("/", categoryControll.getAll);
 //
-router.get("/:slug", verify, categoryControll.getproductsBySlug);
+router.get("/:slug", categoryControll.getproductsBySlug);
 // CREATE
 router.post("/", verify, categoryControll.create);
 // DELETE

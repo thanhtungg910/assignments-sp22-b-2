@@ -3,15 +3,16 @@ import productController from "../controllers/products";
 import verify, { isAdmin } from "../middleware/verify";
 const router = Router();
 // GET & SEARCH ALL
-router.get("/", verify, isAdmin, productController.getAll);
+router.get("/", productController.getAll);
 // GET ONE BY ID
-router.get("/:slug", verify, productController.getById);
+router.get("/:slug", productController.getById);
 // CREATE
 router.post("/", verify, isAdmin, productController.create);
-router.post("/search", verify, productController.searchfilter);
+// SEARCH
+router.post("/search", productController.searchfilter);
 // EDIT
-router.put("/:id", verify, productController.edit);
-router.patch("/:id", verify, productController.edit);
+router.put("/:id", verify, isAdmin, productController.edit);
+router.patch("/:id", verify, isAdmin, productController.edit);
 // REMOVE
-router.delete("/:slug", verify, productController.remove);
+router.delete("/:slug", verify, isAdmin, productController.remove);
 export default router;

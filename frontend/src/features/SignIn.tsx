@@ -9,7 +9,7 @@ interface IFormInput {
 	password: String;
 }
 
-export default function SignIn() {
+export default function SignIn({ onClose }: any) {
 	const {
 		register,
 		formState: { errors },
@@ -32,6 +32,7 @@ export default function SignIn() {
 		saveLocal("user", newData);
 		saveLocal("refreshToken", refreshToken);
 		dispatch(login(data.user.username));
+		onClose(false);
 		return;
 	};
 

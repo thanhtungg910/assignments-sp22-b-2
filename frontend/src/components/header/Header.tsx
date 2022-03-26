@@ -20,7 +20,6 @@ const Header: React.FC = () => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	useEffect(() => {
-		console.log({ isuser: username, exist: exist });
 		saveExist(exist || username);
 		return () => saveExist(false);
 	}, [username, exist]);
@@ -29,6 +28,9 @@ const Header: React.FC = () => {
 		setAnchorEl(event.currentTarget);
 	};
 	const handleClose = () => {
+		setAnchorEl(null);
+	};
+	const handleLogout = () => {
 		removeLocal("user");
 		removeLocal("refreshToken");
 		saveExist(false);
@@ -73,7 +75,7 @@ const Header: React.FC = () => {
 							>
 								<MenuItem /* onClick={handleClose} */>Profile</MenuItem>
 								<MenuItem /* onClick={handleClose} */>My account</MenuItem>
-								<MenuItem onClick={handleClose}>Logout</MenuItem>
+								<MenuItem onClick={handleLogout}>Logout</MenuItem>
 							</Menu>
 						</>
 					) : (

@@ -76,7 +76,7 @@ function TabPanel(props: TabPanelProps) {
 }
 export default function DialogForm({ open, onClose, children }: DialogForm) {
 	const [value, setValue] = React.useState(0);
-	const handleClose = () => {
+	const handleCloseDialog = () => {
 		onClose(false);
 	};
 	const handleLoginWithGoogle = async () => {
@@ -94,8 +94,12 @@ export default function DialogForm({ open, onClose, children }: DialogForm) {
 
 	return (
 		<div>
-			<BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-				<BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+			<BootstrapDialog
+				onClose={handleCloseDialog}
+				aria-labelledby="customized-dialog-title"
+				open={open}
+			>
+				<BootstrapDialogTitle id="customized-dialog-title" onClose={handleCloseDialog}>
 					<Box>
 						<Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
 							<Tab label="SIGN IN" />
@@ -106,7 +110,7 @@ export default function DialogForm({ open, onClose, children }: DialogForm) {
 				{/* {children} */}
 				<DialogContent dividers>
 					<TabPanel value={value} index={0}>
-						<SignIn />
+						<SignIn onClose={handleCloseDialog} />
 					</TabPanel>
 					<TabPanel value={value} index={1}>
 						<SignUp />
