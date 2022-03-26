@@ -1,5 +1,8 @@
+import { Cookie } from "@mui/icons-material";
 import { Button, FormControl } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { signin } from "../api/users";
+import { saveLocal } from "../utils/localstorage";
 
 interface IFormInput {
 	email: any;
@@ -12,9 +15,22 @@ export default function SignIn() {
 		formState: { errors },
 		handleSubmit,
 	} = useForm<IFormInput>({ mode: "onBlur" });
-	const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-		// const res = await signup(data);
-		console.log(data);
+	const onSubmit: SubmitHandler<IFormInput> = async (payload) => {
+		const { data } = await signin(payload);
+		const newData = {
+			accessToken: data.accessToken,
+			email: data.email,
+			isActive: data.isActive,
+			role: data.role,
+			username: data.username,
+			_id: data._id,
+		};
+		const refreshToken = {
+			refreshToken: data.refreshToken,
+		};
+		saveLocal("user", newData);
+		saveLocal("refreshToken", refreshToken);
+		return;
 	};
 
 	return (

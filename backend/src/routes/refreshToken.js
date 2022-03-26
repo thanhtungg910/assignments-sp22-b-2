@@ -22,4 +22,12 @@ router.post("/", async (req, res) => {
 		console.log(error);
 	}
 });
+router.delete("/logout", async (req, res) => {
+	/* 	try {
+		await TokenModel.updateMany({}, { refreshToken: "" }).exec();
+		res.sendStatus(200);
+	} catch (error) {
+		console.log(error);
+	} */
+});
 export default router;

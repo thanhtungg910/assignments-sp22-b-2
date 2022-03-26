@@ -1,5 +1,6 @@
 import { Button, FormControl } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { signup } from "../api/users";
 
 interface IFormInput {
 	email: any;
@@ -14,8 +15,11 @@ export default function SignUp() {
 		handleSubmit,
 	} = useForm<IFormInput>({ mode: "onBlur" });
 	const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-		// const res = await signup(data);
-		console.log(data);
+		const res = await signup(data);
+		console.log(
+			"🚀 ~ file: SignUp.tsx ~ line 18 ~ constonSubmit:SubmitHandler<IFormInput>= ~ res",
+			res
+		);
 	};
 
 	return (
