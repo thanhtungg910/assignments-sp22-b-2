@@ -7,4 +7,7 @@ const login = (payload: String | Number | Object) => {
 const logout = (payload: String | Number | Object) => {
 	return { type: "SIGN_OUT", payload: payload };
 };
-export { login, logout, signup };
+const localStorage = (payload: String | Number | Object) => {
+	return { type: "SAVE_LOCAL", payload: payload };
+};
+export { login, logout, signup, localStorage };

@@ -1,9 +1,9 @@
-import { Cookie } from "@mui/icons-material";
 import { Button, FormControl } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { signin } from "../api/users";
 import { saveLocal } from "../utils/localstorage";
-
+import { localStorage } from "../actions/users";
 interface IFormInput {
 	email: any;
 	password: String;
@@ -15,6 +15,7 @@ export default function SignIn() {
 		formState: { errors },
 		handleSubmit,
 	} = useForm<IFormInput>({ mode: "onBlur" });
+	const dispatch = useDispatch();
 	const onSubmit: SubmitHandler<IFormInput> = async (payload) => {
 		const { data } = await signin(payload);
 		const newData = {
@@ -30,6 +31,7 @@ export default function SignIn() {
 		};
 		saveLocal("user", newData);
 		saveLocal("refreshToken", refreshToken);
+		dispatch(localStorage(true));
 		return;
 	};
 

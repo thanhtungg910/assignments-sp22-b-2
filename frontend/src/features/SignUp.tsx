@@ -11,15 +11,13 @@ interface IFormInput {
 export default function SignUp() {
 	const {
 		register,
+		reset,
 		formState: { errors },
 		handleSubmit,
 	} = useForm<IFormInput>({ mode: "onBlur" });
-	const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-		const res = await signup(data);
-		console.log(
-			"🚀 ~ file: SignUp.tsx ~ line 18 ~ constonSubmit:SubmitHandler<IFormInput>= ~ res",
-			res
-		);
+	const onSubmit: SubmitHandler<IFormInput> = async (payload) => {
+		const { data } = await signup(payload);
+		reset();
 	};
 
 	return (
