@@ -16,24 +16,6 @@ async function handlePrice(req, res, price) {
 		res.status(400).json({ message: error });
 	}
 }
-/* async function handleColor(req, res, color) {
-	console.log(color);
-	try {
-		const products = await productModel
-			.find({
-				options: {
-					$elemMatch: {
-						name: "color",
-						value: color,
-					},
-				},
-			})
-			.exec();
-		res.status(200).json(products);
-	} catch (error) {
-		res.status(400).json({ messages: error });
-	}
-} */
 async function handleOptions(req, res, options) {
 	const { color, size } = options;
 	try {
@@ -64,6 +46,7 @@ async function handleOptions(req, res, options) {
 		res.status(400).json({ messages: error });
 	}
 }
+
 const productController = {
 	// GET & SEARCH ALL RECORDS
 	async getAll(req, res) {
@@ -81,15 +64,6 @@ const productController = {
 					.exec();
 			}
 			res.status(200).json(products);
-		} catch (error) {
-			res.status(400).json({ message: error });
-		}
-	},
-	// GET BY ID
-	async getById(req, res) {
-		try {
-			const product = await productModel.find({ slug: req.params.slug }).exec();
-			res.status(200).json(product);
 		} catch (error) {
 			res.status(400).json({ message: error });
 		}

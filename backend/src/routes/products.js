@@ -5,7 +5,7 @@ const router = Router();
 // GET & SEARCH ALL
 router.get("/", productController.getAll);
 // GET ONE BY ID
-router.get("/:slug", productController.getById);
+router.get("/:slug", productController.getSlug);
 // CREATE
 router.post("/", verify, isAdmin, productController.create);
 // SEARCH

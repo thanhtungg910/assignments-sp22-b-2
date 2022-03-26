@@ -1,6 +1,6 @@
 import lodash from "lodash";
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import BasicBreadcrumbs from "../../components/common/BasicBreadcrumbs";
 import Filters from "../../features/Filters";
 import Product from "../../components/product/Product";
@@ -9,12 +9,7 @@ import Flexs from "../../components/layouts/Flexs";
 import Grids from "../../components/layouts/Grids";
 import { getProducts } from "../../api/products";
 import IProducts from "../../interfaces/products";
-import {
-	getCategories,
-	getProductsByCategory,
-	searchProductsByCategory,
-} from "../../api/categories";
-import { async } from "@firebase/util";
+import { getCategories, getProductsByCategory, searchProductsBySlug } from "../../api/categories";
 
 const ProductsPage: React.FC = () => {
 	const [toggle, setToggle] = useState<boolean>(false);
@@ -47,22 +42,14 @@ const ProductsPage: React.FC = () => {
 		}
 		return () => setUrl("");
 	}, [url]);
-
-	useEffect(() => {
-		if (query !== "") {
+	const debounceFn = useCallback(
+		lodash.debounce(async function handleDebounceFn(text) {
 			const path = url || local.pathname;
-			lodash.delay(
-				async () => {
-					const {
-						data: { products },
-					} = await searchProductsByCategory(path, query);
-					setData(products);
-				},
-				1000,
-				query
-			);
-		}
-	}, [query]);
+			const { data } = await searchProductsBySlug(path, text);
+			setData(data);
+		}, 1000),
+		[]
+	);
 	return (
 		<div>
 			<BasicBreadcrumbs />
@@ -76,7 +63,7 @@ const ProductsPage: React.FC = () => {
 			<Flexs className="px-10 my-10">
 				{!toggle && (
 					<div className="w-[30%] transition-all">
-						<AccordionProduct query={query} setQuery={setQuery} />
+						<AccordionProduct query={query} setQuery={setQuery} debounceFn={debounceFn} />
 					</div>
 				)}
 				<Grids className="col-span-2 w-full">

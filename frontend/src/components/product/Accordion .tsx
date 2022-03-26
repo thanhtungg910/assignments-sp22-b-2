@@ -19,12 +19,14 @@ const LabelStyled = styled.label`
 type IAccor = {
 	query: String;
 	setQuery: React.Dispatch<React.SetStateAction<String>>;
+	debounceFn: (inputValue: any) => void;
 };
 
-const AccordionProduct: React.FC<IAccor> = ({ query, setQuery }) => {
+const AccordionProduct: React.FC<IAccor> = ({ query, setQuery, debounceFn }) => {
 	const [expanded, setExpanded] = React.useState<boolean>(true);
 	const handleOnchange = (event: { target: { value: string } }) => {
 		setQuery(event.target.value);
+		debounceFn(event.target.value);
 	};
 	return (
 		<div>

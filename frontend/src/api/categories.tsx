@@ -13,9 +13,9 @@ const getProductsByCategory = (slug: String | Object) => {
  * @param slug path name
  * @param key search key
  */
-const searchProductsByCategory = (slug: String | Object, key: String) => {
+const searchProductsBySlug = (slug: String | Object, key: String) => {
 	const url = `${slug}?q=${key}`;
 	return instance.get(url);
 };
 
-export { getCategories, getProductsByCategory, searchProductsByCategory };
+export { getCategories, getProductsByCategory, searchProductsBySlug };
