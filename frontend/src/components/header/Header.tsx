@@ -11,6 +11,8 @@ import logo from "../../logo.svg";
 import DialogForm from "../../features/DialogForm";
 import { getLocal, removeLocal } from "../../utils/localstorage";
 import { logout } from "../../actions/users";
+import { signOut } from "firebase/auth";
+import auth from "../../firebase/config";
 
 const Header: React.FC = () => {
 	const [messageErr, setMessageErr] = React.useState<any>({
@@ -37,6 +39,7 @@ const Header: React.FC = () => {
 	const handleLogout = () => {
 		removeLocal("user");
 		removeLocal("refreshToken");
+		signOut(auth);
 		saveExist(false);
 		dispatch(logout(null));
 		setMessageErr({

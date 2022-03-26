@@ -14,6 +14,9 @@ import { Box } from "@mui/system";
 import { Tab, Tabs, Typography } from "@mui/material";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import { saveLocal } from "../utils/localstorage";
+import { login } from "../actions/users";
+import { useDispatch } from "react-redux";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	"& .MuiDialogContent-root": {
@@ -78,13 +81,29 @@ function TabPanel(props: TabPanelProps) {
 }
 export default function DialogForm({ open, onClose, messageErr, setMessageErr }: DialogForm) {
 	const [value, setValue] = React.useState(0);
+	const dispatch = useDispatch();
 	const handleCloseDialog = () => {
 		onClose(false);
 	};
 	const handleLoginWithGoogle = async () => {
 		try {
-			const { user } = await signInWithPopup(auth, provider);
-			console.log(user);
+			const { user }: any = await signInWithPopup(auth, provider);
+			const newData = {
+				accessToken: user.accessToken,
+				email: user.email,
+				role: 0,
+				username: user.displayName,
+				_id: user.uid,
+			};
+			saveLocal("user", newData);
+			dispatch(login(user.displayName));
+			setTimeout(() => {
+				setMessageErr({
+					type: "success",
+					message: "Success!",
+				});
+				onClose(false);
+			}, 1000);
 		} catch (error) {
 			console.log(error);
 		}
