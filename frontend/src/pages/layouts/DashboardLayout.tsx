@@ -17,6 +17,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Sidebar, { SecondaryListItems } from "../../components/navigation/admin/Sidebar";
 import { Outlet } from "react-router-dom";
+import Private from "../../components/routes/Private";
 
 function Copyright(props: any) {
 	return (
@@ -159,7 +160,9 @@ const DashboardLayout: React.FC = () => {
 					<Toolbar />
 					<Container maxWidth="xl" sx={{ mt: 4, mb: 4, pl: 4, pr: 4 }}>
 						{/* MAIN START */}
-						<Outlet />
+						<Private>
+							<Outlet />
+						</Private>
 						{/* MAIN END */}
 						<Copyright sx={{ pt: 4 }} />
 					</Container>
