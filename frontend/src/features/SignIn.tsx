@@ -1,4 +1,4 @@
-import { Button, FormControl } from "@mui/material";
+import { Alert, Button, FormControl } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { signin } from "../api/users";
@@ -9,7 +9,7 @@ interface IFormInput {
 	password: String;
 }
 
-export default function SignIn({ onClose }: any) {
+export default function SignIn({ onClose, messageErr, setMessageErr }: any) {
 	const {
 		register,
 		formState: { errors },
@@ -17,23 +17,35 @@ export default function SignIn({ onClose }: any) {
 	} = useForm<IFormInput>({ mode: "onBlur" });
 	const dispatch = useDispatch();
 	const onSubmit: SubmitHandler<IFormInput> = async (payload) => {
-		const { data } = await signin(payload);
-		const newData = {
-			accessToken: data.accessToken,
-			email: data.user.email,
-			isActive: data.user.isActive,
-			role: data.user.role,
-			username: data.user.username,
-			_id: data.user._id,
-		};
-		const refreshToken = {
-			refreshToken: data.refreshToken,
-		};
-		saveLocal("user", newData);
-		saveLocal("refreshToken", refreshToken);
-		dispatch(login(data.user.username));
-		onClose(false);
-		return;
+		try {
+			const { data } = await signin(payload);
+			const newData = {
+				accessToken: data.accessToken,
+				email: data.user.email,
+				isActive: data.user.isActive,
+				role: data.user.role,
+				username: data.user.username,
+				_id: data.user._id,
+			};
+			const refreshToken = {
+				refreshToken: data.refreshToken,
+			};
+			saveLocal("user", newData);
+			saveLocal("refreshToken", refreshToken);
+			dispatch(login(data.user.username));
+			setTimeout(() => {
+				setMessageErr({
+					type: "success",
+					message: "Success!",
+				});
+				onClose(false);
+			}, 1000);
+		} catch (err: any) {
+			setMessageErr({
+				type: "error",
+				message: err.response.data.message,
+			});
+		}
 	};
 
 	return (
@@ -46,6 +58,11 @@ export default function SignIn({ onClose }: any) {
 				color: "black",
 			}}
 		>
+			{messageErr.message && (
+				<Alert severity={messageErr.type} sx={{ marginBottom: 2 }}>
+					{messageErr.message}
+				</Alert>
+			)}
 			<div className="relative z-0 mb-6 w-full group ">
 				<input
 					type="email"

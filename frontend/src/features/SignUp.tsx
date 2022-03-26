@@ -1,4 +1,5 @@
-import { Button, FormControl } from "@mui/material";
+import { Alert, Button, FormControl } from "@mui/material";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { signup } from "../api/users";
 
@@ -8,7 +9,7 @@ interface IFormInput {
 	username: String;
 }
 
-export default function SignUp() {
+export default function SignUp({ setValue, messageErr, setMessageErr }: any) {
 	const {
 		register,
 		reset,
@@ -16,8 +17,26 @@ export default function SignUp() {
 		handleSubmit,
 	} = useForm<IFormInput>({ mode: "onBlur" });
 	const onSubmit: SubmitHandler<IFormInput> = async (payload) => {
-		const { data } = await signup(payload);
-		reset();
+		try {
+			await signup(payload);
+			setMessageErr({
+				type: "success",
+				message: "Success",
+			});
+			setTimeout(() => {
+				setValue(0);
+				setMessageErr({
+					type: null,
+					message: null,
+				});
+				reset();
+			}, 1000);
+		} catch (err: any) {
+			setMessageErr({
+				type: "error",
+				message: err.response.data.message,
+			});
+		}
 	};
 
 	return (
@@ -30,6 +49,11 @@ export default function SignUp() {
 				color: "black",
 			}}
 		>
+			{messageErr.message && (
+				<Alert severity={messageErr.type} sx={{ marginBottom: 2 }}>
+					{messageErr.message}
+				</Alert>
+			)}
 			<div className="relative z-0 mb-6 w-full group ">
 				<input
 					type="text"

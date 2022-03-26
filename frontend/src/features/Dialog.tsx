@@ -74,7 +74,15 @@ function TabPanel(props: TabPanelProps) {
 		</div>
 	);
 }
+type Ierror = {
+	message: String;
+	type: String;
+};
 export default function DialogForm({ open, onClose, children }: DialogForm) {
+	const [messageErr, setMessageErr] = React.useState<any>({
+		message: null,
+		type: "error",
+	});
 	const [value, setValue] = React.useState(0);
 	const handleCloseDialog = () => {
 		onClose(false);
@@ -89,6 +97,7 @@ export default function DialogForm({ open, onClose, children }: DialogForm) {
 	};
 
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+		setMessageErr("");
 		setValue(newValue);
 	};
 
@@ -110,10 +119,14 @@ export default function DialogForm({ open, onClose, children }: DialogForm) {
 				{/* {children} */}
 				<DialogContent dividers>
 					<TabPanel value={value} index={0}>
-						<SignIn onClose={handleCloseDialog} />
+						<SignIn
+							onClose={handleCloseDialog}
+							messageErr={messageErr}
+							setMessageErr={setMessageErr}
+						/>
 					</TabPanel>
 					<TabPanel value={value} index={1}>
-						<SignUp />
+						<SignUp setValue={setValue} messageErr={messageErr} setMessageErr={setMessageErr} />
 					</TabPanel>
 				</DialogContent>
 				<DialogActions
