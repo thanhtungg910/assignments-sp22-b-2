@@ -1,5 +1,7 @@
 import IProducts from "../interfaces/products";
+import { getLocal } from "../utils/localstorage";
 import instance from "./instance";
+const { accessToken } = getLocal("user");
 
 const getProducts = () => {
 	const url = "/products";
@@ -9,22 +11,31 @@ const getProduct = (slug: String | undefined) => {
 	const url = `/products/${slug}`;
 	return instance.get(url);
 };
-const createProduct = () => {
-	const url = "/products";
-	return instance.get(url);
-};
+
 const create = (data: IProducts) => {
 	const url = "/products";
-	return instance.post(url, data);
+	return instance.post(url, data, {
+		headers: {
+			authorization: `Bearer ${accessToken}`,
+		},
+	});
 };
 const update = (data: IProducts) => {
 	const url = `/products/${data._id}`;
-	return instance.put(url, data);
+	return instance.put(url, data, {
+		headers: {
+			authorization: `Bearer ${accessToken}`,
+		},
+	});
 };
 
 const remove = (slug: String | undefined) => {
 	const url = "/products/" + slug;
-	return instance.delete(url);
+	return instance.delete(url, {
+		headers: {
+			authorization: `Bearer ${accessToken}`,
+		},
+	});
 };
 
-export { getProducts, createProduct, getProduct, create, remove, update };
+export { getProducts, getProduct, create, remove, update };

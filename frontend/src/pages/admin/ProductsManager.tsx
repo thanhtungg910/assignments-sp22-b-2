@@ -34,7 +34,7 @@ const columns: any = [
 		name: "Amount",
 		sortable: true,
 		sortField: "quantity",
-		selector: (row: IProducts) => row?.quantity.toLocaleString(),
+		selector: (row: { quantity: Number }) => row?.quantity.toLocaleString(),
 	},
 	{
 		id: "sale",

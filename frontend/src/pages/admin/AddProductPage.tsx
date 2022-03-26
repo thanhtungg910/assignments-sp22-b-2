@@ -24,6 +24,7 @@ import { getCategories } from "../../api/categories";
 import { addProduct } from "../../actions/products";
 import useHandleChange from "../../hooks/useHandleChange";
 import initial from "../../reducers/initial";
+import { useNavigate } from "react-router-dom";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -48,6 +49,7 @@ function getStyles(name: string, color: String, theme: Theme) {
 const AddProductPage: React.FC = () => {
 	const theme = useTheme();
 	const sizes = ["S", "M", "L", "XL", "XXL"];
+	const navigate = useNavigate();
 	const [state, dispatch] = useReducer<(state: any, action: any) => any>(handleReducer, initial);
 	const {
 		control,
@@ -146,6 +148,7 @@ const AddProductPage: React.FC = () => {
 				type: "TOGGLE",
 				toggle: false,
 			});
+			navigate("/admin/products");
 		}, 2000);
 	};
 

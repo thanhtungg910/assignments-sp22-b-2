@@ -27,6 +27,7 @@ const authControll = {
 				return res.status(400).json({ message: "Incorrect password!" });
 			}
 			const { accessToken, refreshToken } = generateToken({ email: user.email });
+			console.log({ email: user.email });
 			await updateRefeshToken(user._id, user.email, refreshToken);
 			res.status(200).json({ accessToken, refreshToken, user });
 		} catch (error) {

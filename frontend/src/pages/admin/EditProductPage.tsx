@@ -21,7 +21,7 @@ import Alerts from "../../components/common/Alerts";
 import IProducts from "../../interfaces/products";
 import handleReducer from "../../reducers/products";
 import { getCategories } from "../../api/categories";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProduct } from "../../api/products";
 import { updateProduct } from "../../actions/products";
 import useHandleChange from "../../hooks/useHandleChange";
@@ -52,6 +52,7 @@ const EditProductPage: React.FC = () => {
 	const theme = useTheme();
 	const [state, dispatch] = useReducer(handleReducer, initial);
 	const [objectId, setOjectId] = useState("");
+	const navigate = useNavigate();
 	const [handleChangeColor, handleChangeSize, handleChangeCategory, handleChangeSale] =
 		useHandleChange({ color: state.color, size: state.size }, dispatch);
 
@@ -185,6 +186,7 @@ const EditProductPage: React.FC = () => {
 				type: "TOGGLE",
 				toggle: false,
 			});
+			navigate("/admin/products");
 		}, 2000);
 	};
 	return (

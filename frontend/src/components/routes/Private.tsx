@@ -8,13 +8,12 @@ type Props = {
 
 const Private = ({ children }: Props) => {
 	const [exist, saveExist] = useState(() => getLocal("user") ?? false);
-
 	useEffect(() => {
 		saveExist(exist);
 		return () => saveExist(false);
 	}, [exist]);
 
-	return <>{+exist.role !== 0 ? children : <Navigate to="/" />}</>;
+	return <>{+exist.role !== 0 && exist ? children : <Navigate to="/" />}</>;
 };
 
 export default Private;

@@ -3,8 +3,8 @@ require("dotenv").config();
 import TokenModel from "./models/RefeshToken";
 const generateToken = (payload) => {
 	const { email } = payload;
-	const accessToken = jwt.sign({ email: email }, process.env.SECRET_KEY, { expiresIn: "1m" });
-	const refreshToken = jwt.sign({ email: email }, process.env.REFRESH_KEY, { expiresIn: "2m" });
+	const accessToken = jwt.sign({ email: email }, process.env.SECRET_KEY, { expiresIn: "1h" });
+	const refreshToken = jwt.sign({ email: email }, process.env.REFRESH_KEY, { expiresIn: "24h" });
 	return { accessToken, refreshToken };
 };
 const updateRefeshToken = async (id, email, refreshToken) => {
