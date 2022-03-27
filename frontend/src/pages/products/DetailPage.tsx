@@ -7,6 +7,7 @@ import IProducts from "../../interfaces/products";
 import Images from "../../components/overview/ImageList";
 import Contents from "../../components/overview/Contents";
 import Likes from "../../components/overview/Likes";
+import { Typography } from "@mui/material";
 
 const DetailPage: React.FC = () => {
 	const { slugs } = useParams<string>();
@@ -36,7 +37,17 @@ const DetailPage: React.FC = () => {
 					)}
 				</Grid>
 			</Grid>
-			<Likes />
+			<Box sx={{ marginTop: 10 }}>
+				<Typography
+					variant="h6"
+					sx={{
+						textAlign: "center",
+					}}
+				>
+					Recomments
+				</Typography>
+				<Likes slugs={slugs} />
+			</Box>
 		</Box>
 	);
 };

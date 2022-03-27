@@ -76,7 +76,7 @@ const productController = {
 				.find({
 					_id: { $ne: product._id },
 				})
-				.limit(5)
+				.limit(6)
 				.exec();
 			res.status(200).json(related);
 		} catch (error) {
