@@ -3,11 +3,11 @@ import { BrowserRouter } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import { compose, createStore } from "redux";
+import "babel-polyfill";
 
 import App from "./App";
 import rootReducer from "./reducers/rootReducer";
 import "./index.css";
-
 declare global {
 	interface Window {
 		__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;

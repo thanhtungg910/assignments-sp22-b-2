@@ -1,3 +1,5 @@
+import draftToHtml from "draftjs-to-html";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import React, { useEffect, useReducer, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -10,7 +12,7 @@ import {
 	Typography,
 	SelectChangeEvent,
 } from "@mui/material";
-
+import { EditorState, convertToRaw } from "draft-js";
 import { Theme, useTheme } from "@mui/material/styles";
 import InputField from "../../components/common/InputField";
 import FormSelectOption from "../../components/common/FormSelectOption";
@@ -25,6 +27,7 @@ import { addProduct } from "../../actions/products";
 import useHandleChange from "../../hooks/useHandleChange";
 import initial from "../../reducers/initial";
 import { useNavigate } from "react-router-dom";
+import TextEditor from "../../components/common/TextEditor";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -51,6 +54,9 @@ const AddProductPage: React.FC = () => {
 	const sizes = ["S", "M", "L", "XL", "XXL"];
 	const navigate = useNavigate();
 	const [state, dispatch] = useReducer<(state: any, action: any) => any>(handleReducer, initial);
+	const [textedit, setTextEdit] = useState("");
+	const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+
 	const {
 		control,
 		register,
@@ -72,6 +78,19 @@ const AddProductPage: React.FC = () => {
 	});
 	const [handleChangeColor, handleChangeSize, handleChangeCategory, handleChangeSale] =
 		useHandleChange({ color: state.color, size: state.size }, dispatch);
+	// const handleChangeText = (data: any) => {
+	// 	console.log("🚀 ~ file: AddProductPage.tsx ~ line 79 ~ handleChangeText ~ data", data);
+	// 	// const {
+	// 	// 	target: { value },
+	// 	// } = event;
+	// 	setTextEdit(data);
+	// };
+	useEffect(() => {
+		const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+		console.log("🚀 ~ file: TextEditor.tsx ~ line 14 ~ useEffect ~ data", data);
+		setTextEdit(data);
+		return () => {};
+	}, [editorState]);
 
 	useEffect(() => {
 		const getColors = async () => {
@@ -131,9 +150,9 @@ const AddProductPage: React.FC = () => {
 				},
 			],
 			price: +data.price,
-			description:
-				"asdsd 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f",
+			description: textedit,
 		};
+
 		dispatch(
 			addProduct({
 				data: product,
@@ -311,7 +330,13 @@ const AddProductPage: React.FC = () => {
 				{/* Recent Orders */}
 				<Grid item xs={12}>
 					<Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-						<TextField multiline fullWidth rows={4}></TextField>
+						{/* <TextField multiline fullWidth rows={4}></TextField> */}
+						<TextEditor
+							title="description"
+							register={register}
+							editorState={editorState}
+							setEditorState={setEditorState}
+						/>
 					</Paper>
 				</Grid>
 			</Grid>

@@ -24,7 +24,9 @@ const DetailPage: React.FC = () => {
 		<Box sx={{ flexGrow: 1, marginTop: 2 }} className="px-10">
 			<Grid container spacing={2}>
 				<Grid item xs={6} md={8}>
-					{data && data?.albums?.length > 0 && <Images albums={data?.albums} />}
+					{data && data?.albums?.length > 0 && (
+						<Images albums={data?.albums} description={data.description} />
+					)}
 				</Grid>
 				<Grid item xs={6} md={4} className="relative">
 					{data && data?.options?.length > 0 && (

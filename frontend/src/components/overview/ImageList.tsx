@@ -3,6 +3,7 @@ import { IconButton, ImageList, ImageListItem, ImageListItemBar } from "@mui/mat
 import Description from "./Description";
 type Props = {
 	albums: String[];
+	description: String;
 };
 
 function srcset(image: String, width: number, height: number, rows = 1, cols = 1) {
@@ -12,7 +13,7 @@ function srcset(image: String, width: number, height: number, rows = 1, cols = 1
 	};
 }
 
-const Images: React.FC<Props> = ({ albums }: Props) => {
+const Images: React.FC<Props> = ({ albums, description }: Props) => {
 	return (
 		<div>
 			<ImageList gap={1}>
@@ -27,7 +28,7 @@ const Images: React.FC<Props> = ({ albums }: Props) => {
 					);
 				})}
 			</ImageList>
-			<Description />
+			<Description description={description} />
 		</div>
 	);
 };

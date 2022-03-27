@@ -38,7 +38,7 @@ function a11yProps(index: number) {
 	};
 }
 
-export default function Description() {
+export default function Description({ description }: any) {
 	const [value, setValue] = React.useState(0);
 
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -54,14 +54,7 @@ export default function Description() {
 				</Tabs>
 			</Box>
 			<TabPanel value={value} index={0}>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat architecto, sed maxime,
-				nobis dolores distinctio ipsam porro illum doloribus voluptatibus eius voluptas facere
-				corrupti aliquam quasi, velit minus nam ratione. Quas tempore harum iure nobis maxime non
-				culpa sed temporibus possimus corrupti, rem quia molestias facere unde iste, sequi tempora
-				velit consectetur nam totam, dicta illum consequatur. Necessitatibus, autem rem. Neque quod
-				minima quis eaque reiciendis iste delectus. Commodi, quae amet assumenda nulla earum
-				laboriosam tempore eius beatae obcaecati optio deserunt ullam illum ex cum debitis quisquam
-				reprehenderit! Facilis, blanditiis?
+				{description.toString()}
 			</TabPanel>
 			<TabPanel value={value} index={1}>
 				<div className="flex gap-4">
