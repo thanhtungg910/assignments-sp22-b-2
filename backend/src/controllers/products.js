@@ -68,6 +68,21 @@ const productController = {
 			res.status(400).json({ message: error });
 		}
 	},
+	// GET RELATED
+	async listRelated(req, res) {
+		try {
+			const product = await productModel.find({ slug: req.params.slug }).exec();
+			const related = await productModel
+				.find({
+					_id: { $ne: product._id },
+				})
+				.limit(5)
+				.exec();
+			res.status(200).json(related);
+		} catch (error) {
+			res.status(400).json({ message: error });
+		}
+	},
 	// GET BY Slug
 	async getSlug(req, res) {
 		try {

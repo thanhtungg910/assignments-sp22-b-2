@@ -6,6 +6,8 @@ const router = Router();
 router.get("/", productController.getAll);
 // GET ONE BY ID
 router.get("/:slug", productController.getSlug);
+// GET ONE BY ID
+router.get("/related/:slug", productController.listRelated);
 // CREATE
 router.post("/", verify, isAdmin, productController.create);
 // SEARCH
