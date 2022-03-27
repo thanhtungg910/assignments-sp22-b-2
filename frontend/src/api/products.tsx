@@ -37,5 +37,9 @@ const remove = (slug: String | undefined) => {
 		},
 	});
 };
+const getRelated = (slug: String | undefined) => {
+	const url = "/products/related/" + slug;
+	return instance.get(url);
+};
 
-export { getProducts, getProduct, create, remove, update };
+export { getProducts, getProduct, create, remove, update, getRelated };
