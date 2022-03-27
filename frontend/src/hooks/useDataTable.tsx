@@ -8,12 +8,15 @@ import differenceBy from "lodash/differenceBy";
 import { remove } from "../api/products";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import { useDispatch } from "react-redux";
+import { logout } from "../actions/users";
 
 const useDataTable = () => {
 	const [data, setData] = useState<any[]>([]);
 	const [filterText, setFilterText] = useState<string>("");
 	const [resetPaginationToggle, setResetPaginationToggle] = useState<boolean>(false);
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	/**
 	 * edit & remove
 	 */
@@ -43,6 +46,7 @@ const useDataTable = () => {
 							await remove(r.slug);
 						} catch (error: any) {
 							await Swal.fire("Oop...!", error.response.data.message, "error");
+							dispatch(logout(null));
 							return navigate("/");
 						}
 					});

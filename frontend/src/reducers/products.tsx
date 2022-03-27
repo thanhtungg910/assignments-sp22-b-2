@@ -1,7 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { create, update } from "../api/products";
+import { removeLocal } from "../utils/localstorage";
 const handleReducer = (state: any, action: any) => {
 	switch (action.type) {
 		case "SET_INITIAL":
@@ -33,6 +33,8 @@ const handleReducer = (state: any, action: any) => {
 						};
 					}
 				} catch (error: any) {
+					removeLocal("user");
+					removeLocal("refreshToken");
 					await Swal.fire({
 						title: "Oop..!",
 						text: error.response.data.message,

@@ -37,8 +37,6 @@ const Header: React.FC = () => {
 		setAnchorEl(null);
 	};
 	const handleLogout = () => {
-		removeLocal("user");
-		removeLocal("refreshToken");
 		signOut(auth);
 		saveExist(false);
 		dispatch(logout(null));
