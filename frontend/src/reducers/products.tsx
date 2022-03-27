@@ -1,3 +1,6 @@
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 import { create, update } from "../api/products";
 const handleReducer = (state: any, action: any) => {
 	switch (action.type) {
@@ -17,17 +20,30 @@ const handleReducer = (state: any, action: any) => {
 		case "CHANGE":
 			return { ...state, [action.brand]: [...action.payload] };
 		case "CREATE_PRODUCT":
-			const createProduct = async () => {
-				await create(action.payload.data);
+			const start = async () => {
+				try {
+					const res = await create(action.payload.data);
+					if (res) {
+						return {
+							...state,
+							loading: action.loading,
+							toggle: action.toggle,
+							color: action.payload.color,
+							size: action.payload.size,
+						};
+					}
+				} catch (error: any) {
+					await Swal.fire({
+						title: "Oop..!",
+						text: error.response.data.message,
+						icon: "error",
+						confirmButtonText: `<a href="/">Sign in</a>`,
+					});
+				}
 			};
-			createProduct();
-			return {
-				...state,
-				loading: action.loading,
-				toggle: action.toggle,
-				color: action.payload.color,
-				size: action.payload.size,
-			};
+
+			start();
+			return state;
 		case "UPDATE_PRODUCT":
 			const updateProduct = async () => {
 				await update(action.payload.data);

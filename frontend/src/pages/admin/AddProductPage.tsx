@@ -28,6 +28,7 @@ import useHandleChange from "../../hooks/useHandleChange";
 import initial from "../../reducers/initial";
 import { useNavigate } from "react-router-dom";
 import TextEditor from "../../components/common/TextEditor";
+import Swal from "sweetalert2";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -78,18 +79,10 @@ const AddProductPage: React.FC = () => {
 	});
 	const [handleChangeColor, handleChangeSize, handleChangeCategory, handleChangeSale] =
 		useHandleChange({ color: state.color, size: state.size }, dispatch);
-	// const handleChangeText = (data: any) => {
-	// 	console.log("🚀 ~ file: AddProductPage.tsx ~ line 79 ~ handleChangeText ~ data", data);
-	// 	// const {
-	// 	// 	target: { value },
-	// 	// } = event;
-	// 	setTextEdit(data);
-	// };
 	useEffect(() => {
 		const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-		console.log("🚀 ~ file: TextEditor.tsx ~ line 14 ~ useEffect ~ data", data);
 		setTextEdit(data);
-		return () => {};
+		return setTextEdit("");
 	}, [editorState]);
 
 	useEffect(() => {
@@ -119,6 +112,7 @@ const AddProductPage: React.FC = () => {
 		};
 		getColors();
 		getCategoryList();
+		return () => {};
 	}, []);
 
 	const onSubmit: any = async (data: any) => {
@@ -138,6 +132,7 @@ const AddProductPage: React.FC = () => {
 			albums: [...data.images],
 			image: data.images[0],
 			quantity: +data.amount,
+
 			category: data.category,
 			options: [
 				{
@@ -162,13 +157,11 @@ const AddProductPage: React.FC = () => {
 			})
 		);
 		reset();
-		setTimeout(() => {
-			dispatch({
-				type: "TOGGLE",
-				toggle: false,
-			});
-			navigate("/admin/products");
-		}, 2000);
+		dispatch({
+			type: "TOGGLE",
+			toggle: false,
+		});
+		navigate("/admin/products");
 	};
 
 	return (
@@ -329,7 +322,7 @@ const AddProductPage: React.FC = () => {
 
 				{/* Recent Orders */}
 				<Grid item xs={12}>
-					<Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+					<Paper sx={{ p: 2, display: "flex", flexDirection: "column", minHeight: 600 }}>
 						{/* <TextField multiline fullWidth rows={4}></TextField> */}
 						<TextEditor
 							title="description"

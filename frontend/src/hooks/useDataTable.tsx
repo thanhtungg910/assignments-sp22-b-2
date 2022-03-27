@@ -1,16 +1,19 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import FilterComponent from "../features/admin/FilterComponent";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Flexs from "../components/layouts/Flexs";
 import differenceBy from "lodash/differenceBy";
-import { getProducts, remove } from "../api/products";
+import { remove } from "../api/products";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 const useDataTable = () => {
 	const [data, setData] = useState<any[]>([]);
 	const [filterText, setFilterText] = useState<string>("");
 	const [resetPaginationToggle, setResetPaginationToggle] = useState<boolean>(false);
+	const navigate = useNavigate();
 	/**
 	 * edit & remove
 	 */
@@ -22,22 +25,31 @@ const useDataTable = () => {
 
 	const contextActions = useMemo(() => {
 		const handleDelete = async () => {
-			if (
-				window.confirm(
-					`Are you sure you want to delete:\r ${selectedRows.map(
-						(r: { title: String }) => r?.title
-					)}?`
-				)
-			) {
-				setToggleCleared(!toggleCleared);
-				setData(differenceBy(data, selectedRows, "title"));
-				selectedRows.forEach((r: any) => {
-					try {
-						remove(r.slug);
-					} catch (error) {
-						console.log(error);
-					}
+			try {
+				const result = await Swal.fire({
+					title: "Are you sure?",
+					text: "You won't be able to revert this!",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					confirmButtonText: "Yes, delete it!",
 				});
+				if (result.isConfirmed) {
+					setToggleCleared(!toggleCleared);
+					setData(differenceBy(data, selectedRows, "title"));
+					selectedRows.forEach(async (r: any) => {
+						try {
+							await remove(r.slug);
+						} catch (error: any) {
+							await Swal.fire("Oop...!", error.response.data.message, "error");
+							return navigate("/");
+						}
+					});
+					return Swal.fire("Deleted!", "Your file has been deleted.", "success");
+				}
+			} catch (error: any) {
+				return Swal.fire("Deleted!", error.response.data.message, "error");
 			}
 		};
 
