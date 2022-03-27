@@ -1,18 +1,7 @@
-import draftToHtml from "draftjs-to-html";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import {
-	Button,
-	Grid,
-	MenuItem,
-	Paper,
-	TextField,
-	Typography,
-	SelectChangeEvent,
-} from "@mui/material";
-import { EditorState, convertToRaw } from "draft-js";
+import { Button, Grid, MenuItem, Paper, Typography } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import InputField from "../../components/common/InputField";
 import FormSelectOption from "../../components/common/FormSelectOption";
@@ -55,8 +44,16 @@ const AddProductPage: React.FC = () => {
 	const sizes = ["S", "M", "L", "XL", "XXL"];
 	const navigate = useNavigate();
 	const [state, dispatch] = useReducer<(state: any, action: any) => any>(handleReducer, initial);
-	const [textedit, setTextEdit] = useState("");
-	const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+
+	const [
+		handleChangeColor,
+		handleChangeSize,
+		handleChangeCategory,
+		handleChangeSale,
+		textedit,
+		setEditorState,
+		editorState,
+	] = useHandleChange({ color: state.color, size: state.size }, dispatch);
 
 	const {
 		control,
@@ -77,13 +74,6 @@ const AddProductPage: React.FC = () => {
 			images: [],
 		},
 	});
-	const [handleChangeColor, handleChangeSize, handleChangeCategory, handleChangeSale] =
-		useHandleChange({ color: state.color, size: state.size }, dispatch);
-	useEffect(() => {
-		const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-		setTextEdit(data);
-		return setTextEdit("");
-	}, [editorState]);
 
 	useEffect(() => {
 		const getColors = async () => {
@@ -147,7 +137,6 @@ const AddProductPage: React.FC = () => {
 			price: +data.price,
 			description: textedit,
 		};
-
 		dispatch(
 			addProduct({
 				data: product,
@@ -156,12 +145,22 @@ const AddProductPage: React.FC = () => {
 				images: [],
 			})
 		);
-		reset();
 		dispatch({
-			type: "TOGGLE",
-			toggle: false,
+			type: "LOADING",
+			payload: false,
+			color: [],
+			size: [],
+			images: [],
 		});
-		navigate("/admin/products");
+		const res = await Swal.fire({
+			title: "Success!",
+			icon: "success",
+			confirmButtonText: "Check!",
+			denyButtonText: "Continue!",
+		});
+		reset();
+		if (res.isConfirmed) return navigate("/admin/products");
+		if (res.isDenied) return;
 	};
 
 	return (

@@ -7,7 +7,6 @@ const handleReducer = (state: any, action: any) => {
 		case "SET_INITIAL":
 			return {
 				...state,
-				images: action.payload.albums,
 				color: action.payload.color,
 				size: action.payload.size,
 			};

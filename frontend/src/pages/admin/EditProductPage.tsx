@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 import {
 	Button,
 	Grid,
@@ -181,13 +182,14 @@ const EditProductPage: React.FC = () => {
 				images: [],
 			})
 		);
-		setTimeout(() => {
-			dispatch({
-				type: "TOGGLE",
-				toggle: false,
-			});
-			navigate("/admin/products");
-		}, 2000);
+		await Swal.fire({
+			title: "Success!",
+			icon: "success",
+			confirmButtonText: "OK!",
+			denyButtonText: "Continue!",
+		});
+		reset();
+		return navigate("/admin/products");
 	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -352,7 +354,8 @@ const EditProductPage: React.FC = () => {
 				{/* Recent Orders */}
 				<Grid item xs={12}>
 					<Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-						<TextField multiline fullWidth rows={4}></TextField>
+						{/* <TextField multiline fullWidth rows={4}></TextField> */}
+						<textarea cols={30} rows={10} {...register("description")} className="p-3"></textarea>
 					</Paper>
 				</Grid>
 			</Grid>
