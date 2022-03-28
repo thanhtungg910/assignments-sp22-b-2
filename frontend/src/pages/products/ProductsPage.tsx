@@ -17,6 +17,7 @@ const ProductsPage: React.FC = () => {
 	const [url, setUrl] = useState<any>("");
 	const [query, setQuery] = useState<String>("");
 	const [categories, setCategories] = useState<[]>([]);
+	const [total, setTotal] = useState<Number>(0);
 
 	const navigate = useNavigate();
 	const local = useLocation();
@@ -27,6 +28,8 @@ const ProductsPage: React.FC = () => {
 		if (url == "/products" || local.pathname == "/products") {
 			const getproducts = async () => {
 				const { data } = await getProducts();
+				const result = data.length || 0;
+				setTotal(result);
 				setData(data);
 			};
 			getproducts();
@@ -36,6 +39,8 @@ const ProductsPage: React.FC = () => {
 				const {
 					data: { products },
 				} = await getProductsByCategory(path);
+				const result = products.length || 0;
+				setTotal(result);
 				setData(products);
 			};
 			getproducts();
@@ -46,6 +51,8 @@ const ProductsPage: React.FC = () => {
 		lodash.debounce(async function handleDebounceFn(text) {
 			const path = url || local.pathname;
 			const { data } = await searchProductsBySlug(path, text);
+			const result = data.length || 0;
+			setTotal(result);
 			setData(data);
 		}, 1000),
 		[]
@@ -59,6 +66,7 @@ const ProductsPage: React.FC = () => {
 				toggle={toggle}
 				onClick={setToggle}
 				pathname={local.pathname}
+				total={total}
 			/>
 			<Flexs className="px-10 my-10">
 				{!toggle && (

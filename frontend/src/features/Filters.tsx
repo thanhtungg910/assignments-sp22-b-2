@@ -148,9 +148,17 @@ type Props = {
 	categories: ICategories[];
 	setCategories: React.Dispatch<React.SetStateAction<String | Object>>;
 	pathname: Object;
+	total: Number;
 };
 
-const Filters: React.FC<Props> = ({ toggle, onClick, categories, setCategories, pathname }) => {
+const Filters: React.FC<Props> = ({
+	toggle,
+	onClick,
+	categories,
+	setCategories,
+	pathname,
+	total,
+}) => {
 	return (
 		<div className="flex items-center justify-items-start border-2 px-10">
 			<Button
@@ -163,7 +171,10 @@ const Filters: React.FC<Props> = ({ toggle, onClick, categories, setCategories, 
 				</span>
 				<FilterAltOutlinedIcon className="float-right mr-2" />
 			</Button>
-			<div className="font-bold border-x-2 py-3 w-[100%] px-5 mr-2">1234</div>
+			<div className=" border-x-2 py-3 w-[100%] px-5 mr-2">
+				Result:
+				<span className="font-bold">{total || 0}</span>
+			</div>
 			<FormControl className="border-l-2 w-[30%] ml-4">
 				<CustomSelect onChange={setCategories} value={pathname}>
 					<StyledOption value={`/products`}>All</StyledOption>

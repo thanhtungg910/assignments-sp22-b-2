@@ -13,6 +13,7 @@ import { getLocal, removeLocal } from "../../utils/localstorage";
 import { logout } from "../../actions/users";
 import { signOut } from "firebase/auth";
 import auth from "../../firebase/config";
+import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
 	const [messageErr, setMessageErr] = React.useState<any>({
@@ -25,6 +26,7 @@ const Header: React.FC = () => {
 	const [exist, saveExist] = useState(() => getLocal("user") ?? false);
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
+
 	useEffect(() => {
 		saveExist(exist || username);
 		return () => saveExist(false);
@@ -46,6 +48,7 @@ const Header: React.FC = () => {
 		});
 		setAnchorEl(null);
 	};
+
 	return (
 		<>
 			<PromoBanner />
@@ -87,6 +90,11 @@ const Header: React.FC = () => {
 									"aria-labelledby": "basic-button",
 								}}
 							>
+								{exist.role == 1 && (
+									<Link to="/admin">
+										<MenuItem>Dashboard</MenuItem>
+									</Link>
+								)}
 								<MenuItem /* onClick={handleClose} */>Profile</MenuItem>
 								<MenuItem /* onClick={handleClose} */>My account</MenuItem>
 								<MenuItem onClick={handleLogout}>Logout</MenuItem>
