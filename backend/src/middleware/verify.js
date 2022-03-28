@@ -5,7 +5,7 @@ import UserModel from "../models/User";
 const verify = (req, res, next) => {
 	const authHeader = req.headers.authorization;
 	if (!authHeader) {
-		return res.status(403).json({ message: "Fobidden" });
+		return res.status(403).json({ message: "Forbidden" });
 	}
 	const token = authHeader.split(" ")[1];
 	jwt.verify(token, process.env.SECRET_KEY, function (err, data) {
@@ -18,11 +18,12 @@ const verify = (req, res, next) => {
 };
 const isAdmin = async (req, res, next) => {
 	try {
-		const user = await UserModel.findOne({ email: req.user.email }).exec();
-		if (!user) return res.status(403).json("Account empty");
-		if (user.role == 0) return res.status(400).json("You have no authority!");
-		return next();
-	} catch (error) {}
+		console.log(req.profile);
+		// const user = await UserModel.findOne({ email: req.user.email }).exec();
+		if (!req.profile) return res.status(403).json("Account empty!");
+		if (req.profile.role == 0) return res.status(400).json("You have no authority!");
+		// return next();
+	} catch (error) { }
 };
 
 export { isAdmin };

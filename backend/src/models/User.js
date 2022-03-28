@@ -63,7 +63,6 @@ UserSchema.methods = {
 UserSchema.pre("save", function (next) {
 	if (!this.password) return;
 	this.salt = uuid4();
-	console.log(this);
 	this.password = this.encrytPassword(this.password);
 	return next();
 });
