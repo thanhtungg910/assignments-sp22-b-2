@@ -135,7 +135,7 @@ const AddProductPage: React.FC = () => {
 				},
 			],
 			price: +data.price,
-			description: textedit,
+			description: /* textedit */ data.description,
 		};
 		dispatch(
 			addProduct({
@@ -321,14 +321,20 @@ const AddProductPage: React.FC = () => {
 
 				{/* Recent Orders */}
 				<Grid item xs={12}>
-					<Paper sx={{ p: 2, display: "flex", flexDirection: "column", minHeight: 600 }}>
+					<Paper /* sx={{ p: 2, display: "flex", flexDirection: "column", minHeight: 600 }} */>
 						{/* <TextField multiline fullWidth rows={4}></TextField> */}
-						<TextEditor
+						{/* <TextEditor
 							title="description"
 							register={register}
 							editorState={editorState}
 							setEditorState={setEditorState}
-						/>
+						/> */}
+						<textarea
+							cols={30}
+							rows={10}
+							{...register("description", { required: true })}
+							className="p-3 w-full focus:border-inherit"
+						></textarea>
 					</Paper>
 				</Grid>
 			</Grid>
