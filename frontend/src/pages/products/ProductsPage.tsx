@@ -1,7 +1,7 @@
 import lodash, { includes } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Pagination, PaginationItem } from "@mui/material";
+import { Alert, Pagination, PaginationItem } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -21,7 +21,6 @@ import { Link } from "react-router-dom";
 const ProductsPage: React.FC = () => {
 	const [toggle, setToggle] = useState<boolean>(false);
 	const [data, setData] = useState<IProducts[]>([]);
-	const [url, setUrl] = useState<any>("");
 	const [query, setQuery] = useState<String>("");
 	const [categories, setCategories] = useState<[]>([]);
 	const [total, setTotal] = useState<Number | number>(0);
@@ -45,14 +44,20 @@ const ProductsPage: React.FC = () => {
 			return;
 		};
 		fetchproducts();
-		if (search) {
+		if (search && search != null) {
 			const handleSearch = async () => {
 				const path = local.pathname;
 				const {
 					data: { products, countDoc },
 				} = await searchProductsBySlug(path, search, +page, 8);
+				if (countDoc == 0) {
+					return getProducts(0, 3).then(({ data: { products } }) => {
+						return setData(products);
+					});
+				}
 				setTotal(countDoc);
 				setData(products);
+				return;
 			};
 			handleSearch();
 			return;
@@ -66,6 +71,7 @@ const ProductsPage: React.FC = () => {
 				setData(products);
 			};
 			getProductsByCate();
+			return;
 		}
 	}, [local, search]);
 
@@ -97,6 +103,7 @@ const ProductsPage: React.FC = () => {
 					</div>
 				)}
 				<Box className="w-full">
+					{total == 0 && <Alert severity="warning">No products you are looking for!</Alert>}
 					<Grids className="col-span-2 ">
 						{data &&
 							data.length > 0 &&
@@ -113,28 +120,30 @@ const ProductsPage: React.FC = () => {
 								/>
 							))}
 					</Grids>
-					<Stack
-						spacing={2}
-						sx={{
-							display: "flex",
-							justifyContent: "center",
-							alignItems: "center",
-							marginTop: 2,
-						}}
-					>
-						<Pagination
-							count={Math.ceil(+total / 8)}
-							page={+page}
-							renderItem={(item) => (
-								<PaginationItem
-									components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
-									component={Link}
-									to={`${item.page === 1 ? "" : `?page=${item.page}`}`}
-									{...item}
-								/>
-							)}
-						/>
-					</Stack>
+					{total != 0 && (
+						<Stack
+							spacing={2}
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+								marginTop: 2,
+							}}
+						>
+							<Pagination
+								count={Math.ceil(+total / 8)}
+								page={+page}
+								renderItem={(item) => (
+									<PaginationItem
+										components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+										component={Link}
+										to={`${item.page === 1 ? "" : `?page=${item.page}`}`}
+										{...item}
+									/>
+								)}
+							/>
+						</Stack>
+					)}
 				</Box>
 			</Flexs>
 		</div>
