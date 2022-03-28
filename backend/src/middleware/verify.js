@@ -22,7 +22,7 @@ const isAdmin = async (req, res, next) => {
 		// const user = await UserModel.findOne({ email: req.user.email }).exec();
 		if (!req.profile) return res.status(403).json("Account empty!");
 		if (req.profile.role == 0) return res.status(400).json("You have no authority!");
-		// return next();
+		return next();
 	} catch (error) { }
 };
 

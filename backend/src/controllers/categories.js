@@ -43,10 +43,16 @@ const categoryControll = {
 	// GET PRODUCTS BY SLUG
 	async getproductsBySlug(req, res) {
 		let products;
+		let countDoc; const resultsPerPage = req.query.limit ? req.query.limit : 8;
+		let page = req.query.page >= 1 ? req.query.page : 1;
+		const order = req.query.order ? req.query.order : 'desc';
+		page = page - 1;
 		try {
 			const category = await categoryModel.findOne({ slug: req.params.slug }).exec();
 			if (!req.query.q) {
-				products = await productModel.find({ category: category }).exec();
+				products = await productModel.find({ category: category }).limit(resultsPerPage).sort({ _id: order })
+					.skip(resultsPerPage * page).exec();
+				countDoc = await productModel.countDocuments({ category: category }).exec()
 			} else {
 				products = await productModel
 					.find({
@@ -54,10 +60,17 @@ const categoryControll = {
 						slug: {
 							$regex: new RegExp(req.query.q),
 						},
-					})
-					.exec();
+					}).limit(resultsPerPage).sort({ _id: order })
+					.skip(resultsPerPage * page).exec();
+				countDoc = await productModel.countDocuments({
+					category: category,
+					slug: {
+						$regex: new RegExp(req.query.q),
+					},
+				}).exec()
 			}
-			res.status(200).json({ category, products });
+
+			res.status(200).json({ category, products, countDoc });
 		} catch (error) {
 			res.status(400).json(error);
 		}

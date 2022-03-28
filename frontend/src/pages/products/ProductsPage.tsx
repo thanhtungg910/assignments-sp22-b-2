@@ -1,6 +1,10 @@
-import lodash from "lodash";
+import lodash, { includes } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Pagination, PaginationItem } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import BasicBreadcrumbs from "../../components/common/BasicBreadcrumbs";
 import Filters from "../../features/Filters";
 import Product from "../../components/product/Product";
@@ -10,6 +14,9 @@ import Grids from "../../components/layouts/Grids";
 import { getProducts } from "../../api/products";
 import IProducts from "../../interfaces/products";
 import { getCategories, getProductsByCategory, searchProductsBySlug } from "../../api/categories";
+import { Box } from "@mui/system";
+import useQuery from "../../hooks/useQuery";
+import { Link } from "react-router-dom";
 
 const ProductsPage: React.FC = () => {
 	const [toggle, setToggle] = useState<boolean>(false);
@@ -17,43 +24,58 @@ const ProductsPage: React.FC = () => {
 	const [url, setUrl] = useState<any>("");
 	const [query, setQuery] = useState<String>("");
 	const [categories, setCategories] = useState<[]>([]);
-	const [total, setTotal] = useState<Number>(0);
+	const [total, setTotal] = useState<Number | number>(0);
+	const [search, textSearch] = useState(null);
 
 	const navigate = useNavigate();
 	const local = useLocation();
-
+	const path = local.pathname;
+	const quer = useQuery();
+	const page = quer.get("page") || 0;
+	const order: string = quer.get("order") || "DESC";
 	useEffect(() => {
-		navigate(url, { replace: true });
 		getCategories().then(({ data }) => setCategories(data));
-		if (url == "/products" || local.pathname == "/products") {
-			const getproducts = async () => {
-				const { data } = await getProducts();
-				const result = data.length || 0;
-				setTotal(result);
-				setData(data);
-			};
-			getproducts();
-		} else {
-			const path = url || local.pathname;
-			const getproducts = async () => {
+		if (!local.pathname) return;
+		const fetchproducts = async () => {
+			const {
+				data: { products, countDoc },
+			} = await getProducts(+page, 8, order);
+			setTotal(countDoc);
+			setData(products);
+			return;
+		};
+		fetchproducts();
+		if (search) {
+			const handleSearch = async () => {
+				const path = local.pathname;
 				const {
-					data: { products },
-				} = await getProductsByCategory(path);
-				const result = products.length || 0;
-				setTotal(result);
+					data: { products, countDoc },
+				} = await searchProductsBySlug(path, search, +page, 8);
+				setTotal(countDoc);
 				setData(products);
 			};
-			getproducts();
+			handleSearch();
+			return;
 		}
-		return () => setUrl("");
-	}, [url]);
+		if (path != "/products") {
+			const getProductsByCate = async () => {
+				const {
+					data: { products, countDoc },
+				} = await getProductsByCategory(path, +page);
+				setTotal(countDoc);
+				setData(products);
+			};
+			getProductsByCate();
+		}
+	}, [local, search]);
+
+	const handleChangeUrl = (e: string) => {
+		navigate(e);
+	};
+
 	const debounceFn = useCallback(
 		lodash.debounce(async function handleDebounceFn(text) {
-			const path = url || local.pathname;
-			const { data } = await searchProductsBySlug(path, text);
-			const result = data.length || 0;
-			setTotal(result);
-			setData(data);
+			textSearch(text);
 		}, 1000),
 		[]
 	);
@@ -62,7 +84,7 @@ const ProductsPage: React.FC = () => {
 			<BasicBreadcrumbs />
 			<Filters
 				categories={categories}
-				setCategories={setUrl}
+				setCategories={handleChangeUrl}
 				toggle={toggle}
 				onClick={setToggle}
 				pathname={local.pathname}
@@ -74,22 +96,46 @@ const ProductsPage: React.FC = () => {
 						<AccordionProduct query={query} setQuery={setQuery} debounceFn={debounceFn} />
 					</div>
 				)}
-				<Grids className="col-span-2 w-full">
-					{data &&
-						data.length > 0 &&
-						data.map((item, index) => (
-							<Product
-								key={index}
-								title={item.title}
-								price={item.price}
-								saleoff={item.saleoff}
-								options={item.options}
-								image={item.image}
-								albums={item.albums}
-								slug={item.slug}
-							/>
-						))}
-				</Grids>
+				<Box className="w-full">
+					<Grids className="col-span-2 ">
+						{data &&
+							data.length > 0 &&
+							data.map((item, index) => (
+								<Product
+									key={index}
+									title={item.title}
+									price={item.price}
+									saleoff={item.saleoff}
+									options={item.options}
+									image={item.image}
+									albums={item.albums}
+									slug={item.slug}
+								/>
+							))}
+					</Grids>
+					<Stack
+						spacing={2}
+						sx={{
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							marginTop: 2,
+						}}
+					>
+						<Pagination
+							count={Math.ceil(+total / 8)}
+							page={+page}
+							renderItem={(item) => (
+								<PaginationItem
+									components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+									component={Link}
+									to={`${item.page === 1 ? "" : `?page=${item.page}`}`}
+									{...item}
+								/>
+							)}
+						/>
+					</Stack>
+				</Box>
 			</Flexs>
 		</div>
 	);

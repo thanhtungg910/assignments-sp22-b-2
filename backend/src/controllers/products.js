@@ -51,19 +51,39 @@ const productController = {
 	// GET & SEARCH ALL RECORDS
 	async getAll(req, res) {
 		let products;
+		let countDoc;
+		const resultsPerPage = req.query.limit ? req.query.limit : 5;
+		let page = req.query.page >= 1 ? req.query.page : 1;
+		const order = req.query.order ? req.query.order : 'desc';
+		page = page - 1;
+		countDoc = await productModel.countDocuments().exec()
 		try {
-			if (!req.query.q) {
+			if (!req.query.q & req.query.page != 0) {
 				products = await productModel.find().exec();
+			}
+			if (!req.query.q) {
+				console.log(1);
+				products = await productModel.find().limit(resultsPerPage).sort({ _id: order })
+					.skip(resultsPerPage * page).exec();
+
 			} else {
+				console.log(2);
 				products = await productModel
 					.find({
 						title: {
 							$regex: new RegExp(req.query.q),
 						},
-					})
-					.exec();
+					}).sort({ _id: order })
+					.limit(resultsPerPage)
+					.skip(resultsPerPage * page).exec();
+				countDoc = await productModel.countDocuments({
+					title: {
+						$regex: new RegExp(req.query.q),
+					}
+				}).exec()
 			}
-			res.status(200).json(products);
+			return res.status(200).json({ products, countDoc });
+
 		} catch (error) {
 			res.status(400).json({ message: error });
 		}

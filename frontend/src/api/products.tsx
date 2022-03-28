@@ -3,8 +3,8 @@ import { getLocal } from "../utils/localstorage";
 import instance from "./instance";
 const { accessToken } = getLocal("user");
 
-const getProducts = () => {
-	const url = "/products";
+const getProducts = (page = 0, limit = 5, order = "desc") => {
+	const url = `/products?page=${page}&limit=${limit}&order=${order}`;
 	return instance.get(url);
 };
 const getProduct = (slug: String | undefined) => {

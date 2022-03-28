@@ -81,8 +81,10 @@ const ProductsManager: React.FC = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const { data } = await getProducts();
-			setData(data);
+			const {
+				data: { products },
+			} = await getProducts(0, 0);
+			setData(products);
 		};
 		fetchData();
 	}, []);

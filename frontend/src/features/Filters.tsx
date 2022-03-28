@@ -146,9 +146,9 @@ type Props = {
 	toggle: boolean;
 	onClick: React.Dispatch<React.SetStateAction<boolean>>;
 	categories: ICategories[];
-	setCategories: React.Dispatch<React.SetStateAction<String | Object>>;
+	setCategories: (e: string) => void;
 	pathname: Object;
-	total: Number;
+	total: number | Number;
 };
 
 const Filters: React.FC<Props> = ({
