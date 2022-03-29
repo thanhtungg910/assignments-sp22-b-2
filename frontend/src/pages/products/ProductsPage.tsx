@@ -50,11 +50,6 @@ const ProductsPage: React.FC = () => {
 				const {
 					data: { products, countDoc },
 				} = await searchProductsBySlug(path, search, +page, 8);
-				if (countDoc == 0) {
-					return getProducts(0, 3).then(({ data: { products } }) => {
-						return setData(products);
-					});
-				}
 				setTotal(countDoc);
 				setData(products);
 				return;

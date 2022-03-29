@@ -16,7 +16,7 @@ import { addProduct } from "../../actions/products";
 import useHandleChange from "../../hooks/useHandleChange";
 import initial from "../../reducers/initial";
 import { useNavigate } from "react-router-dom";
-import TextEditor from "../../components/common/TextEditor";
+// import TextEditor from "../../components/common/TextEditor";
 import Swal from "sweetalert2";
 
 const ITEM_HEIGHT = 48;
@@ -50,9 +50,9 @@ const AddProductPage: React.FC = () => {
 		handleChangeSize,
 		handleChangeCategory,
 		handleChangeSale,
-		textedit,
+		/* textedit,
 		setEditorState,
-		editorState,
+		editorState, */
 	] = useHandleChange({ color: state.color, size: state.size }, dispatch);
 
 	const {

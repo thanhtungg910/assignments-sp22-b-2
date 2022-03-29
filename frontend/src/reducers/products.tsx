@@ -38,7 +38,7 @@ const handleReducer = (state: any, action: any) => {
 						title: "Oop..!",
 						text: error.response.data.message,
 						icon: "error",
-						confirmButtonText: `<a href="/">Sign in</a>`,
+						confirmButtonText: `<a href="/">Exit</a>`,
 					});
 				}
 			};
