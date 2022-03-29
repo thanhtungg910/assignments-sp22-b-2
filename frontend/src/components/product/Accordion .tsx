@@ -5,7 +5,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { FormControl } from "@mui/material";
+import { FormControl, Slider } from "@mui/material";
 import styled, { css } from "styled-components";
 
 const LabelStyled = styled.label`
@@ -20,13 +20,19 @@ type IAccor = {
 	query: String;
 	setQuery: React.Dispatch<React.SetStateAction<String>>;
 	debounceFn: (inputValue: any) => void;
+	price: number[];
+	setPrice: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
-const AccordionProduct: React.FC<IAccor> = ({ query, setQuery, debounceFn }) => {
+const AccordionProduct: React.FC<IAccor> = ({ query, setQuery, debounceFn, price, setPrice }) => {
 	const [expanded, setExpanded] = React.useState<boolean>(true);
 	const handleOnchange = (event: { target: { value: string } }) => {
 		setQuery(event.target.value);
 		debounceFn(event.target.value);
+	};
+
+	const handleChange = (event: Event, newValue: number | number[]) => {
+		setPrice(newValue as number[]);
 	};
 	return (
 		<div>
@@ -36,7 +42,23 @@ const AccordionProduct: React.FC<IAccor> = ({ query, setQuery, debounceFn }) => 
 				</AccordionSummary>
 				<AccordionDetails>
 					<FormControl fullWidth>
-						<TextField onChange={handleOnchange} label="Search" value={query}></TextField>
+						<TextField
+							onChange={handleOnchange}
+							label="Search"
+							value={query}
+							sx={{ marginBottom: 2 }}
+						></TextField>
+						<Typography gutterBottom>
+							Price: {price[0]}$ -- {price[1]}$
+						</Typography>
+
+						<Slider
+							getAriaLabel={() => "Temperature range"}
+							value={price}
+							onChange={handleChange}
+							valueLabelDisplay="auto"
+							color="primary"
+						/>
 					</FormControl>
 				</AccordionDetails>
 			</Accordion>

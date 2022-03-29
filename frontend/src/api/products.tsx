@@ -42,4 +42,9 @@ const getRelated = (slug: String | undefined) => {
 	return instance.get(url);
 };
 
-export { getProducts, getProduct, create, remove, update, getRelated };
+const searchProductByPrice = (price: number[] | undefined) => {
+	const url = "/products/search";
+	return instance.post(url, { price: price });
+};
+
+export { getProducts, getProduct, create, remove, update, getRelated, searchProductByPrice };

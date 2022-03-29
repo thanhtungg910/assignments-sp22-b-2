@@ -11,9 +11,9 @@ async function handlePrice(req, res, price) {
 				},
 			})
 			.exec();
-		res.status(200).json(products);
+		return res.status(200).json(products);
 	} catch (error) {
-		res.status(400).json({ message: error });
+		return res.status(400).json({ message: error });
 	}
 }
 async function handleOptions(req, res, options) {
@@ -146,7 +146,7 @@ const productController = {
 		const { price, options } = req.body;
 		// [20, 100]
 		if (price != undefined) {
-			await handlePrice(req, res, price);
+			return await handlePrice(req, res, price);
 		}
 		// [color, size]
 		if (options) {

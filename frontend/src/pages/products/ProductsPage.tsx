@@ -11,7 +11,7 @@ import Product from "../../components/product/Product";
 import AccordionProduct from "../../components/product/Accordion ";
 import Flexs from "../../components/layouts/Flexs";
 import Grids from "../../components/layouts/Grids";
-import { getProducts } from "../../api/products";
+import { getProducts, searchProductByPrice } from "../../api/products";
 import IProducts from "../../interfaces/products";
 import { getCategories, getProductsByCategory, searchProductsBySlug } from "../../api/categories";
 import { Box } from "@mui/system";
@@ -25,6 +25,7 @@ const ProductsPage: React.FC = () => {
 	const [categories, setCategories] = useState<[]>([]);
 	const [total, setTotal] = useState<Number | number>(0);
 	const [search, textSearch] = useState(null);
+	const [price, setPrice] = React.useState<number[]>([0, 37]);
 
 	const navigate = useNavigate();
 	const local = useLocation();
@@ -73,6 +74,14 @@ const ProductsPage: React.FC = () => {
 	const handleChangeUrl = (e: string) => {
 		navigate(e);
 	};
+	useEffect(() => {
+		if (!price) return;
+		const search = async () => {
+			const res = await searchProductByPrice(price);
+			console.log("🚀 ~ file: ProductsPage.tsx ~ line 81 ~ search ~ res", res);
+		};
+		search();
+	}, [price]);
 
 	const debounceFn = useCallback(
 		lodash.debounce(async function handleDebounceFn(text) {
@@ -94,7 +103,13 @@ const ProductsPage: React.FC = () => {
 			<Flexs className="px-10 my-10">
 				{!toggle && (
 					<div className="w-[30%] transition-all">
-						<AccordionProduct query={query} setQuery={setQuery} debounceFn={debounceFn} />
+						<AccordionProduct
+							query={query}
+							setQuery={setQuery}
+							debounceFn={debounceFn}
+							price={price}
+							setPrice={setPrice}
+						/>
 					</div>
 				)}
 				<Box className="w-full">

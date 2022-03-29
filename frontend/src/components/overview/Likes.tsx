@@ -7,7 +7,7 @@ import { getRelated } from "../../api/products";
 import { Link } from "react-router-dom";
 import IProducts from "../../interfaces/products";
 type IProps = {
-	slugs: String | undefined;
+	slugs?: String | undefined;
 };
 export default function Likes({ slugs }: IProps) {
 	const fetchData = useRef<Object | any>({});

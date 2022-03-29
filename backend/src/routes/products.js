@@ -10,9 +10,9 @@ router.get("/:slug", productController.getSlug);
 // GET ONE BY ID
 router.get("/related/:slug", productController.listRelated);
 // CREATE
+router.post("/search", productController.searchfilter);
 router.post("/:userId", verify, isAdmin, productController.create);
 // SEARCH
-router.post("/search", productController.searchfilter);
 // EDIT
 router.put("/:userId/:id", verify, isAdmin, productController.edit);
 router.patch("/:userId/:id", verify, isAdmin, productController.edit);
