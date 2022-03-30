@@ -62,12 +62,10 @@ const productController = {
 				products = await productModel.find().exec();
 			}
 			if (!req.query.q) {
-				console.log(1);
 				products = await productModel.find().limit(resultsPerPage).sort({ _id: order })
 					.skip(resultsPerPage * page).exec();
 
 			} else {
-				console.log(2);
 				products = await productModel
 					.find({
 						title: {

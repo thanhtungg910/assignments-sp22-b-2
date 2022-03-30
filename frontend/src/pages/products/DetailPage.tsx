@@ -35,6 +35,8 @@ const DetailPage: React.FC = () => {
 							price={data.price}
 							saleoff={data.saleoff}
 							options={data.options}
+							_id={data._id}
+							image={data.image}
 						/>
 					)}
 				</Grid>

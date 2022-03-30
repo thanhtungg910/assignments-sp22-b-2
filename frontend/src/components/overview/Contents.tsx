@@ -3,6 +3,8 @@ import Box from "@mui/material/Box";
 import styled, { css } from "styled-components";
 import { Button, Rating, Typography } from "@mui/material";
 import { Ioptions } from "../../interfaces/products";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../actions/cart";
 const LabelStyled = styled.label`
 	${(props) =>
 		props.color
@@ -16,10 +18,16 @@ type Props = {
 	title: String;
 	price: Number;
 	saleoff: Number;
+	image: String;
+	_id: String | Number;
 };
 
-const Contents: React.FC<Props> = ({ options, title, price, saleoff }: Props) => {
+const Contents: React.FC<Props> = ({ options, title, price, saleoff, _id, image }: Props) => {
+	const dispatch = useDispatch();
 	const [colorList, sizeList] = options;
+	const handleAddtoCart = (data) => {
+		dispatch(addToCart({ ...data, quantity: 1 }));
+	};
 	return (
 		<Box className="sticky top-32">
 			<Typography variant="h3">{title}</Typography>
@@ -85,6 +93,17 @@ const Contents: React.FC<Props> = ({ options, title, price, saleoff }: Props) =>
 					background: "black",
 				}}
 				variant="contained"
+				onClick={() =>
+					handleAddtoCart({
+						title,
+						price,
+						image,
+						saleoff,
+						color: colorList.value[0],
+						size: sizeList.value[0],
+						_id,
+					})
+				}
 			>
 				Add to Cart
 			</Button>
