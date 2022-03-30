@@ -2,6 +2,7 @@ import { getLocal } from "../utils/localstorage";
 const initial_cart = {
 	value: getLocal("cart") || [],
 	totalQuantity: 0,
+	isActive: false,
 };
 
 const cartReducer = (state = initial_cart, action: any) => {

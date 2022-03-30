@@ -10,6 +10,7 @@ import WebsiteLayout from "./pages/layouts/WebsiteLayout";
 import DetailPage from "./pages/products/DetailPage";
 import ProductsPage from "./pages/products/ProductsPage";
 import EditProductPage from "./pages/admin/EditProductPage";
+import Checkout from "./pages/checkout/Checkout";
 const App: React.FC = () => {
 	const { pathname } = useLocation();
 	useEffect(() => {
@@ -49,6 +50,7 @@ const App: React.FC = () => {
 						<Route path=":slugs" element={<DetailPage />}></Route>
 					</Route>
 					<Route path="intro" element={<h1>intro</h1>}></Route>
+					<Route path="checkout" element={<Checkout />}></Route>
 					<Route path="contact" element={<h1>contact</h1>}></Route>
 				</Route>
 				<Route path="/admin" element={<DashboardLayout />}>

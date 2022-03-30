@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import styled, { css } from "styled-components";
 import { Button, Rating, Typography } from "@mui/material";
-import { Ioptions } from "../../interfaces/products";
+import IProducts, { Ioptions } from "../../interfaces/products";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../actions/cart";
 const LabelStyled = styled.label`
@@ -19,13 +19,13 @@ type Props = {
 	price: Number;
 	saleoff: Number;
 	image: String;
-	_id: String | Number;
+	_id?: String | undefined;
 };
 
 const Contents: React.FC<Props> = ({ options, title, price, saleoff, _id, image }: Props) => {
 	const dispatch = useDispatch();
 	const [colorList, sizeList] = options;
-	const handleAddtoCart = (data) => {
+	const handleAddtoCart = (data: IProducts | Object) => {
 		dispatch(addToCart({ ...data, quantity: 1 }));
 	};
 	return (

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButton, Menu, MenuItem } from "@mui/material";
+import { Button, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -9,11 +10,11 @@ import PromoBanner from "../common/PromoBanner";
 import Navigation from "../navigation/Navigation";
 import logo from "../../logo.svg";
 import DialogForm from "../../features/DialogForm";
-import { getLocal, removeLocal } from "../../utils/localstorage";
+import { getLocal } from "../../utils/localstorage";
 import { logout } from "../../actions/users";
 import { signOut } from "firebase/auth";
 import auth from "../../firebase/config";
-import { Link } from "react-router-dom";
+import DrawerCart from "../common/DrawerCart";
 
 const Header: React.FC = () => {
 	const [messageErr, setMessageErr] = React.useState<any>({
@@ -22,6 +23,7 @@ const Header: React.FC = () => {
 	});
 	const { username } = useSelector((state: { users: { username: String | null } }) => state.users);
 	const dispatch = useDispatch();
+	const [drawer, setDrawer] = React.useState<boolean>(false);
 	const [openAccount, setOpenAccount] = useState<boolean>(false);
 	const [exist, saveExist] = useState(() => getLocal("user") ?? false);
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -48,9 +50,13 @@ const Header: React.FC = () => {
 		});
 		setAnchorEl(null);
 	};
+	const toggleDrawer = () => {
+		setDrawer(!drawer);
+	};
 
 	return (
 		<>
+			<DrawerCart open={drawer} toggleDrawer={toggleDrawer} />
 			<PromoBanner />
 			<DialogForm
 				open={openAccount}
@@ -65,10 +71,10 @@ const Header: React.FC = () => {
 					<img src={logo} className="object-cover w-full" />
 				</picture>
 				<Navigation></Navigation>
-				<div className="flex gap-5">
+				<div className="flex gap-5 justify-center items-center">
 					{exist ? (
 						<>
-							<h1>Hi! {username || exist.username}</h1>
+							<Typography>Hi! {username || exist.username}</Typography>
 							<IconButton
 								color="inherit"
 								aria-controls={exist ? "basic-menu" : undefined}
@@ -101,15 +107,19 @@ const Header: React.FC = () => {
 							</Menu>
 						</>
 					) : (
-						<AccountCircleOutlinedIcon
-							onClick={() => setOpenAccount(true)}
-							className="cursor-pointer"
-						/>
+						<IconButton className="cursor-pointer" color="inherit">
+							<AccountCircleOutlinedIcon onClick={() => setOpenAccount(true)} />
+						</IconButton>
 					)}
-
-					<FavoriteBorderRoundedIcon className="cursor-pointer" />
-					<ShoppingCartOutlinedIcon className="cursor-pointer" />
-					<SearchOutlinedIcon className="cursor-pointer" />
+					<IconButton className="cursor-pointer" color="inherit">
+						<FavoriteBorderRoundedIcon />
+					</IconButton>
+					<IconButton component={Link} to="/checkout" className="cursor-pointer" color="inherit">
+						<ShoppingCartOutlinedIcon />
+					</IconButton>
+					<IconButton className="cursor-pointer" color="inherit">
+						<SearchOutlinedIcon />
+					</IconButton>
 				</div>
 			</header>
 		</>

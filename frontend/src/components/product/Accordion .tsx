@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FormControl, Slider } from "@mui/material";
 import styled, { css } from "styled-components";
+import axios from "axios";
 
 const LabelStyled = styled.label`
 	${(props) =>
@@ -26,6 +27,15 @@ type IAccor = {
 
 const AccordionProduct: React.FC<IAccor> = ({ query, setQuery, debounceFn, price, setPrice }) => {
 	const [expanded, setExpanded] = React.useState<boolean>(true);
+	const [colorList, setColorList] = React.useState<[]>([]);
+	const sizeList = ["S", "M", "L", "XL", "XXL"];
+	React.useEffect(() => {
+		axios
+			.get("http://localhost:5001/api/colors")
+			.then(({ data }) => setColorList(data))
+			.catch((err: any) => console.log(err));
+	}, []);
+
 	const handleOnchange = (event: { target: { value: string } }) => {
 		setQuery(event.target.value);
 		debounceFn(event.target.value);
@@ -68,27 +78,25 @@ const AccordionProduct: React.FC<IAccor> = ({ query, setQuery, debounceFn, price
 					<Typography>Color</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<ul className="flex gap-x-5 max-w-md mx-auto">
-						<li className="relative">
-							<input className="sr-only peer" type="checkbox" value="yes" id="answer_yes" />
-							<LabelStyled
-								color="#ccc"
-								className="flex w-8 h-8 border rounded-full border-gray-300 cursor-pointer focus:outline-none peer-checked:ring-gray-400 peer-checked:ring-offset-1 peer-checked:ring-2  peer-checked:border-transparent"
-								htmlFor="answer_yes"
-							></LabelStyled>
-							<div className="absolute hidden w-5 h-5 peer-checked:block top-5 right-3"></div>
-						</li>
-
-						<li className="relative">
-							<input className="sr-only peer" type="checkbox" value="maybe" id="answer_maybe" />
-							<LabelStyled
-								color="#000"
-								className="flex w-8 h-8 border rounded-full border-gray-300 cursor-pointer focus:outline-none peer-checked:ring-gray-400 peer-checked:ring-offset-1 peer-checked:ring-2 peer-checked:border-transparent"
-								htmlFor="answer_maybe"
-							></LabelStyled>
-
-							<div className="absolute hidden w-5 h-5 peer-checked:block top-5 right-3"></div>
-						</li>
+					<ul className="flex gap-5 max-w-md mx-auto flex-wrap">
+						{colorList &&
+							colorList.length > 0 &&
+							colorList.map((color: any, index: React.Key) => (
+								<li className="relative" key={index}>
+									<input
+										className="sr-only peer"
+										type="checkbox"
+										value="yes"
+										id={`#${color.hexCode}`}
+									/>
+									<LabelStyled
+										color={`#${color.hexCode}`}
+										className="flex w-8 h-8 border rounded-full border-gray-300 cursor-pointer focus:outline-none peer-checked:ring-gray-400 peer-checked:ring-offset-1 peer-checked:ring-2  peer-checked:border-transparent"
+										htmlFor={`#${color.hexCode}`}
+									></LabelStyled>
+									<div className="absolute hidden w-5 h-5 peer-checked:block top-5 right-3"></div>
+								</li>
+							))}
 					</ul>
 				</AccordionDetails>
 			</Accordion>
@@ -98,27 +106,27 @@ const AccordionProduct: React.FC<IAccor> = ({ query, setQuery, debounceFn, price
 					<Typography>Size</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<ul className="flex gap-x-5 max-w-md mx-auto">
-						<li className="relative">
-							<input className="sr-only peer" type="checkbox" value="yes" id="answer_size" />
-							<LabelStyled
-								className="flex w-8 h-8 border rounded-full border-gray-300 cursor-pointer focus:outline-none peer-checked:ring-gray-400 peer-checked:ring-offset-1 peer-checked:ring-2  peer-checked:border-transparent"
-								htmlFor="answer_size"
-							></LabelStyled>
-							<div className="absolute hidden w-5 h-5 peer-checked:block top-5 right-3"></div>
-						</li>
-
-						<li className="relative">
-							<input className="sr-only peer" type="checkbox" value="maybe" id="answer_size" />
-							<LabelStyled
-								color="#000"
-								className="flex w-8 h-8 border rounded-full border-gray-300 cursor-pointer focus:outline-none peer-checked:ring-gray-400 peer-checked:ring-offset-1 peer-checked:ring-2 peer-checked:border-transparent"
-								htmlFor="answer_size"
-							></LabelStyled>
-
-							<div className="absolute hidden w-5 h-5 peer-checked:block top-5 right-3"></div>
-						</li>
-					</ul>
+					<div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
+						{sizeList.length > 0 &&
+							sizeList.map((size: String, index: React.Key) => (
+								<div className="relative" key={index}>
+									<input
+										className="sr-only peer"
+										type="checkbox"
+										value={`${size}`}
+										name="size"
+										id={`${size}`}
+									/>
+									<label
+										className="flex py-3 px-4 border rounded-md items-center 
+		justify-center text-sm font-medium uppercase bg-white shadow-sm text-gray-900 border-gray-300  cursor-pointer focus:outline-none  peer-checked:ring-gray-400 peer-checked:ring-offset-3 peer-checked:ring-2  peer-checked:border-transparent"
+										htmlFor={`${size}`}
+									>
+										{size}
+									</label>
+								</div>
+							))}
+					</div>
 				</AccordionDetails>
 			</Accordion>
 		</div>
