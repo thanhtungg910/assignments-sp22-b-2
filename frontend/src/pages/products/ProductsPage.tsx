@@ -127,6 +127,7 @@ const ProductsPage: React.FC = () => {
 									image={item.image}
 									albums={item.albums}
 									slug={item.slug}
+									_id={item._id}
 								/>
 							))}
 					</Grids>

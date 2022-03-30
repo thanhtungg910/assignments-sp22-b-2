@@ -3,10 +3,30 @@ import { Link } from "react-router-dom";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import Favorite from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import IProducts from "../../interfaces/products";
-import { Checkbox } from "@mui/material";
+import IProducts, { Ioptions } from "../../interfaces/products";
+import { Button, Checkbox } from "@mui/material";
+import { DefaultRootState, useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../actions/cart";
 
-const Product: React.FC<IProducts> = ({ title, price, image, slug, saleoff, albums }) => {
+const Product: React.FC<IProducts> = ({
+	title,
+	price,
+	image,
+	slug,
+	saleoff,
+	albums,
+	options,
+	_id,
+}) => {
+	const dispatch = useDispatch();
+	const [colorList, sizeList]: Ioptions[] | undefined | any = options;
+	const { value: color } = colorList;
+	const { value: size } = sizeList;
+
+	const handleAddToCart = (data: Object) => {
+		dispatch(addToCart({ ...data, quantity: 1 }));
+		return;
+	};
 	return (
 		<div className="group relative">
 			<div className="w-full min-h-[483px] bg-gray-200 aspect-w-1 aspect-h-1  overflow-hidden lg:h-80 lg:aspect-none">
@@ -25,8 +45,23 @@ const Product: React.FC<IProducts> = ({ title, price, image, slug, saleoff, albu
 					</Link>
 				</div>
 				<div className="flex absolute opacity-0 px-4 gap-2 right-4 cursor-pointer transition ease-in-out delay-250 bottom-20 z-10 group-hover:opacity-100 py-2 bg-white text-black hover:bg-black hover:text-white">
-					<h4 className="font-bold border-r-2 pr-3">Add to Cart</h4>
-					<AddShoppingCartOutlinedIcon />
+					<Button
+						color="inherit"
+						onClick={() =>
+							handleAddToCart({
+								title,
+								price,
+								image,
+								saleoff,
+								color: color[0],
+								size: size[0],
+								_id,
+							})
+						}
+					>
+						<h4 className="font-bold border-r-2 pr-3">Add to Cart</h4>
+						<AddShoppingCartOutlinedIcon />
+					</Button>
 				</div>
 				<div className="italic absolute top-2 right-4 font-mono text-xl">
 					{saleoff != 0 && `${saleoff}%`}

@@ -8,13 +8,21 @@ import "babel-polyfill";
 import App from "./App";
 import rootReducer from "./reducers/rootReducer";
 import "./index.css";
+import { loadState, saveLocal } from "./utils/localstorage";
+import { throttle } from "lodash";
 declare global {
 	interface Window {
 		__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
 	}
 }
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const persistedState = loadState();
 const store = createStore(rootReducer, composeEnhancers());
+store.subscribe(
+	throttle(() => {
+		saveLocal("cart", store.getState().carts.value);
+	}, 1000)
+);
 
 ReactDOM.render(
 	<BrowserRouter>
