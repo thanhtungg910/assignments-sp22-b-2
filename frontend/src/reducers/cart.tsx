@@ -8,8 +8,8 @@ const initial_cart: { value: []; total: Number; current: boolean } = {
 type Iaction = {
 	type: String;
 	payload: {
-		data: ICart;
-		current: boolean;
+		data: ICart | any;
+		current?: boolean;
 	};
 };
 
@@ -36,7 +36,38 @@ const cartReducer = (state = initial_cart, action: Iaction) => {
 				return item._id != action.payload.data;
 			});
 			return { ...state, value: [...exitItem], current: action.payload.current };
+		case "INCREASE":
+			const increexist: ICart | any = state.value.find(
+				(item: { _id: String | any }) => item._id == action.payload.data
+			);
+			if (!increexist) return;
+			increexist.quantity++;
+			if (increexist.quantity == 5) {
+				increexist.quantity = 5;
+			}
+			return { ...state };
+		case "DECREASE":
+			const decreexist: ICart | any = state.value.find(
+				(item: { _id: String | any }) => item._id == action.payload.data
+			);
+			if (!decreexist) return;
+			decreexist.quantity--;
+			if (decreexist.quantity == 0) {
+				const item = state.value.filter(
+					(item: { _id: String | any }) => item._id != action.payload.data
+				);
+				return { ...state, value: [...item] };
+			}
+			return { ...state };
+		case "SET_QUANTITY": {
+			const product = state.value.map((item: ICart) =>
+				item._id == action.payload.data.id
+					? { ...item, quantity: action.payload.data.quantity }
+					: item
+			);
 
+			return { ...state, value: [...product] };
+		}
 		default:
 			break;
 	}

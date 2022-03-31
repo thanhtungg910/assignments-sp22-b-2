@@ -12,5 +12,15 @@ const removeItemInCart = (payload: String) => {
 		payload: { data: payload, current: true },
 	};
 };
+const increase = (payload: String) => {
+	return { type: "INCREASE", payload: { data: payload } };
+};
+const decrease = (payload: String) => {
+	return { type: "DECREASE", payload: { data: payload } };
+};
 
-export { addToCart, removeItemInCart };
+const setQty = (payload: Object) => {
+	return { type: "SET_QUANTITY", payload: { data: payload } };
+};
+
+export { addToCart, removeItemInCart, increase, decrease, setQty };
