@@ -34,15 +34,16 @@ export default function SignIn({ onClose, messageErr, setMessageErr }: any) {
 			};
 
 			saveLocal("user", newData);
-			// saveLocal("wishList", newData.wishlist);
-			dispatch(addToWishListAsUser(newData.wishlist));
 			saveLocal("refreshToken", refreshToken);
+
+			dispatch(addToWishListAsUser(newData.wishlist));
 			dispatch(login(data.user.username));
+
+			setMessageErr({
+				type: "success",
+				message: "Success!",
+			});
 			setTimeout(() => {
-				setMessageErr({
-					type: "success",
-					message: "Success!",
-				});
 				onClose(false);
 			}, 1000);
 		} catch (err: any) {

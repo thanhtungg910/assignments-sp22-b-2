@@ -75,12 +75,12 @@ const Product: React.FC<IProducts> = ({
 				<div className="italic absolute top-2 right-4 font-mono text-xl">
 					{saleoff != 0 && `${saleoff}%`}
 				</div>
-				<span className="absolute top-2 left-4 font-mono text-black">
+				<span className="absolute top-2 left-4 font-mono">
 					<Checkbox
 						color="default"
 						onChange={handleFavori}
 						icon={<FavoriteBorder />}
-						checkedIcon={<Favorite />}
+						checkedIcon={<Favorite color="error" />}
 						checked={wishListSele.find((item) => item == _id) ? true : false}
 						name={`${_id}`}
 					/>
