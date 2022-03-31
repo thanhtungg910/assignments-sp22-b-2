@@ -52,11 +52,14 @@ const App: React.FC = () => {
 						<Route path=":slugs" element={<DetailPage />}></Route>
 					</Route>
 					<Route path="intro" element={<h1>intro</h1>}></Route>
-					<Route
-						path="checkout"
-						element={getLocal("cart").length > 0 ? <CheckoutPage /> : <Navigate to="/products" />}
-					></Route>
-					<Route path="shop-cart" element={<ShopCart />}></Route>
+
+					<Route path="shop-cart">
+						<Route index element={<ShopCart />}></Route>
+						<Route
+							path="checkout"
+							element={getLocal("cart").length > 0 ? <CheckoutPage /> : <Navigate to="/products" />}
+						></Route>
+					</Route>
 					<Route path="contact" element={<h1>contact</h1>}></Route>
 				</Route>
 				<Route path="/admin" element={<DashboardLayout />}>

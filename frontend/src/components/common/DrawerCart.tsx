@@ -78,7 +78,7 @@ const DrawerCart: React.FC<IDrawerCart> = ({ open, toggleDrawer }: IDrawerCart) 
 				sx={{ margin: 2 }}
 				component={Link}
 				onClick={handleDraw}
-				to="checkout"
+				to="shop-cart/checkout"
 			>
 				Check out
 			</Button>
