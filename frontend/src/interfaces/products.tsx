@@ -21,12 +21,12 @@ interface IProducts {
 export type ICart = {
 	_id: String;
 	title: String;
-	price: Number;
+	price: Number | number | any;
 	saleoff: Number;
 	image: String;
 	slug?: String;
 	color: String;
 	size: String;
-	quantity: String;
+	quantity: Number | number | any;
 };
 export default IProducts;
