@@ -5,6 +5,8 @@ import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import { Card, CardContent, Typography } from "@mui/material";
+import { DefaultRootState, useSelector } from "react-redux";
+import { ICart } from "../../interfaces/products";
 
 interface IDrawerCart {
 	open: boolean;
@@ -12,6 +14,7 @@ interface IDrawerCart {
 }
 
 const DrawerCart: React.FC<IDrawerCart> = ({ open, toggleDrawer }: IDrawerCart) => {
+	const cartList: ICart[] = useSelector((state: { carts: { value: [] } }) => state.carts.value);
 	const handleDraw = () => {
 		toggleDrawer(false);
 	};
@@ -19,55 +22,28 @@ const DrawerCart: React.FC<IDrawerCart> = ({ open, toggleDrawer }: IDrawerCart) 
 	return (
 		<Drawer anchor={"right"} open={open} onClose={toggleDrawer}>
 			<List onClick={handleDraw} sx={{ minWidth: 400 }} className="overflow-hidden overflow-y-auto">
-				<Typography sx={{ textAlign: "Center" }}>Item in cart</Typography>
-				<Card>
-					<CardContent className="flex gap-1">
-						<Box>
-							<img
-								srcSet="https://picsum.photos/300/400?w=164&h=auto&fit=crop&auto=format&dpr=2 2x"
-								className="object-cover"
-							/>
-						</Box>
-						<Box className="flex flex-col">
-							<strong className="font-bold text-lg underline">Tiude</strong>
-							<Typography variant="caption">Color: Xanh</Typography>
-							<Typography variant="caption">Size: Xl</Typography>
-							<Typography variant="caption">Qty: 1</Typography>
-						</Box>
-					</CardContent>
-				</Card>
-				<Card>
-					<CardContent className="flex gap-1">
-						<Box>
-							<img
-								srcSet="https://picsum.photos/300/400?w=164&h=auto&fit=crop&auto=format&dpr=2 2x"
-								className="object-cover"
-							/>
-						</Box>
-						<Box className="flex flex-col">
-							<strong className="font-bold text-lg underline">Tiude</strong>
-							<Typography variant="caption">Color: Xanh</Typography>
-							<Typography variant="caption">Size: Xl</Typography>
-							<Typography variant="caption">Qty: 1</Typography>
-						</Box>
-					</CardContent>
-				</Card>
-				<Card>
-					<CardContent className="flex gap-1">
-						<Box>
-							<img
-								srcSet="https://picsum.photos/300/400?w=164&h=auto&fit=crop&auto=format&dpr=2 2x"
-								className="object-cover"
-							/>
-						</Box>
-						<Box className="flex flex-col">
-							<strong className="font-bold text-lg underline">Tiude</strong>
-							<Typography variant="caption">Color: Xanh</Typography>
-							<Typography variant="caption">Size: Xl</Typography>
-							<Typography variant="caption">Qty: 1</Typography>
-						</Box>
-					</CardContent>
-				</Card>
+				<h1 className="font-bold text-lg text-center">Item in cart ({cartList.length})</h1>
+				{cartList &&
+					cartList.length > 0 &&
+					cartList.map((item, index: React.Key) => (
+						<Card key={index}>
+							<CardContent className="flex gap-1">
+								<Box className="w-[203px]">
+									<img
+										srcSet={`${item.image}?w=164&h=auto&fit=crop&auto=format&dpr=2 2x`}
+										className="object-cover"
+									/>
+								</Box>
+								<Box className="flex flex-col">
+									<strong className="font-bold text-lg underline inline-block">{item.title}</strong>
+									<Typography variant="caption">Price: {item.price}</Typography>
+									<Typography variant="caption">Color: {item.color}</Typography>
+									<Typography variant="caption">Size: {item.size}</Typography>
+									<Typography variant="caption">Qty: {item.quantity}</Typography>
+								</Box>
+							</CardContent>
+						</Card>
+					))}
 				<Divider />
 			</List>
 			<Box className="flex justify-between p-4">

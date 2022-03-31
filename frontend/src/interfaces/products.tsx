@@ -18,4 +18,15 @@ interface IProducts {
 	createdAt?: Date;
 	updatedAt?: Date;
 }
+export type ICart = {
+	_id: String;
+	title: String;
+	price: Number;
+	saleoff: Number;
+	image: String;
+	slug?: String;
+	color: String;
+	size: String;
+	quantity: String;
+};
 export default IProducts;

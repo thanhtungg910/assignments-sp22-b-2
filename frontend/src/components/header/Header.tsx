@@ -22,8 +22,9 @@ const Header: React.FC = () => {
 		type: null,
 	});
 	const { username } = useSelector((state: { users: { username: String | null } }) => state.users);
+	const { current } = useSelector((state: { carts: { current: boolean } }) => state.carts);
 	const dispatch = useDispatch();
-	const [drawer, setDrawer] = React.useState<boolean>(false);
+	// const [drawer, setDrawer] = React.useState<boolean>(true);
 	const [openAccount, setOpenAccount] = useState<boolean>(false);
 	const [exist, saveExist] = useState(() => getLocal("user") ?? false);
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -51,12 +52,12 @@ const Header: React.FC = () => {
 		setAnchorEl(null);
 	};
 	const toggleDrawer = () => {
-		setDrawer(!drawer);
+		dispatch({ type: "CHANGE_CURRENT", payload: false });
 	};
 
 	return (
 		<>
-			<DrawerCart open={drawer} toggleDrawer={toggleDrawer} />
+			{current && <DrawerCart open={current} toggleDrawer={toggleDrawer} />}
 			<PromoBanner />
 			<DialogForm
 				open={openAccount}
