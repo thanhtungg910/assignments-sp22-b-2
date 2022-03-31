@@ -108,14 +108,18 @@ const Header: React.FC = () => {
 							</Menu>
 						</>
 					) : (
-						<IconButton className="cursor-pointer" color="inherit">
-							<AccountCircleOutlinedIcon onClick={() => setOpenAccount(true)} />
+						<IconButton
+							className="cursor-pointer"
+							color="inherit"
+							onClick={() => setOpenAccount(true)}
+						>
+							<AccountCircleOutlinedIcon />
 						</IconButton>
 					)}
 					<IconButton className="cursor-pointer" color="inherit">
 						<FavoriteBorderRoundedIcon />
 					</IconButton>
-					<IconButton component={Link} to="/checkout" className="cursor-pointer" color="inherit">
+					<IconButton component={Link} to="shop-cart" className="cursor-pointer" color="inherit">
 						<ShoppingCartOutlinedIcon />
 					</IconButton>
 					<IconButton className="cursor-pointer" color="inherit">

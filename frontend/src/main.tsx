@@ -20,7 +20,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, /* persistedState, */ composeEnhancers());
 store.subscribe(
 	throttle(() => {
-		saveLocal("cart", store.getState().carts.value);
+		const { value } = store.getState().carts;
+		saveLocal("cart", value);
 	}, 1000)
 );
 

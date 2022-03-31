@@ -7,6 +7,7 @@ import Divider from "@mui/material/Divider";
 import { Card, CardContent, Typography } from "@mui/material";
 import { DefaultRootState, useSelector } from "react-redux";
 import { ICart } from "../../interfaces/products";
+import { Link } from "react-router-dom";
 
 interface IDrawerCart {
 	open: boolean;
@@ -50,7 +51,14 @@ const DrawerCart: React.FC<IDrawerCart> = ({ open, toggleDrawer }: IDrawerCart) 
 				<Typography>Subtotal: </Typography>
 				<Typography>12$</Typography>
 			</Box>
-			<Button variant="contained" color="secondary" sx={{ margin: 2 }}>
+			<Button
+				variant="contained"
+				color="secondary"
+				sx={{ margin: 2 }}
+				component={Link}
+				onClick={handleDraw}
+				to="checkout"
+			>
 				Check out
 			</Button>
 		</Drawer>

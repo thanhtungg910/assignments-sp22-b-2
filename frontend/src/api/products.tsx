@@ -1,7 +1,6 @@
 import IProducts from "../interfaces/products";
 import { getLocal } from "../utils/localstorage";
 import instance from "./instance";
-const { accessToken, _id } = getLocal("user");
 
 const getProducts = (page = 0, limit = 5, order = "desc") => {
 	const url = `/products?page=${page}&limit=${limit}&order=${order}`;
@@ -13,6 +12,7 @@ const getProduct = (slug: String | undefined) => {
 };
 
 const create = (data: IProducts) => {
+	const { accessToken, _id } = getLocal("user");
 	const url = "/products/" + _id;
 	return instance.post(url, data, {
 		headers: {
@@ -21,6 +21,7 @@ const create = (data: IProducts) => {
 	});
 };
 const update = (data: IProducts) => {
+	const { accessToken, _id } = getLocal("user");
 	const url = `/products/${_id}/${data._id}`;
 	return instance.put(url, data, {
 		headers: {
@@ -30,6 +31,7 @@ const update = (data: IProducts) => {
 };
 
 const remove = (slug: String | undefined) => {
+	const { accessToken, _id } = getLocal("user");
 	const url = `/products/${_id}/${slug}`;
 	return instance.delete(url, {
 		headers: {
