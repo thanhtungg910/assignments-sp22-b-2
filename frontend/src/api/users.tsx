@@ -1,3 +1,4 @@
+import { getLocal } from "../utils/localstorage";
 import instance from "./instance";
 
 const signup = (data: Object) => {
@@ -22,5 +23,10 @@ const createTokenAuto = () => {
 		console.log(config);
 	});
 };
+const createWishList = (data: any) => {
+	const { _id } = getLocal("user");
+	const url = `/users/wishlist/${_id}`;
+	return instance.put(url, data);
+};
 
-export { signup, signin, refreshToken, createTokenAuto };
+export { signup, signin, refreshToken, createTokenAuto, createWishList };

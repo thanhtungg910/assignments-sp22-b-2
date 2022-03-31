@@ -21,7 +21,6 @@ import { Link } from "react-router-dom";
 const ProductsPage: React.FC = () => {
 	const [toggle, setToggle] = useState<boolean>(false);
 	const [data, setData] = useState<IProducts[]>([]);
-	// const [query, setQuery] = useState<String>("");
 	const [categories, setCategories] = useState<[]>([]);
 	const [total, setTotal] = useState<Number | number>(0);
 	const [search, textSearch] = useState(null);

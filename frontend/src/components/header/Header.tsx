@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -15,6 +15,7 @@ import { logout } from "../../actions/users";
 import { signOut } from "firebase/auth";
 import auth from "../../firebase/config";
 import DrawerCart from "../common/DrawerCart";
+import { createWishList } from "../../api/users";
 
 const Header: React.FC = () => {
 	const [messageErr, setMessageErr] = React.useState<any>({
@@ -23,18 +24,23 @@ const Header: React.FC = () => {
 	});
 	const { username } = useSelector((state: { users: { username: String | null } }) => state.users);
 	const { current } = useSelector((state: { carts: { current: boolean } }) => state.carts);
+	const wishListSele: String[] = useSelector((state: { wishList: String[] }) => state.wishList);
 	const dispatch = useDispatch();
-	// const [drawer, setDrawer] = React.useState<boolean>(true);
 	const [openAccount, setOpenAccount] = useState<boolean>(false);
 	const [exist, saveExist] = useState(() => getLocal("user") ?? false);
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
-
 	useEffect(() => {
+		if (exist) {
+			if (wishListSele.length > 0 && wishListSele) {
+				createWishList({
+					wishlist: wishListSele,
+				});
+			}
+		}
 		saveExist(exist || username);
 		return () => saveExist(false);
-	}, [username, exist]);
-
+	}, [username, exist, wishListSele]);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -106,19 +112,28 @@ const Header: React.FC = () => {
 								<MenuItem /* onClick={handleClose} */>My account</MenuItem>
 								<MenuItem onClick={handleLogout}>Logout</MenuItem>
 							</Menu>
+							<IconButton className="cursor-pointer" color="inherit">
+								<FavoriteBorderRoundedIcon />
+							</IconButton>
 						</>
 					) : (
-						<IconButton
-							className="cursor-pointer"
-							color="inherit"
-							onClick={() => setOpenAccount(true)}
-						>
-							<AccountCircleOutlinedIcon />
-						</IconButton>
+						<>
+							<IconButton
+								className="cursor-pointer"
+								color="inherit"
+								onClick={() => setOpenAccount(true)}
+							>
+								<AccountCircleOutlinedIcon />
+							</IconButton>
+							<IconButton
+								className="cursor-pointer"
+								color="inherit"
+								onClick={() => setOpenAccount(true)}
+							>
+								<FavoriteBorderRoundedIcon />
+							</IconButton>
+						</>
 					)}
-					<IconButton className="cursor-pointer" color="inherit">
-						<FavoriteBorderRoundedIcon />
-					</IconButton>
 					<IconButton component={Link} to="shop-cart" className="cursor-pointer" color="inherit">
 						<ShoppingCartOutlinedIcon />
 					</IconButton>

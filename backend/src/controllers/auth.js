@@ -40,5 +40,14 @@ const authControll = {
 			res.status(400).json({ message: "Login false!" });
 		}
 	},
+	async wishList(req, res) {
+		console.log(req.params.id);
+		try {
+			const wishList = await UserModel.findOneAndUpdate({ _id: req.params.id }, req.body).exec();
+			res.status(200).json(wishList)
+		} catch (error) {
+			res.sendStatus(400).json({ message: error })
+		}
+	}
 };
 export default authControll;

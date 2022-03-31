@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { createHmac } from "crypto";
 import { v4 as uuid4 } from "uuid";
+const { ObjectId } = mongoose.Schema;
 const UserSchema = mongoose.Schema(
 	{
 		username: {
@@ -36,6 +37,9 @@ const UserSchema = mongoose.Schema(
 			type: Boolean,
 			default: true,
 		},
+		wishlist: {
+			type: [{ type: ObjectId, ref: 'Products' }],
+		}
 	},
 	{ timestamps: true }
 );

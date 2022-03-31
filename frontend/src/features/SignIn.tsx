@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { signin } from "../api/users";
 import { saveLocal } from "../utils/localstorage";
 import { login } from "../actions/users";
+import { addToWishListAsUser } from "../actions/wishlist";
 interface IFormInput {
 	email: any;
 	password: String;
@@ -26,11 +27,15 @@ export default function SignIn({ onClose, messageErr, setMessageErr }: any) {
 				role: data.user.role,
 				username: data.user.username,
 				_id: data.user._id,
+				wishlist: data.user.wishlist,
 			};
 			const refreshToken = {
 				refreshToken: data.refreshToken,
 			};
+
 			saveLocal("user", newData);
+			// saveLocal("wishList", newData.wishlist);
+			dispatch(addToWishListAsUser(newData.wishlist));
 			saveLocal("refreshToken", refreshToken);
 			dispatch(login(data.user.username));
 			setTimeout(() => {

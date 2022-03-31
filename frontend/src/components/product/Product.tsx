@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import Favorite from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import IProducts, { Ioptions } from "../../interfaces/products";
 import { Button, Checkbox } from "@mui/material";
-import { DefaultRootState, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import IProducts, { ICart, Ioptions } from "../../interfaces/products";
 import { addToCart } from "../../actions/cart";
+import { addToWishList, removeItemInWishList } from "../../actions/wishlist";
 
 const Product: React.FC<IProducts> = ({
 	title,
@@ -18,14 +19,22 @@ const Product: React.FC<IProducts> = ({
 	options,
 	_id,
 }) => {
+	const wishListSele: String[] = useSelector((state: { wishList: String[] }) => state.wishList);
 	const dispatch = useDispatch();
 	const [colorList, sizeList]: Ioptions[] | undefined | any = options;
 	const { value: color } = colorList;
 	const { value: size } = sizeList;
 
-	const handleAddToCart = (data: Object) => {
+	const handleAddToCart = (data: ICart | any) => {
 		dispatch(addToCart({ ...data, quantity: 1 }));
 		return;
+	};
+	const handleFavori = (event: React.ChangeEvent<HTMLInputElement>) => {
+		if (event.target.checked) {
+			dispatch(addToWishList(event.target.name));
+		} else {
+			dispatch(removeItemInWishList(event.target.name));
+		}
 	};
 	return (
 		<div className="group relative">
@@ -67,7 +76,14 @@ const Product: React.FC<IProducts> = ({
 					{saleoff != 0 && `${saleoff}%`}
 				</div>
 				<span className="absolute top-2 left-4 font-mono text-black">
-					<Checkbox color="default" icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+					<Checkbox
+						color="default"
+						onChange={handleFavori}
+						icon={<FavoriteBorder />}
+						checkedIcon={<Favorite />}
+						checked={wishListSele.find((item) => item == _id) ? true : false}
+						name={`${_id}`}
+					/>
 				</span>
 			</div>
 			<div className="mt-4 flex justify-between">

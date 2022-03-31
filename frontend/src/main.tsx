@@ -22,6 +22,10 @@ store.subscribe(
 	throttle(() => {
 		const { value } = store.getState().carts;
 		saveLocal("cart", value);
+		const wishList: String[] = store.getState().wishList;
+		if (wishList && wishList.length <= 0) return;
+		console.log(wishList);
+		saveLocal("wishList", wishList);
 	}, 1000)
 );
 
