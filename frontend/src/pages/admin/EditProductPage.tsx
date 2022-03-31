@@ -171,8 +171,7 @@ const EditProductPage: React.FC = () => {
 				},
 			],
 			price: +data.price,
-			description:
-				"asdsd 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f 6231ee6c535ea7fef6738b6f",
+			description: data.description,
 		};
 		dispatch(
 			updateProduct({

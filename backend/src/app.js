@@ -15,6 +15,7 @@ const app = express();
 // MIDDLEWARE
 app.use(morgan());
 app.use(express.json());
+// app.use(express.cookieParser())
 app.use(cors());
 
 //ROUTING

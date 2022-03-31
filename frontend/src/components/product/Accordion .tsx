@@ -18,8 +18,8 @@ const LabelStyled = styled.label`
 			: ""}
 `;
 type IAccor = {
-	query: String;
-	setQuery: React.Dispatch<React.SetStateAction<String>>;
+	query?: String;
+	setQuery?: React.Dispatch<React.SetStateAction<String>>;
 	debounceFn: (inputValue: any) => void;
 	price: number[];
 	setPrice: React.Dispatch<React.SetStateAction<number[]>>;
@@ -37,7 +37,7 @@ const AccordionProduct: React.FC<IAccor> = ({ query, setQuery, debounceFn, price
 	}, []);
 
 	const handleOnchange = (event: { target: { value: string } }) => {
-		setQuery(event.target.value);
+		// setQuery(event.target.value);
 		debounceFn(event.target.value);
 	};
 
@@ -55,7 +55,7 @@ const AccordionProduct: React.FC<IAccor> = ({ query, setQuery, debounceFn, price
 						<TextField
 							onChange={handleOnchange}
 							label="Search"
-							value={query}
+							// value={query}
 							sx={{ marginBottom: 2 }}
 						></TextField>
 						<Typography gutterBottom>

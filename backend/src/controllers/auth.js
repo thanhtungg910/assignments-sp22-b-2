@@ -27,7 +27,13 @@ const authControll = {
 				return res.status(400).json({ message: "Incorrect password!" });
 			}
 			const { accessToken, refreshToken } = generateToken({ email: user.email });
-			console.log({ email: user.email });
+			/* const options = {
+				maxAge: 24 * 60 * 60 * 100,
+				secure: true,
+				httpOnly: true,
+				sameSite: 'none'
+			}
+			res.cookie('refreshToken', refreshToken, options); */
 			await updateRefeshToken(user._id, user.email, refreshToken);
 			res.status(200).json({ accessToken, refreshToken, user });
 		} catch (error) {

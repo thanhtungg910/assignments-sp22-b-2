@@ -21,11 +21,11 @@ import { Link } from "react-router-dom";
 const ProductsPage: React.FC = () => {
 	const [toggle, setToggle] = useState<boolean>(false);
 	const [data, setData] = useState<IProducts[]>([]);
-	const [query, setQuery] = useState<String>("");
+	// const [query, setQuery] = useState<String>("");
 	const [categories, setCategories] = useState<[]>([]);
 	const [total, setTotal] = useState<Number | number>(0);
 	const [search, textSearch] = useState(null);
-	const [price, setPrice] = React.useState<number[]>([0, 37]);
+	const [price, setPrice] = React.useState<number[]>([0, 9000000]);
 
 	const navigate = useNavigate();
 	const local = useLocation();
@@ -76,9 +76,13 @@ const ProductsPage: React.FC = () => {
 	};
 	useEffect(() => {
 		if (!price) return;
-		const search = async () => {
-			const res = await searchProductByPrice(price);
-			console.log("🚀 ~ file: ProductsPage.tsx ~ line 81 ~ search ~ res", res);
+		const search = () => {
+			// const filterData = data.filter((item) => {
+			// 	console.log(price[1], item.price);
+			// 	return item.price <= price[1] && item.price >= price[0];
+			// });
+			// console.log(filterData);
+			// const res = await searchProductByPrice(price);
 		};
 		search();
 	}, [price]);
@@ -104,8 +108,8 @@ const ProductsPage: React.FC = () => {
 				{!toggle && (
 					<div className="w-[30%] transition-all">
 						<AccordionProduct
-							query={query}
-							setQuery={setQuery}
+							// query={query}
+							// setQuery={setQuery}
 							debounceFn={debounceFn}
 							price={price}
 							setPrice={setPrice}

@@ -1,15 +1,15 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-import FilterComponent from "../features/admin/FilterComponent";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import Flexs from "../components/layouts/Flexs";
-import differenceBy from "lodash/differenceBy";
-import { remove } from "../api/products";
 import Swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.min.css";
+import differenceBy from "lodash/differenceBy";
 import { useDispatch } from "react-redux";
+import "sweetalert2/dist/sweetalert2.min.css";
 import { logout } from "../actions/users";
+import FilterComponent from "../features/admin/FilterComponent";
+import { remove } from "../api/products";
+import Flexs from "../components/layouts/Flexs";
 
 const useDataTable = () => {
 	const [data, setData] = useState<any[]>([]);
