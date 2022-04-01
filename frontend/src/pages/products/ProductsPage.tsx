@@ -25,6 +25,10 @@ const ProductsPage: React.FC = () => {
 	const [total, setTotal] = useState<Number | number>(0);
 	const [search, textSearch] = useState(null);
 	const [price, setPrice] = React.useState<number[]>([0, 9000000]);
+	const [options, setOptions] = useState<{ color: String[]; size: String[] } | any>({
+		color: [],
+		size: [],
+	});
 
 	const navigate = useNavigate();
 	const local = useLocation();
@@ -92,6 +96,20 @@ const ProductsPage: React.FC = () => {
 		}, 1000),
 		[]
 	);
+
+	const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
+		let color: any | String[];
+		if (event.target.checked) {
+			color = [...options.color, event.target.value];
+		} else {
+			color = [...options.color].filter((cl) => cl != event.target.value);
+		}
+		setOptions({
+			color: [...color],
+			size: [...options.size],
+		});
+	};
+
 	return (
 		<div>
 			<BasicBreadcrumbs />
@@ -102,6 +120,7 @@ const ProductsPage: React.FC = () => {
 				onClick={setToggle}
 				pathname={local.pathname}
 				total={total}
+				options={options}
 			/>
 			<Flexs className="px-10 my-10">
 				{!toggle && (
@@ -109,6 +128,7 @@ const ProductsPage: React.FC = () => {
 						<AccordionProduct
 							// query={query}
 							// setQuery={setQuery}
+							handleChecked={handleChecked}
 							debounceFn={debounceFn}
 							price={price}
 							setPrice={setPrice}

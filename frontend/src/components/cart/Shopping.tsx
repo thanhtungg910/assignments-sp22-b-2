@@ -6,10 +6,7 @@ type IShop = {
 	products: ICart[];
 	handleIncrease?: (id: String) => void;
 	handleDecrease?: (id: String) => void;
-	handleChangeQty?:
-		| SelectHTMLAttributes<HTMLSelectElement>
-		| any
-		| React.SelectHTMLAttributes<HTMLSelectElement>;
+	handleChangeQty?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 const Shopping: React.FC<IShop> = ({ products, handleChangeQty }: IShop) => {
 	return (

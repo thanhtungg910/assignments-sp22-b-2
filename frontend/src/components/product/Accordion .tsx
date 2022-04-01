@@ -19,13 +19,19 @@ const LabelStyled = styled.label`
 `;
 type IAccor = {
 	query?: String;
-	setQuery?: React.Dispatch<React.SetStateAction<String>>;
+	handleChecked?: (event: React.ChangeEvent<HTMLInputElement>) => void | any;
 	debounceFn: (inputValue: any) => void;
 	price: number[];
 	setPrice: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
-const AccordionProduct: React.FC<IAccor> = ({ query, setQuery, debounceFn, price, setPrice }) => {
+const AccordionProduct: React.FC<IAccor> = ({
+	query,
+	handleChecked,
+	debounceFn,
+	price,
+	setPrice,
+}) => {
 	const [expanded, setExpanded] = React.useState<boolean>(true);
 	const [colorList, setColorList] = React.useState<[]>([]);
 	const sizeList = ["S", "M", "L", "XL", "XXL"];
@@ -84,9 +90,10 @@ const AccordionProduct: React.FC<IAccor> = ({ query, setQuery, debounceFn, price
 							colorList.map((color: any, index: React.Key) => (
 								<li className="relative" key={index}>
 									<input
+										onChange={handleChecked}
 										className="sr-only peer"
 										type="checkbox"
-										value="yes"
+										value={`#${color.hexCode}`}
 										id={`#${color.hexCode}`}
 									/>
 									<LabelStyled

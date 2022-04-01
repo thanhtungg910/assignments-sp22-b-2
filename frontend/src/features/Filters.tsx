@@ -1,8 +1,6 @@
 import React from "react";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { Button, FormControl } from "@mui/material";
-import ICategories from "../interfaces/categories";
-import Categories from "../components/home/Categories";
 import SelectUnstyled, {
 	SelectUnstyledProps,
 	selectUnstyledClasses,
@@ -10,6 +8,8 @@ import SelectUnstyled, {
 import OptionUnstyled, { optionUnstyledClasses } from "@mui/base/OptionUnstyled";
 import PopperUnstyled from "@mui/base/PopperUnstyled";
 import { styled } from "@mui/system";
+import ICategories from "../interfaces/categories";
+import Categories from "../components/home/Categories";
 
 const blue = {
 	100: "#DAECFF",
@@ -142,6 +142,11 @@ function CustomSelect(
 	return <SelectUnstyled {...props} components={components} />;
 }
 
+const LabelStyled = styled("label")`
+	${(props) => `{props.color ?
+		background-color: ${props.color}; : ""}`}
+`;
+
 type Props = {
 	toggle: boolean;
 	onClick: React.Dispatch<React.SetStateAction<boolean>>;
@@ -149,6 +154,7 @@ type Props = {
 	setCategories: (e: string) => void;
 	pathname: Object;
 	total: number | Number;
+	options: any;
 };
 
 const Filters: React.FC<Props> = ({
@@ -158,6 +164,7 @@ const Filters: React.FC<Props> = ({
 	setCategories,
 	pathname,
 	total,
+	options,
 }) => {
 	return (
 		<div className="flex items-center justify-items-start border-2 px-10">
@@ -172,8 +179,15 @@ const Filters: React.FC<Props> = ({
 				<FilterAltOutlinedIcon className="float-right mr-2" />
 			</Button>
 			<div className=" border-x-2 py-3 w-[100%] px-5 mr-2">
-				Result:
-				<span className="font-bold">{total || 0}</span>
+				<div className="flex gap-3">
+					Result:
+					<span className="font-bold">{total || 0}</span>
+					{options &&
+						options.color.length > 0 &&
+						options.color.map((item: String, index: React.Key) => {
+							return <span key={index}>{item}</span>;
+						})}
+				</div>
 			</div>
 			<FormControl className="border-l-2 w-[30%] ml-4">
 				<CustomSelect onChange={setCategories} value={pathname}>
