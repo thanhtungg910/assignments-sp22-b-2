@@ -11,7 +11,7 @@ import Product from "../../components/product/Product";
 import AccordionProduct from "../../components/product/Accordion ";
 import Flexs from "../../components/layouts/Flexs";
 import Grids from "../../components/layouts/Grids";
-import { getProducts, searchProductByPrice } from "../../api/products";
+import { getProducts, searchOptions, searchProductByPrice } from "../../api/products";
 import IProducts from "../../interfaces/products";
 import { getCategories, getProductsByCategory, searchProductsBySlug } from "../../api/categories";
 import { Box } from "@mui/system";
@@ -29,7 +29,6 @@ const ProductsPage: React.FC = () => {
 		color: [],
 		size: [],
 	});
-
 	const navigate = useNavigate();
 	const local = useLocation();
 	const path = local.pathname;
@@ -77,6 +76,24 @@ const ProductsPage: React.FC = () => {
 	const handleChangeUrl = (e: string) => {
 		navigate(e);
 	};
+
+	useEffect(() => {
+		if (options.color.length > 0 && options.size.length > 0) {
+			const handleSearch = async () => {
+				try {
+					const { data } = await searchOptions({ options: options });
+					console.log(data);
+
+					setData(data);
+				} catch (error) {
+					console.log(error);
+				}
+			};
+
+			handleSearch();
+		}
+	}, [options]);
+
 	useEffect(() => {
 		if (!price) return;
 		const search = () => {
@@ -97,7 +114,7 @@ const ProductsPage: React.FC = () => {
 		[]
 	);
 
-	const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleCheckedColor = (event: React.ChangeEvent<HTMLInputElement>) => {
 		let color: any | String[];
 		if (event.target.checked) {
 			color = [...options.color, event.target.value];
@@ -107,6 +124,18 @@ const ProductsPage: React.FC = () => {
 		setOptions({
 			color: [...color],
 			size: [...options.size],
+		});
+	};
+	const handleCheckedSize = (event: React.ChangeEvent<HTMLInputElement>) => {
+		let size: any | String[];
+		if (event.target.checked) {
+			size = [...options.size, event.target.value];
+		} else {
+			size = [...options.size].filter((cl) => cl != event.target.value);
+		}
+		setOptions({
+			color: [...options.color],
+			size: [...size],
 		});
 	};
 
@@ -128,7 +157,8 @@ const ProductsPage: React.FC = () => {
 						<AccordionProduct
 							// query={query}
 							// setQuery={setQuery}
-							handleChecked={handleChecked}
+							handleChecked={handleCheckedColor}
+							handleCheckedSize={handleCheckedSize}
 							debounceFn={debounceFn}
 							price={price}
 							setPrice={setPrice}

@@ -48,5 +48,17 @@ const searchProductByPrice = (price: number[] | undefined) => {
 	const url = "/products/search";
 	return instance.post(url, { price: price });
 };
-
-export { getProducts, getProduct, create, remove, update, getRelated, searchProductByPrice };
+const searchOptions = (data: Object) => {
+	const url = `/products/search`;
+	return instance.post(url, data);
+};
+export {
+	getProducts,
+	getProduct,
+	create,
+	remove,
+	update,
+	getRelated,
+	searchProductByPrice,
+	searchOptions,
+};

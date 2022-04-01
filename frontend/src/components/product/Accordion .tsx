@@ -20,6 +20,7 @@ const LabelStyled = styled.label`
 type IAccor = {
 	query?: String;
 	handleChecked?: (event: React.ChangeEvent<HTMLInputElement>) => void | any;
+	handleCheckedSize?: (event: React.ChangeEvent<HTMLInputElement>) => void | any;
 	debounceFn: (inputValue: any) => void;
 	price: number[];
 	setPrice: React.Dispatch<React.SetStateAction<number[]>>;
@@ -31,6 +32,7 @@ const AccordionProduct: React.FC<IAccor> = ({
 	debounceFn,
 	price,
 	setPrice,
+	handleCheckedSize,
 }) => {
 	const [expanded, setExpanded] = React.useState<boolean>(true);
 	const [colorList, setColorList] = React.useState<[]>([]);
@@ -93,7 +95,7 @@ const AccordionProduct: React.FC<IAccor> = ({
 										onChange={handleChecked}
 										className="sr-only peer"
 										type="checkbox"
-										value={`#${color.hexCode}`}
+										value={`${color.hexCode}`}
 										id={`#${color.hexCode}`}
 									/>
 									<LabelStyled
@@ -118,6 +120,7 @@ const AccordionProduct: React.FC<IAccor> = ({
 							sizeList.map((size: String, index: React.Key) => (
 								<div className="relative" key={index}>
 									<input
+										onChange={handleCheckedSize}
 										className="sr-only peer"
 										type="checkbox"
 										value={`${size}`}
