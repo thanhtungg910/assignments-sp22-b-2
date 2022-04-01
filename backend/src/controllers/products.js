@@ -19,29 +19,31 @@ async function handlePrice(req, res, price) {
 async function handleOptions(req, res, options) {
 	const { color, size } = options;
 	try {
+		const fil = {
+			$and: [
+				{
+					options: {
+						$elemMatch: {
+							name: "color",
+							value: { $in: color },
+						},
+					},
+				},
+				{
+					options: {
+						$elemMatch: {
+							name: "size",
+							value: { $in: size },
+						},
+					},
+				},
+			],
+		}
 		const products = await productModel
-			.find({
-				$and: [
-					{
-						options: {
-							$elemMatch: {
-								name: "color",
-								value: { $in: color },
-							},
-						},
-					},
-					{
-						options: {
-							$elemMatch: {
-								name: "size",
-								value: { $in: size },
-							},
-						},
-					},
-				],
-			})
+			.find(fil)
 			.exec();
-		res.status(200).json(products);
+		const countDoc = await productModel.countDocuments(fil).exec()
+		res.status(200).json({ products, countDoc });
 	} catch (error) {
 		res.status(400).json({ messages: error });
 	}

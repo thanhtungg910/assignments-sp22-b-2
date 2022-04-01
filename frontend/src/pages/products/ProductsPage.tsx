@@ -81,10 +81,11 @@ const ProductsPage: React.FC = () => {
 		if (options.color.length > 0 && options.size.length > 0) {
 			const handleSearch = async () => {
 				try {
-					const { data } = await searchOptions({ options: options });
-					console.log(data);
-
-					setData(data);
+					const {
+						data: { products, countDoc },
+					} = await searchOptions({ options: options });
+					setData(products);
+					setTotal(countDoc);
 				} catch (error) {
 					console.log(error);
 				}
