@@ -112,7 +112,12 @@ const Header: React.FC = () => {
 								<MenuItem /* onClick={handleClose} */>My account</MenuItem>
 								<MenuItem onClick={handleLogout}>Logout</MenuItem>
 							</Menu>
-							<IconButton className="cursor-pointer" color="inherit">
+							<IconButton
+								className="cursor-pointer"
+								color="inherit"
+								component={Link}
+								to="/wish-list"
+							>
 								<FavoriteBorderRoundedIcon />
 							</IconButton>
 						</>

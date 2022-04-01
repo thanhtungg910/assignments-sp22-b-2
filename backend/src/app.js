@@ -9,6 +9,7 @@ import products from "./routes/products";
 import categories from "./routes/categories";
 import auth from "./routes/auth";
 import colors from "./routes/colors";
+import carts from "./routes/cart";
 dotenv.config();
 import refreshToken from "./routes/refreshToken";
 const app = express();
@@ -23,6 +24,7 @@ app.use("/refreshtoken", refreshToken);
 app.use("/api/products", products);
 app.use("/api/categories", categories);
 app.use("/api/users", auth);
+app.use("/api/carts", carts);
 app.use("/api/colors", colors);
 
 app.get("/", (req, res) => {

@@ -4,4 +4,5 @@ const router = Router();
 router.post("/signup", authControll.signUp);
 router.post("/signin", authControll.signIn);
 router.put("/wishlist/:id", authControll.wishList);
+router.get("/readwishlist/:id", authControll.getWishList);
 export default router;

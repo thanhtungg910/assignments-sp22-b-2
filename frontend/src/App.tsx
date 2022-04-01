@@ -13,6 +13,7 @@ import EditProductPage from "./pages/admin/EditProductPage";
 import CheckoutPage from "./pages/cart/Checkout";
 import ShopCart from "./pages/cart/ShopCart";
 import { getLocal } from "./utils/localstorage";
+import WishListPage from "./pages/products/WishListPage";
 const App: React.FC = () => {
 	const { pathname } = useLocation();
 	useEffect(() => {
@@ -52,6 +53,7 @@ const App: React.FC = () => {
 						<Route path=":slugs" element={<DetailPage />}></Route>
 					</Route>
 					<Route path="intro" element={<h1>intro</h1>}></Route>
+					<Route path="wish-list" element={<WishListPage />}></Route>
 
 					<Route path="shop-cart">
 						<Route index element={<ShopCart />}></Route>

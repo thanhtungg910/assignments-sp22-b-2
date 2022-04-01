@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import UserModel from "../models/User";
 require("dotenv").config();
 import { generateToken, updateRefeshToken } from "../utils";
-import TokenModel from "../models/RefeshToken";
+import productModel from "../models/Product"
 const authControll = {
 	async signUp(req, res) {
 		const { email, username, password } = req.body;
@@ -41,13 +41,21 @@ const authControll = {
 		}
 	},
 	async wishList(req, res) {
-		console.log(req.params.id);
 		try {
 			const wishList = await UserModel.findOneAndUpdate({ _id: req.params.id }, req.body).exec();
 			res.status(200).json(wishList)
 		} catch (error) {
 			res.sendStatus(400).json({ message: error })
 		}
-	}
+	},
+	async getWishList(req, res) {
+		try {
+			const user = await UserModel.findOne({ _id: req.params.id }).exec();
+			const products = productModel.find({ _id: user.wishlist }).exec
+			res.status(200).json({ wishList: user.wishlist, products })
+		} catch (error) {
+			res.sendStatus(400).json({ message: error })
+		}
+	},
 };
 export default authControll;
