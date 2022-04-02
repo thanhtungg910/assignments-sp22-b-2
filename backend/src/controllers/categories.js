@@ -13,11 +13,12 @@ const categoryControll = {
 		}
 	},
 	// CREATE CATEGORY
-	create(req, res) {
+	async create(req, res) {
 		req.body.slug = slugify(req.body.title);
 		try {
-			const category = new categoryModel(req.body).save();
+			const category = await new categoryModel(req.body).save();
 			res.status(200).json(category);
+			return
 		} catch (error) {
 			res.status(400).json(error);
 		}
@@ -35,6 +36,16 @@ const categoryControll = {
 	async remove(req, res) {
 		try {
 			const category = await categoryModel.findOneAndDelete({ slug: req.params.slug }).exec();
+			res.status(200).json(category);
+		} catch (error) {
+			res.status(400).json({ message: error });
+		}
+	},
+	// UPDATE
+	async update(req, res) {
+		req.body.slug = slugify(req.body.title);
+		try {
+			const category = await categoryModel.findOneAndReplace({ slug: req.params.slug }, req.body).exec();
 			res.status(200).json(category);
 		} catch (error) {
 			res.status(400).json({ message: error });

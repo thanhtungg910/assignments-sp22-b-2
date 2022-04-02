@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import IProducts from "../../interfaces/products";
-import { getProducts } from "../../api/products";
+import { getProducts, remove } from "../../api/products";
 import DataTable from "react-data-table-component";
 import styled from "styled-components";
 import useDataTable from "../../hooks/useDataTable";
@@ -77,7 +77,10 @@ const ProductsManager: React.FC = () => {
 		filteredItems,
 		subHeaderComponentMemo,
 		handleRowClicked,
-	} = useDataTable();
+	} = useDataTable({
+		page: true,
+		remove: remove,
+	});
 
 	useEffect(() => {
 		const fetchData = async () => {

@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 require("dotenv").config();
-import UserModel from "../models/User";
 
 const verify = (req, res, next) => {
 	const authHeader = req.headers.authorization;
@@ -18,7 +17,6 @@ const verify = (req, res, next) => {
 };
 const isAdmin = async (req, res, next) => {
 	try {
-		console.log(req.profile);
 		// const user = await UserModel.findOne({ email: req.user.email }).exec();
 		if (!req.profile) return res.status(403).json("Account empty!");
 		if (req.profile.role == 0) return res.status(400).json("You have no authority!");
