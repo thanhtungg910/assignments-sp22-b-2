@@ -35,7 +35,11 @@ const cartReducer = (state = initial_cart, action: Iaction) => {
 			const exitItem: object | any = state.value.filter((item: any) => {
 				return item._id != action.payload.data;
 			});
-			return { ...state, value: [...exitItem], current: action.payload.current };
+			return {
+				...state,
+				value: [...exitItem],
+				current: action.payload.current,
+			};
 		case "INCREASE":
 			const increexist: ICart | any = state.value.find(
 				(item: { _id: String | any }) => item._id == action.payload.data
@@ -59,15 +63,15 @@ const cartReducer = (state = initial_cart, action: Iaction) => {
 				return { ...state, value: [...item] };
 			}
 			return { ...state };
-		case "SET_QUANTITY": {
+		case "SET_QUANTITY":
 			const product = state.value.map((item: ICart) =>
 				item._id == action.payload.data.id
 					? { ...item, quantity: action.payload.data.quantity }
 					: item
 			);
-
 			return { ...state, value: [...product] };
-		}
+		case "RESET_CART":
+			return { value: [], total: 0, current: false };
 		default:
 			break;
 	}

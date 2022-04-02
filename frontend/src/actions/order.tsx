@@ -5,6 +5,7 @@ const addOrder = (payload: {
 	quantity: Number;
 	buy: String;
 	userId: String;
+	price: Number;
 }) => {
 	return { type: "ADD_ORDER", payload: payload };
 };

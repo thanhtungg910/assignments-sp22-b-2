@@ -1,7 +1,6 @@
 import React from "react";
 import { Grid, ListItem, ListItemText, Typography, List } from "@mui/material";
-// import { List } from "immutable";
-
+import { useSelector } from "react-redux";
 const products = [
 	{ name: "Product 1", desc: "A nice thing", price: "$9.99" },
 	{ name: "Product 2", desc: "Another thing", price: "$3.45" },
@@ -9,30 +8,58 @@ const products = [
 	{ name: "Product 4", desc: "Best thing of all", price: "$14.11" },
 	{ name: "Shipping", desc: "", price: "Free" },
 ];
-const addresses = ["1 Material-UI Drive", "Reactville", "Anytown", "99999", "USA"];
+const addresses = [
+	"1 Material-UI Drive",
+	"Reactville",
+	"Anytown",
+	"99999",
+	"USA",
+];
 const payments = [
 	{ name: "Card type", detail: "Visa" },
 	{ name: "Card holder", detail: "Mr John Smith" },
 	{ name: "Card number", detail: "xxxx-xxxx-xxxx-1234" },
 	{ name: "Expiry date", detail: "04/2024" },
 ];
+type IProps = {
+	data: {
+		quantity: Number | any;
+		_id: String;
+		title: String;
+		price: Number | any;
+	}[];
+};
 
-function Review() {
+function Review({ data }: IProps) {
 	return (
 		<React.Fragment>
 			<Typography variant="h6" gutterBottom>
 				Order summary
 			</Typography>
 			<List>
-				{products.map((product) => (
-					<ListItem key={product.name}>
-						<ListItemText primary={product.name} secondary={product.desc} />
-						<Typography variant="body2">{product.price}</Typography>
-					</ListItem>
-				))}
+				{data &&
+					data.length > 0 &&
+					data.map((product, index: React.Key) => (
+						<ListItem key={index}>
+							<ListItemText
+								primary={product.title} /* secondary={product.desc} */
+							/>
+							<Typography variant="body2">
+								{product.price.toLocaleString()}
+								<sup> X {product.quantity}</sup>
+							</Typography>
+						</ListItem>
+					))}
 				<ListItem>
 					<ListItemText primary="Total" />
-					<Typography variant="subtitle1">$34.06</Typography>
+					<Typography variant="subtitle1">
+						{data
+							.reduce(
+								(current, { quantity, price }) => current + price * quantity,
+								0
+							)
+							.toLocaleString()}
+					</Typography>
 				</ListItem>
 			</List>
 			<Grid container spacing={16}>
@@ -64,4 +91,4 @@ function Review() {
 		</React.Fragment>
 	);
 }
-export default /* withStyles(styles)(Review) */ Review;
+export default Review;

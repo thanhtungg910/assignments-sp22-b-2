@@ -33,6 +33,7 @@ const orderReducer = (
 			quantity: Number;
 			buy: String;
 			userId: String;
+			price: Number;
 		};
 	}
 ) => {
@@ -50,6 +51,7 @@ const orderReducer = (
 						quantity: action.payload.quantity,
 						buy: action.payload.buy,
 						userId: action.payload.userId,
+						price: action.payload.price,
 					},
 				],
 			};

@@ -6,6 +6,9 @@ const addToCart = (payload: ICart) => {
 		payload: { data: payload, current: true },
 	};
 };
+const resetCart = () => {
+	return { type: "RESET_CART" };
+};
 const removeItemInCart = (payload: String) => {
 	return {
 		type: "REMOVE_ITEM_IN_CART",
@@ -23,4 +26,4 @@ const setQty = (payload: Object) => {
 	return { type: "SET_QUANTITY", payload: { data: payload } };
 };
 
-export { addToCart, removeItemInCart, increase, decrease, setQty };
+export { addToCart, removeItemInCart, increase, decrease, setQty, resetCart };

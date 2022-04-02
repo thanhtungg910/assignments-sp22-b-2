@@ -32,6 +32,14 @@ const CartShema = new mongoose.Schema({
 	status: {
 		type: Number,
 		default: 0
+	},
+	payment: {
+		type: Boolean,
+		default: true
+	},
+	price: {
+		type: Number,
+		default: 0
 	}
 }, { timestamps: true })
 export default mongoose.model("Carts", CartShema)
