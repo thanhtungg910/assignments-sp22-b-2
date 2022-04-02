@@ -17,14 +17,16 @@ declare global {
 }
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const persistedState = loadState();
-const store = createStore(rootReducer, /* persistedState, */ composeEnhancers());
+const store = createStore(
+	rootReducer,
+	/* persistedState, */ composeEnhancers()
+);
 store.subscribe(
 	throttle(() => {
 		const { value } = store.getState().carts;
 		saveLocal("cart", value);
 		const wishList: String[] = store.getState().wishList;
 		if (wishList && wishList.length <= 0) return;
-		console.log(wishList);
 		saveLocal("wishList", wishList);
 	}, 1000)
 );

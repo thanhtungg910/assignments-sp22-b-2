@@ -1,7 +1,25 @@
-import { Checkbox, FormControlLabel, Grid, TextField, Typography } from "@mui/material";
+import { FieldValues, FormState, UseFormRegister } from "react-hook-form";
+import { useSelector } from "react-redux";
+import {
+	Checkbox,
+	FormControlLabel,
+	Grid,
+	TextField,
+	Typography,
+} from "@mui/material";
 import React from "react";
-
-function AddressForm() {
+type IProps = {
+	register: UseFormRegister<FieldValues>;
+	error: {
+		name: String;
+		lastname: String;
+		address: String;
+		phone: Number;
+		city: String;
+		state: String;
+	};
+};
+function AddressForm({ register, error }: IProps) {
 	return (
 		<React.Fragment>
 			<Typography variant="h6" gutterBottom>
@@ -10,79 +28,69 @@ function AddressForm() {
 			<Grid container spacing={5}>
 				<Grid item xs={12} sm={6}>
 					<TextField
-						required
-						id="firstName"
-						name="firstName"
 						label="First name"
 						fullWidth
-						autoComplete="fname"
+						{...register("name", { required: true })}
 					/>
+					{error.name && (
+						<Typography color="error">This is required</Typography>
+					)}
 				</Grid>
 				<Grid item xs={12} sm={6}>
 					<TextField
-						required
-						id="lastName"
-						name="lastName"
-						label="Last name"
+						label="First name"
 						fullWidth
-						autoComplete="lname"
+						{...register("lastname", { required: true })}
 					/>
+					{error.lastname && (
+						<Typography color="error">This is required</Typography>
+					)}
 				</Grid>
 				<Grid item xs={12}>
 					<TextField
-						required
-						id="address1"
-						name="address1"
-						label="Address line 1"
+						label="Address"
 						fullWidth
-						autoComplete="billing address-line1"
+						{...register("address", { required: true })}
 					/>
+					{error.address && (
+						<Typography color="error">This is required</Typography>
+					)}
 				</Grid>
 				<Grid item xs={12}>
 					<TextField
-						id="address2"
-						name="address2"
-						label="Address line 2"
+						label="Phone"
 						fullWidth
-						autoComplete="billing address-line2"
+						{...register("phone", { required: true })}
 					/>
+					{error.phone && (
+						<Typography color="error">This is required</Typography>
+					)}
 				</Grid>
 				<Grid item xs={12} sm={6}>
 					<TextField
-						required
-						id="city"
-						name="city"
 						label="City"
 						fullWidth
-						autoComplete="billing address-level2"
+						{...register("city", { required: true })}
 					/>
-				</Grid>
-				<Grid item xs={12} sm={6}>
-					<TextField id="state" name="state" label="State/Province/Region" fullWidth />
-				</Grid>
-				<Grid item xs={12} sm={6}>
-					<TextField
-						required
-						id="zip"
-						name="zip"
-						label="Zip / Postal code"
-						fullWidth
-						autoComplete="billing postal-code"
-					/>
+					{error.city && (
+						<Typography color="error">This is required</Typography>
+					)}
 				</Grid>
 				<Grid item xs={12} sm={6}>
 					<TextField
-						required
-						id="country"
-						name="country"
-						label="Country"
+						label="State/Province/Region"
 						fullWidth
-						autoComplete="billing country"
+						{...register("state", { required: true })}
 					/>
+					{error.state && (
+						<Typography color="error">This is required</Typography>
+					)}
 				</Grid>
 				<Grid item xs={12}>
 					<FormControlLabel
-						control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
+						control={
+							<Checkbox color="secondary" name="saveAddress" value="yes" />
+						}
 						label="Use this address for payment details"
 					/>
 				</Grid>

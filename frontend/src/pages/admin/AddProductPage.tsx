@@ -2,6 +2,7 @@ import React, { useEffect, useReducer } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Button, Grid, MenuItem, Paper, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { Theme, useTheme } from "@mui/material/styles";
 import InputField from "../../components/common/InputField";
 import FormSelectOption from "../../components/common/FormSelectOption";
@@ -15,7 +16,6 @@ import { getCategories } from "../../api/categories";
 import { addProduct } from "../../actions/products";
 import useHandleChange from "../../hooks/useHandleChange";
 import initial from "../../reducers/initial";
-import { useNavigate } from "react-router-dom";
 // import TextEditor from "../../components/common/TextEditor";
 import Swal from "sweetalert2";
 
@@ -43,7 +43,10 @@ const AddProductPage: React.FC = () => {
 	const theme = useTheme();
 	const sizes = ["S", "M", "L", "XL", "XXL"];
 	const navigate = useNavigate();
-	const [state, dispatch] = useReducer<(state: any, action: any) => any>(handleReducer, initial);
+	const [state, dispatch] = useReducer<(state: any, action: any) => any>(
+		handleReducer,
+		initial
+	);
 
 	const [
 		handleChangeColor,
@@ -165,7 +168,11 @@ const AddProductPage: React.FC = () => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<Alerts loading={state.loading} open={state.toggle} setToggle={() => {}} />
+			<Alerts
+				loading={state.loading}
+				open={state.toggle}
+				setToggle={() => {}}
+			/>
 			<Grid container spacing={3}>
 				<Grid item xs={12} md={8} lg={9}>
 					<Paper
@@ -181,7 +188,11 @@ const AddProductPage: React.FC = () => {
 								minHeight: 240,
 							}}
 						>
-							<Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+							<Grid
+								container
+								rowSpacing={3}
+								columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+							>
 								<Grid item xs={6}>
 									{/* Title start */}
 									<InputField
@@ -236,7 +247,10 @@ const AddProductPage: React.FC = () => {
 												<MenuItem
 													key={index}
 													value={`${index * 10}`}
-													sx={{ display: "flex", justifyContent: "space-between" }}
+													sx={{
+														display: "flex",
+														justifyContent: "space-between",
+													}}
 												>
 													{`${index * 10}%`}
 												</MenuItem>
@@ -321,7 +335,8 @@ const AddProductPage: React.FC = () => {
 
 				{/* Recent Orders */}
 				<Grid item xs={12}>
-					<Paper /* sx={{ p: 2, display: "flex", flexDirection: "column", minHeight: 600 }} */>
+					<Paper /* sx={{ p: 2, display: "flex", flexDirection: "column", minHeight: 600 }} */
+					>
 						{/* <TextField multiline fullWidth rows={4}></TextField> */}
 						{/* <TextEditor
 							title="description"

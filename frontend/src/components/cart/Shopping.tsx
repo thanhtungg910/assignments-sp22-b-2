@@ -1,5 +1,5 @@
+import React from "react";
 import { Button } from "@mui/material";
-import React, { SelectHTMLAttributes } from "react";
 import { Link } from "react-router-dom";
 import { ICart } from "../../interfaces/products";
 type IShop = {
@@ -18,20 +18,37 @@ const Shopping: React.FC<IShop> = ({ products, handleChangeQty }: IShop) => {
 						{products &&
 							products.length > 0 &&
 							products.map((item, index: React.Key) => (
-								<div key={index} className="flex justify-between items-center pt-6 mt-6 border-t">
+								<div
+									key={index}
+									className="flex justify-between items-center pt-6 mt-6 border-t"
+								>
 									<div className="flex items-center">
 										{" "}
-										<img srcSet={`${item.image}`} width={60} className="rounded-sm " />
+										<img
+											srcSet={`${item.image}`}
+											width={60}
+											className="rounded-sm "
+										/>
 										<div className="flex flex-col ml-3 ">
 											{" "}
-											<span className="text-md font-medium w-auto">{item.title}</span>{" "}
-											<span className="text-xs font-light text-gray-400">Color: #{item.color}</span>{" "}
-											<span className="text-xs font-light text-gray-400">Size: {item.size}</span>{" "}
+											<span className="text-md font-medium w-auto">
+												{item.title}
+											</span>{" "}
+											<span className="text-xs font-light text-gray-400">
+												Color: #{item.color}
+											</span>{" "}
+											<span className="text-xs font-light text-gray-400">
+												Size: {item.size}
+											</span>{" "}
 										</div>
 									</div>
 									<div className="flex justify-center items-center">
 										<div className="pr-8 flex">
-											<select value={item.quantity} onChange={handleChangeQty} data-id={item._id}>
+											<select
+												value={item.quantity}
+												onChange={handleChangeQty}
+												data-id={item._id}
+											>
 												{Array(10)
 													.fill(item._id)
 													.map((item, index) => (
@@ -58,19 +75,30 @@ const Shopping: React.FC<IShop> = ({ products, handleChangeQty }: IShop) => {
 							<div className="flex items-center">
 								{" "}
 								<i className="fa fa-arrow-left text-sm pr-2" />{" "}
-								<Button color="primary" sx={{ marginTop: 2 }} component={Link} to="/products">
+								<Button
+									color="primary"
+									sx={{ marginTop: 2 }}
+									component={Link}
+									to="/products"
+								>
 									Continue Shopping
 								</Button>
 							</div>
 							<div>
 								<div className="flex justify-center items-end">
-									<span className="text-sm font-medium text-gray-400 mr-1">Subtotal:</span>{" "}
+									<span className="text-sm font-medium text-gray-400 mr-1">
+										Subtotal:
+									</span>{" "}
 									<span className="text-lg font-bold text-gray-800 ">
 										{" "}
 										{products &&
 											products.length > 0 &&
 											products
-												.reduce((current, { quantity, price }) => current + price * quantity, 0)
+												.reduce(
+													(current, { quantity, price }) =>
+														current + price * quantity,
+													0
+												)
 												.toLocaleString()}
 									</span>{" "}
 								</div>
