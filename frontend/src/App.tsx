@@ -14,6 +14,8 @@ import CheckoutPage from "./pages/cart/Checkout";
 import ShopCart from "./pages/cart/ShopCart";
 import { getLocal } from "./utils/localstorage";
 import WishListPage from "./pages/products/WishListPage";
+import OrdersPage from "./pages/admin/CustomersPage";
+import CustomersPage from "./pages/admin/CustomersPage";
 const App: React.FC = () => {
 	const { pathname } = useLocation();
 	useEffect(() => {
@@ -59,7 +61,13 @@ const App: React.FC = () => {
 						<Route index element={<ShopCart />}></Route>
 						<Route
 							path="checkout"
-							element={getLocal("cart").length > 0 ? <CheckoutPage /> : <Navigate to="/products" />}
+							element={
+								getLocal("cart").length > 0 ? (
+									<CheckoutPage />
+								) : (
+									<Navigate to="/products" />
+								)
+							}
 						></Route>
 					</Route>
 					<Route path="contact" element={<h1>contact</h1>}></Route>
@@ -73,7 +81,7 @@ const App: React.FC = () => {
 						<Route path="edit/:slug" element={<EditProductPage />} />
 					</Route>
 					<Route path="orders" element={<h1>orders</h1>}></Route>
-					<Route path="customers" element={<h1>customers</h1>}></Route>
+					<Route path="customers" element={<CustomersPage />}></Route>
 				</Route>
 			</Routes>
 		</>

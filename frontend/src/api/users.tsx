@@ -28,5 +28,31 @@ const createWishList = (data: any) => {
 	const url = `/users/wishlist/${_id}`;
 	return instance.put(url, data);
 };
+const setActiveAccount = (idUser: String, data: { isActive: boolean }) => {
+	const { accessToken, _id } = getLocal("user");
+	const url = `/users/${_id}/${idUser}`;
+	return instance.put(url, data, {
+		headers: {
+			authorization: `Bearer ${accessToken}`,
+		},
+	});
+};
+const userList = () => {
+	const { accessToken, _id } = getLocal("user");
+	const url = `/users/${_id}`;
+	return instance.get(url, {
+		headers: {
+			authorization: `Bearer ${accessToken}`,
+		},
+	});
+};
 
-export { signup, signin, refreshToken, createTokenAuto, createWishList };
+export {
+	signup,
+	signin,
+	refreshToken,
+	createTokenAuto,
+	createWishList,
+	setActiveAccount,
+	userList,
+};

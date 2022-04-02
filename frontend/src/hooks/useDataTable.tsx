@@ -27,78 +27,93 @@ const useDataTable = ({
 }: {
 	page: Boolean;
 	isButton: Boolean;
-	remove: (slug: String | undefined) => Promise<AxiosResponse<any, any>>;
+	remove?: (
+		slug: String | undefined
+	) => Promise<AxiosResponse<any, any>> | undefined;
 }) => {
 	const [data, setData] = useState<any[]>([]);
 	const [filterText, setFilterText] = useState<string>("");
+	const [selectedRows, setSelectedRows] = useState([]);
+	const [toggleCleared, setToggleCleared] = useState<boolean>(false);
 	const [resetPaginationToggle, setResetPaginationToggle] =
 		useState<boolean>(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	/**
-	 * edit & remove
-	 */
-	const [selectedRows, setSelectedRows] = useState([]);
-	const [toggleCleared, setToggleCleared] = useState<boolean>(false);
-	const handleRowSelected = useCallback((state) => {
-		setSelectedRows(state.selectedRows);
-	}, []);
 
-	const contextActions = useMemo(() => {
-		const handleDelete = async () => {
-			try {
-				const result = await Swal.fire({
-					title: "Are you sure?",
-					text: "You won't be able to revert this!",
-					icon: "warning",
-					showCancelButton: true,
-					confirmButtonColor: "#3085d6",
-					cancelButtonColor: "#d33",
-					confirmButtonText: "Yes, delete it!",
-				});
-				if (result.isConfirmed) {
-					if (page) {
-						setToggleCleared(!toggleCleared);
-					}
-					setData(differenceBy(data, selectedRows, "title"));
-					selectedRows.forEach(async (r: any) => {
-						try {
-							await remove(r.slug);
-						} catch (error: any) {
-							await Swal.fire("Oop...!", error.response.data.message, "error");
-							dispatch(logout(null));
-							return navigate("/");
-						}
-					});
-					return Swal.fire(
-						"Deleted!",
-						"Your file has been deleted.",
-						"success"
-					);
-				}
-			} catch (error: any) {
-				return Swal.fire("Deleted!", error.response.data.message, "error");
-			}
-		};
-
-		return (
-			<Button key="delete" title="Clear" onClick={handleDelete} color="error">
-				Delete
-			</Button>
-		);
-	}, [data, selectedRows, toggleCleared]);
-
-	/**
-	 * edit & remove
-	 */
-
-	const filteredItems = data.filter(
-		(item) =>
-			item.title && item.title.toLowerCase().includes(filterText.toLowerCase())
-	);
 	/**
 	 * Search by title
 	 */
+	const filteredItems = data.filter((item) => {
+		if (item.title) {
+			return (
+				item.title &&
+				item.title.toLowerCase().includes(filterText.toLowerCase())
+			);
+		} else {
+			return (
+				item.username &&
+				item.username.toLowerCase().includes(filterText.toLowerCase())
+			);
+		}
+	});
+	/**
+	 * edit & remove
+	 */
+	let handleRowSelected;
+	let contextActions;
+	if (remove) {
+		handleRowSelected = useCallback((state) => {
+			setSelectedRows(state.selectedRows);
+		}, []);
+
+		contextActions = useMemo(() => {
+			const handleDelete = async () => {
+				try {
+					const result = await Swal.fire({
+						title: "Are you sure?",
+						text: "You won't be able to revert this!",
+						icon: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#3085d6",
+						cancelButtonColor: "#d33",
+						confirmButtonText: "Yes, delete it!",
+					});
+					if (result.isConfirmed) {
+						if (page) {
+							setToggleCleared(!toggleCleared);
+						}
+						setData(differenceBy(data, selectedRows, "title"));
+						selectedRows.forEach(async (r: any) => {
+							try {
+								await remove(r.slug);
+							} catch (error: any) {
+								await Swal.fire(
+									"Oop...!",
+									error.response.data.message,
+									"error"
+								);
+								dispatch(logout(null));
+								return navigate("/");
+							}
+						});
+						return Swal.fire(
+							"Deleted!",
+							"Your file has been deleted.",
+							"success"
+						);
+					}
+				} catch (error: any) {
+					return Swal.fire("Deleted!", error.response.data.message, "error");
+				}
+			};
+
+			return (
+				<Button key="delete" title="Clear" onClick={handleDelete} color="error">
+					Delete
+				</Button>
+			);
+		}, [data, selectedRows, toggleCleared]);
+	}
 	const subHeaderComponentMemo = useMemo(() => {
 		const handleClear = () => {
 			if (filterText) {
@@ -115,7 +130,7 @@ const useDataTable = ({
 					onClear={handleClear}
 					filterText={filterText}
 				/>
-				{page
+				{remove != undefined && page
 					? isButton && (
 							<Button
 								component={Link}
