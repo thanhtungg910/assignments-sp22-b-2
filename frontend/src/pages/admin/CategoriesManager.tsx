@@ -35,6 +35,7 @@ const CategoriesManager: React.FC = () => {
 		setToggleCleared,
 	} = useDataTable({
 		page: false,
+		isButton: true,
 		remove: removeCategory,
 	});
 	const {

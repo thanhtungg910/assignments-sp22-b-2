@@ -79,6 +79,7 @@ const ProductsManager: React.FC = () => {
 		handleRowClicked,
 	} = useDataTable({
 		page: true,
+		isButton: true,
 		remove: remove,
 	});
 

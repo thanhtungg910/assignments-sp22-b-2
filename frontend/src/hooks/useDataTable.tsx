@@ -22,9 +22,11 @@ import Flexs from "../components/layouts/Flexs";
 
 const useDataTable = ({
 	page,
+	isButton,
 	remove,
 }: {
 	page: Boolean;
+	isButton: Boolean;
 	remove: (slug: String | undefined) => Promise<AxiosResponse<any, any>>;
 }) => {
 	const [data, setData] = useState<any[]>([]);
@@ -113,26 +115,28 @@ const useDataTable = ({
 					onClear={handleClear}
 					filterText={filterText}
 				/>
-				{page ? (
-					<Button
-						component={Link}
-						to="add"
-						size="medium"
-						variant="contained"
-						color="primary"
-					>
-						<AddCircleIcon titleAccess="Add"></AddCircleIcon>
-					</Button>
-				) : (
-					<Button
-						size="medium"
-						variant="contained"
-						color="primary"
-						onClick={() => setToggleCleared(!toggleCleared)}
-					>
-						<AddCircleIcon titleAccess="Add"></AddCircleIcon>
-					</Button>
-				)}
+				{page
+					? isButton && (
+							<Button
+								component={Link}
+								to="add"
+								size="medium"
+								variant="contained"
+								color="primary"
+							>
+								<AddCircleIcon titleAccess="Add"></AddCircleIcon>
+							</Button>
+					  )
+					: isButton && (
+							<Button
+								size="medium"
+								variant="contained"
+								color="primary"
+								onClick={() => setToggleCleared(!toggleCleared)}
+							>
+								<AddCircleIcon titleAccess="Add"></AddCircleIcon>
+							</Button>
+					  )}
 			</Flexs>
 		);
 	}, [filterText, resetPaginationToggle]);
