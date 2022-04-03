@@ -35,9 +35,9 @@ const columnsOrder: any = [
 		sortField: "payment",
 		selector: (row: { payment: boolean }) =>
 			row.payment ? (
-				<Chip color="success" label="done" />
+				<Chip color="success" label="OK" />
 			) : (
-				<Chip color="warning" label="no" />
+				<Chip color="warning" label="NO" />
 			),
 	},
 	{
@@ -59,13 +59,13 @@ const columnsOrder: any = [
 		sortField: "createat",
 		selector: (row: { createdAt: String }) => row.createdAt,
 	},
-	{
-		id: "updatedat",
-		name: "Updated at",
-		sortable: true,
-		sortField: "updatedat",
-		selector: (row: { updatedAt: String }) => row.updatedAt,
-	},
+	// {
+	// 	id: "updatedat",
+	// 	name: "Updated at",
+	// 	sortable: true,
+	// 	sortField: "updatedat",
+	// 	selector: (row: { updatedAt: String }) => row.updatedAt,
+	// },
 ];
 const columnsProduct: TableColumn<object>[] | any = [
 	{

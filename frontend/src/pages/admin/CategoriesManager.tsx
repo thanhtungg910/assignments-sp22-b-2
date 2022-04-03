@@ -83,10 +83,6 @@ const CategoriesManager: React.FC = () => {
 		try {
 			if (edit) {
 				const res = await updateCategory(edit, data);
-				console.log(
-					"🚀 ~ file: CategoriesManager.tsx ~ line 85 ~ onSubmit ~ editData",
-					res
-				);
 				reset();
 				setToggleCleared(!toggleCleared);
 				Swal.fire({

@@ -5,27 +5,22 @@ const createOrderProducts = (data: Object) => {
 	return instance.post(url, data);
 };
 const orderList = () => {
-	// const { accessToken, _id } = getLocal("user");
-	const url = `/carts/order`; ///${_id}
-	return instance.get(
-		url /* , {
+	const { accessToken, _id } = getLocal("user");
+	const url = `/carts/order/${_id}`; ///${_id}
+	return instance.get(url, {
 		headers: {
 			authorization: `Bearer ${accessToken}`,
 		},
-	} */
-	);
+	});
 };
 const updateOrder = (id: String, data: Object) => {
-	// const { accessToken, _id } = getLocal("user");
-	const url = `/carts/order/${id}`; ///${_id}
-	return instance.put(
-		url,
-		data /* , {
+	const { accessToken, _id } = getLocal("user");
+	const url = `/carts/order/${_id}/${id}`; ///${_id}
+	return instance.put(url, data, {
 		headers: {
 			authorization: `Bearer ${accessToken}`,
 		},
-	} */
-	);
+	});
 };
 
 export { createOrderProducts, orderList, updateOrder };

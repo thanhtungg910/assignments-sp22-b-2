@@ -1,6 +1,7 @@
 import { Chip } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
+import Swal from "sweetalert2";
 import { orderList, updateOrder } from "../../api/carts";
 import { columnsOrder } from "../../components/layouts/Columns";
 import useDataTable from "../../hooks/useDataTable";
@@ -50,7 +51,7 @@ const OrderListManager = (props: Props) => {
 				return (
 					<>
 						<Chip color="warning" label="Pending" variant="outlined" />
-						<Chip color="success" label="Shipping" clickable />
+						<Chip color="success" label="OK" onClick={() => handleOk(id)} />
 					</>
 				);
 			case 2:
@@ -60,6 +61,12 @@ const OrderListManager = (props: Props) => {
 			default:
 				return <Chip color="error" label="Cancel" variant="outlined" />;
 		}
+	};
+	const handleOk = async (id: String) => {
+		await updateOrder(id, {
+			status: 3,
+		});
+		setEdit(!edit);
 	};
 	const handleSuccess = async (id: String) => {
 		await updateOrder(id, {
@@ -76,8 +83,17 @@ const OrderListManager = (props: Props) => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const { data } = await orderList();
-			setData(data);
+			try {
+				const { data } = await orderList();
+				setData(data);
+			} catch (error: any) {
+				Swal.fire({
+					title: "Oop..!",
+					text: error.response.data.message,
+					icon: "error",
+					confirmButtonText: `<a href="/">Exit</a>`,
+				});
+			}
 		};
 		fetchData();
 	}, [edit]);
