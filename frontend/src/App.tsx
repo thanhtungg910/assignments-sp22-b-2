@@ -14,8 +14,8 @@ import CheckoutPage from "./pages/cart/Checkout";
 import ShopCart from "./pages/cart/ShopCart";
 import { getLocal } from "./utils/localstorage";
 import WishListPage from "./pages/products/WishListPage";
-import OrdersPage from "./pages/admin/CustomersPage";
 import CustomersPage from "./pages/admin/CustomersPage";
+import OrderListManager from "./pages/admin/OrderListManager";
 const App: React.FC = () => {
 	const { pathname } = useLocation();
 	useEffect(() => {
@@ -80,7 +80,7 @@ const App: React.FC = () => {
 						<Route path="add" element={<AddProductPage />} />
 						<Route path="edit/:slug" element={<EditProductPage />} />
 					</Route>
-					<Route path="orders" element={<h1>orders</h1>}></Route>
+					<Route path="orders" element={<OrderListManager />}></Route>
 					<Route path="customers" element={<CustomersPage />}></Route>
 				</Route>
 			</Routes>

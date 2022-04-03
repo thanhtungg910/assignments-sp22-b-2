@@ -1,23 +1,14 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	TextField,
-} from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import Swal from "sweetalert2";
 import differenceBy from "lodash/differenceBy";
 import { useDispatch } from "react-redux";
-import "sweetalert2/dist/sweetalert2.min.css";
 import { AxiosResponse } from "axios";
+import { Button } from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 import { logout } from "../actions/users";
 import FilterComponent from "../features/admin/FilterComponent";
-// import { remove } from "../api/products";
 import Flexs from "../components/layouts/Flexs";
 
 const useDataTable = ({
@@ -48,6 +39,10 @@ const useDataTable = ({
 			return (
 				item.title &&
 				item.title.toLowerCase().includes(filterText.toLowerCase())
+			);
+		} else if (item.name) {
+			return (
+				item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
 			);
 		} else {
 			return (

@@ -10,15 +10,10 @@ type Props = {};
 
 const CustomersPage: React.FC = (props: Props) => {
 	const {
-		handleRowClicked,
 		setData,
 		resetPaginationToggle,
-		handleRowSelected,
-		contextActions,
-		toggleCleared,
 		filteredItems,
 		subHeaderComponentMemo,
-		setToggleCleared,
 	} = useDataTable({
 		page: false,
 		isButton: false,
@@ -90,19 +85,7 @@ const CustomersPage: React.FC = (props: Props) => {
 			paginationResetDefaultPage={resetPaginationToggle}
 			subHeader
 			selectableRowsHighlight
-			// onRowClicked={handleRowClicked}
-			// // Text search start
 			subHeaderComponent={subHeaderComponentMemo}
-			// // Text search end
-			// // Check box start
-			// selectableRows
-			// // Check box end
-			// /* persistTableHead */
-			// // Content check start
-			// contextActions={contextActions}
-			// // Content check end
-			// onSelectedRowsChange={handleRowSelected}
-			// clearSelectedRows={toggleCleared}
 		/>
 	);
 };
