@@ -6,6 +6,7 @@ import FaceIcon from "@mui/icons-material/Face";
 import { userList } from "../../api/users";
 import useDataTable from "../../hooks/useDataTable";
 import { LockOutlined } from "@mui/icons-material";
+import { columnsCustomer } from "../../components/layouts/Columns";
 type Props = {};
 
 const CustomersPage: React.FC = (props: Props) => {
@@ -18,35 +19,8 @@ const CustomersPage: React.FC = (props: Props) => {
 		page: false,
 		isButton: false,
 	});
-	const columns: any = [
-		{
-			id: "username",
-			name: "User name",
-			sortable: true,
-			sortField: "title",
-			selector: (row: { username: String }) => row.username,
-		},
-		{
-			id: "email",
-			name: "Email",
-			sortable: true,
-			sortField: "email",
-			selector: (row: { email: String }) => row.email,
-		},
-		{
-			id: "createat",
-			name: "Create at",
-			sortable: true,
-			sortField: "createat",
-			selector: (row: { createdAt: String }) => row.createdAt,
-		},
-		{
-			id: "updatedat",
-			name: "Updated at",
-			sortable: true,
-			sortField: "updatedat",
-			selector: (row: { updatedAt: String }) => row.updatedAt,
-		},
+	const newColomnsCustomer = [
+		...columnsCustomer,
 		{
 			id: "status",
 			name: "Status",
@@ -79,7 +53,7 @@ const CustomersPage: React.FC = (props: Props) => {
 	return (
 		<DataTable
 			title="Customers"
-			columns={columns}
+			columns={newColomnsCustomer}
 			data={filteredItems}
 			pagination
 			paginationResetDefaultPage={resetPaginationToggle}

@@ -16,15 +16,22 @@ import { signOut } from "firebase/auth";
 import auth from "../../firebase/config";
 import DrawerCart from "../common/DrawerCart";
 import { createWishList } from "../../api/users";
+import ChatsBox from "../../features/ChatsBox";
 
 const Header: React.FC = () => {
 	const [messageErr, setMessageErr] = React.useState<any>({
 		message: null,
 		type: null,
 	});
-	const { username } = useSelector((state: { users: { username: String | null } }) => state.users);
-	const { current } = useSelector((state: { carts: { current: boolean } }) => state.carts);
-	const wishListSele: String[] = useSelector((state: { wishList: String[] }) => state.wishList);
+	const { username } = useSelector(
+		(state: { users: { username: String | null } }) => state.users
+	);
+	const { current } = useSelector(
+		(state: { carts: { current: boolean } }) => state.carts
+	);
+	const wishListSele: String[] = useSelector(
+		(state: { wishList: String[] }) => state.wishList
+	);
 	const dispatch = useDispatch();
 	const [openAccount, setOpenAccount] = useState<boolean>(false);
 	const [exist, saveExist] = useState(() => getLocal("user") ?? false);
@@ -73,6 +80,9 @@ const Header: React.FC = () => {
 			>
 				{/* <SignIn /> */}
 			</DialogForm>
+			{/* FORM CHAT START*/}
+			<ChatsBox />
+			{/* FORM CHAT END */}
 			<header className="w-full bg-white flex justify-between items-center px-10 py-3">
 				<picture className="w-20 ml-4">
 					<img src={logo} className="object-cover w-full" />
@@ -139,7 +149,12 @@ const Header: React.FC = () => {
 							</IconButton>
 						</>
 					)}
-					<IconButton component={Link} to="shop-cart" className="cursor-pointer" color="inherit">
+					<IconButton
+						component={Link}
+						to="shop-cart"
+						className="cursor-pointer"
+						color="inherit"
+					>
 						<ShoppingCartOutlinedIcon />
 					</IconButton>
 					<IconButton className="cursor-pointer" color="inherit">

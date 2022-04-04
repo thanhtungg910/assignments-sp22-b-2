@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Button, Chip, ListItemButton } from "@mui/material";
 import { Link } from "react-router-dom";
+import { format } from "timeago.js";
 import IProducts from "../../interfaces/products";
 import { TableColumn } from "react-data-table-component";
 const ImageField: any = styled.img`
@@ -57,7 +58,7 @@ const columnsOrder: any = [
 		name: "Create at",
 		sortable: true,
 		sortField: "createat",
-		selector: (row: { createdAt: String }) => row.createdAt,
+		selector: (row: { createdAt: Date }) => format(row.createdAt),
 	},
 	// {
 	// 	id: "updatedat",
@@ -106,14 +107,14 @@ const columnsProduct: TableColumn<object>[] | any = [
 		name: "Create at",
 		sortable: true,
 		sortField: "createat",
-		selector: (row: IProducts) => row.createdAt,
+		selector: (row: { createdAt: Date }) => format(row.createdAt),
 	},
 	{
 		id: "updatedat",
 		name: "Updated at",
 		sortable: true,
 		sortField: "updatedat",
-		selector: (row: IProducts) => row.updatedAt,
+		selector: (row: { updatedAt: Date }) => format(row.updatedAt),
 	},
 	{
 		id: "edit",
@@ -125,4 +126,57 @@ const columnsProduct: TableColumn<object>[] | any = [
 		),
 	},
 ];
-export { columnsOrder, columnsProduct };
+const columnsCategory: TableColumn<object>[] | any = [
+	{
+		id: "title",
+		name: "Title",
+		selector: (row: { title: String }) => row.title,
+		sortable: true,
+		sortField: "title",
+	},
+	{
+		id: "createat",
+		name: "Create at",
+		sortable: true,
+		sortField: "createat",
+		selector: (row: { createdAt: Date }) => format(row.createdAt),
+	},
+	{
+		id: "updatedat",
+		name: "Updated at",
+		sortable: true,
+		sortField: "updatedat",
+		selector: (row: { updatedAt: Date }) => format(row.updatedAt),
+	},
+];
+const columnsCustomer: any = [
+	{
+		id: "username",
+		name: "User name",
+		sortable: true,
+		sortField: "title",
+		selector: (row: { username: String }) => row.username,
+	},
+	{
+		id: "email",
+		name: "Email",
+		sortable: true,
+		sortField: "email",
+		selector: (row: { email: String }) => row.email,
+	},
+	{
+		id: "createat",
+		name: "Create at",
+		sortable: true,
+		sortField: "createat",
+		selector: (row: { createdAt: Date }) => format(row.createdAt),
+	},
+	{
+		id: "updatedat",
+		name: "Updated at",
+		sortable: true,
+		sortField: "updatedat",
+		selector: (row: { updatedAt: Date }) => format(row.updatedAt),
+	},
+];
+export { columnsOrder, columnsProduct, columnsCustomer, columnsCategory };

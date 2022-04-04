@@ -12,7 +12,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import LayersIcon from "@mui/icons-material/Layers";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 const Sidebar: React.FC = () => {
 	return (
 		<>
@@ -48,9 +48,9 @@ const Sidebar: React.FC = () => {
 			</ListItemButton>
 			<ListItemButton>
 				<ListItemIcon>
-					<BarChartIcon />
+					<ChatBubbleOutlineIcon />
 				</ListItemIcon>
-				<ListItemText primary="Reports" />
+				<ListItemText primary="Chats" />
 			</ListItemButton>
 			<ListItemButton>
 				<ListItemIcon>

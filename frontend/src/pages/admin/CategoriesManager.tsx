@@ -20,6 +20,7 @@ import {
 	removeCategory,
 	updateCategory,
 } from "../../api/categories";
+import { columnsCategory } from "../../components/layouts/Columns";
 import useDataTable from "../../hooks/useDataTable";
 import ICategories from "../../interfaces/categories";
 
@@ -45,14 +46,8 @@ const CategoriesManager: React.FC = () => {
 		reset,
 	} = useForm({ mode: "onBlur" });
 	const [edit, setEdit] = useState<null | String | undefined>(null);
-	const columns: TableColumn<ICategories>[] | any = [
-		{
-			id: "title",
-			name: "Title",
-			selector: (row: ICategories) => row.title,
-			sortable: true,
-			sortField: "title",
-		},
+	const newColumnsCategory = [
+		...columnsCategory,
 		{
 			id: "edit",
 			name: "",
@@ -147,7 +142,7 @@ const CategoriesManager: React.FC = () => {
 			</Dialog>
 			<DataTable
 				title="Categories List"
-				columns={columns}
+				columns={newColumnsCategory}
 				data={filteredItems}
 				pagination
 				paginationResetDefaultPage={resetPaginationToggle}
