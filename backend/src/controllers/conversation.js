@@ -1,4 +1,5 @@
-import ConversationModel from "../models/Conversation"
+import ConversationModel from "../models/Conversation";
+import MessModel from "../models/Message"
 const conversationControll = {
 	// ADD;
 	async createConversation(req, res) {
@@ -6,7 +7,8 @@ const conversationControll = {
 			const conversation = await new ConversationModel({
 				members: [req.body.email, req.body.admin], // [user, admin]
 			}).save();
-			return res.status(200).json(conversation)
+			const messSender = await new MessModel({ conversationId: conversation._id, sender: conversation.members[0] }).save()
+			return res.status(200).json({ conversation, messSender })
 		} catch (error) {
 			res.status(400).json({ message: error })
 		}

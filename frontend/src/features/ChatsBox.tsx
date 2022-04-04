@@ -1,15 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { io, Socket } from "socket.io-client";
 import { Fab, Snackbar, Button, Card } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
-import { Box } from "@mui/system";
 import Chat from "../components/chats/Chat";
 import SendMessage from "../components/chats/SendMessage";
+import { DefaultEventsMap } from "@socket.io/component-emitter";
 type Props = {};
-
+const ENDPOINT = "http://localhost:3001";
+let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
 const ChatsBox = (props: Props) => {
 	const [open, setOpen] = useState<boolean>(false);
 	const [messages, setMessages] = useState<[]>([]);
 	const [meg, setMsg] = useState<String>("");
+	useEffect(() => {
+		socket = io(ENDPOINT, { transports: ["websocket"] });
+		console.log(
+			"🚀 ~ file: ChatsBox.tsx ~ line 16 ~ useEffect ~ socket",
+			socket
+		);
+		socket.emit("on-data", { message: "test- data" }, (error: any) => {
+			if (error) {
+				alert(error);
+			}
+		});
+		socket.on("response", (...arg) => {
+			console.log({ ...arg });
+		});
+	}, [socket]);
 	const handleOpen: () => void = () => {
 		setOpen(!open);
 	};

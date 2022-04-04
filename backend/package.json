@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-	"start:client": "nodemon ./src/client.js --exec ./node_modules/.bin/babel-node src/index.js -e js",
+    "start:client": "nodemon ./src/client.js --exec ./node_modules/.bin/babel-node src/index.js -e js",
     "start": "nodemon ./src/app.js --exec ./node_modules/.bin/babel-node src/index.js -e js"
   },
   "keywords": [],
@@ -17,6 +17,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.6",
     "slugify": "^1.6.5",
+    "socket.io": "^4.4.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

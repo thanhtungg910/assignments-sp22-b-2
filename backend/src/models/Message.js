@@ -5,7 +5,7 @@ const MessageSchema = new mongoose.Schema({
 		type: ObjectId
 	},
 	sender: { //Nguoi gui
-		type: String,
+		type: String, // Name
 		required: true
 	},
 	message: {
