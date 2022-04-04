@@ -18,8 +18,8 @@ const verify = (req, res, next) => {
 const isAdmin = async (req, res, next) => {
 	try {
 		// const user = await UserModel.findOne({ email: req.user.email }).exec();
-		if (!req.profile) return res.status(403).json("Account empty!");
-		if (req.profile.role == 0) return res.status(400).json("You have no authority!");
+		if (!req.profile) return res.status(400).json({ message: "Account empty!" });
+		if (req.profile.role == 0) return res.status(401).json({ message: "You have no authority!" });
 		return next();
 	} catch (error) { }
 };

@@ -1,3 +1,4 @@
+import { logOut } from "../api/users";
 import { removeLocal } from "../utils/localstorage";
 
 const initial: { username: String | null } = {
@@ -11,9 +12,13 @@ const useReducer = (
 		case "SIGN_IN":
 			return { ...state, username: action.payload };
 		case "SIGN_OUT":
-			removeLocal("user");
-			removeLocal("refreshToken");
-			return { ...state, username: action.payload };
+			const signOut = async () => {
+				await logOut();
+				removeLocal("user");
+				removeLocal("refreshToken");
+				return { ...state, username: action.payload };
+			};
+			signOut();
 		case "SAVE_LOCAL":
 			return { ...state, username: action.payload };
 

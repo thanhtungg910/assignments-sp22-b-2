@@ -37,6 +37,19 @@ const setActiveAccount = (idUser: String, data: { isActive: boolean }) => {
 		},
 	});
 };
+const logOut = () => {
+	try {
+		const { accessToken, _id } = getLocal("user");
+		const url = `/users/logout/${_id}`;
+		return instance.delete(url, {
+			headers: {
+				authorization: `Bearer ${accessToken}`,
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
 const userList = () => {
 	const { accessToken, _id } = getLocal("user");
 	const url = `/users/${_id}`;
@@ -55,4 +68,5 @@ export {
 	createWishList,
 	setActiveAccount,
 	userList,
+	logOut,
 };

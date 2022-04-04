@@ -42,13 +42,13 @@ const authControll = {
 				return res.status(400).json({ message: "Incorrect password!" });
 			}
 			const { accessToken, refreshToken } = generateToken({ email: user.email });
-			/* const options = {
-				maxAge: 24 * 60 * 60 * 100,
+			const options = {
+				maxAge: 24 * 60 * 60, // Expires after 1 day
 				secure: true,
 				httpOnly: true,
 				sameSite: 'none'
 			}
-			res.cookie('refreshToken', refreshToken, options); */
+			res.cookie('accessToken', refreshToken, options);
 			await updateRefeshToken(user._id, user.email, refreshToken);
 			res.status(200).json({ accessToken, refreshToken, user });
 		} catch (error) {
@@ -72,5 +72,14 @@ const authControll = {
 			res.sendStatus(400).json({ message: error })
 		}
 	},
+	async logOut(req, res) {
+		try {
+			res.clearCookie("accessToken");
+			res.status(200).json({ message: "Log out success" })
+
+		} catch (error) {
+			res.status(400).json({ message: error })
+		}
+	}
 };
 export default authControll;

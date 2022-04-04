@@ -20,7 +20,9 @@ const LabelStyled = styled.label`
 type IAccor = {
 	query?: String;
 	handleChecked?: (event: React.ChangeEvent<HTMLInputElement>) => void | any;
-	handleCheckedSize?: (event: React.ChangeEvent<HTMLInputElement>) => void | any;
+	handleCheckedSize?: (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => void | any;
 	debounceFn: (inputValue: any) => void;
 	price: number[];
 	setPrice: React.Dispatch<React.SetStateAction<number[]>>;
@@ -55,7 +57,10 @@ const AccordionProduct: React.FC<IAccor> = ({
 	return (
 		<div>
 			<Accordion expanded={expanded}>
-				<AccordionSummary onClick={() => setExpanded(!expanded)} expandIcon={<ExpandMoreIcon />}>
+				<AccordionSummary
+					onClick={() => setExpanded(!expanded)}
+					expandIcon={<ExpandMoreIcon />}
+				>
 					<Typography>Search</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
@@ -66,22 +71,22 @@ const AccordionProduct: React.FC<IAccor> = ({
 							// value={query}
 							sx={{ marginBottom: 2 }}
 						></TextField>
-						<Typography gutterBottom>
+						{/* <Typography gutterBottom>
 							Price: {price[0]}$ -- {price[1]}$
-						</Typography>
+						</Typography> */}
 
-						<Slider
+						{/* <Slider
 							getAriaLabel={() => "Temperature range"}
 							value={price}
 							onChange={handleChange}
 							valueLabelDisplay="auto"
 							color="primary"
-						/>
+						/> */}
 					</FormControl>
 				</AccordionDetails>
 			</Accordion>
 
-			<Accordion>
+			<Accordion expanded={expanded}>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography>Color</Typography>
 				</AccordionSummary>
@@ -110,7 +115,7 @@ const AccordionProduct: React.FC<IAccor> = ({
 				</AccordionDetails>
 			</Accordion>
 
-			<Accordion>
+			<Accordion expanded={expanded}>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography>Size</Typography>
 				</AccordionSummary>
