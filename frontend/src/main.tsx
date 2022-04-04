@@ -3,12 +3,12 @@ import { BrowserRouter } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import { compose, createStore } from "redux";
-import "babel-polyfill";
+// import "babel-polyfill";
 
 import App from "./App";
 import rootReducer from "./reducers/rootReducer";
 import "./index.css";
-import { loadState, saveLocal } from "./utils/localstorage";
+import { saveLocal } from "./utils/localstorage";
 import { throttle } from "lodash";
 declare global {
 	interface Window {

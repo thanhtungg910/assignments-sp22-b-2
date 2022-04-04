@@ -11,9 +11,17 @@ import Product from "../../components/product/Product";
 import AccordionProduct from "../../components/product/Accordion ";
 import Flexs from "../../components/layouts/Flexs";
 import Grids from "../../components/layouts/Grids";
-import { getProducts, searchOptions, searchProductByPrice } from "../../api/products";
+import {
+	getProducts,
+	searchOptions,
+	searchProductByPrice,
+} from "../../api/products";
 import IProducts from "../../interfaces/products";
-import { getCategories, getProductsByCategory, searchProductsBySlug } from "../../api/categories";
+import {
+	getCategories,
+	getProductsByCategory,
+	searchProductsBySlug,
+} from "../../api/categories";
 import { Box } from "@mui/system";
 import useQuery from "../../hooks/useQuery";
 import { Link } from "react-router-dom";
@@ -24,8 +32,10 @@ const ProductsPage: React.FC = () => {
 	const [categories, setCategories] = useState<[]>([]);
 	const [total, setTotal] = useState<Number | number>(0);
 	const [search, textSearch] = useState(null);
-	const [price, setPrice] = React.useState<number[]>([0, 9000000]);
-	const [options, setOptions] = useState<{ color: String[]; size: String[] } | any>({
+	const [price, setPrice] = useState<number[]>([0, 9000000]);
+	const [options, setOptions] = useState<
+		{ color: String[]; size: String[] } | any
+	>({
 		color: [],
 		size: [],
 	});
@@ -167,7 +177,9 @@ const ProductsPage: React.FC = () => {
 					</div>
 				)}
 				<Box className="w-full">
-					{total == 0 && <Alert severity="warning">No products you are looking for!</Alert>}
+					{total == 0 && (
+						<Alert severity="warning">No products you are looking for!</Alert>
+					)}
 					<Grids className="col-span-2 ">
 						{data &&
 							data.length > 0 &&
@@ -200,7 +212,10 @@ const ProductsPage: React.FC = () => {
 								page={+page}
 								renderItem={(item) => (
 									<PaginationItem
-										components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+										components={{
+											previous: ArrowBackIcon,
+											next: ArrowForwardIcon,
+										}}
 										component={Link}
 										to={`${item.page === 1 ? "" : `?page=${item.page}`}`}
 										{...item}

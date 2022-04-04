@@ -75,7 +75,7 @@ const authControll = {
 	async logOut(req, res) {
 		try {
 			res.clearCookie("accessToken");
-			res.status(200).json({ message: "Log out success" })
+			res.status(200).json({ message: "Successfully logged out" })
 
 		} catch (error) {
 			res.status(400).json({ message: error })

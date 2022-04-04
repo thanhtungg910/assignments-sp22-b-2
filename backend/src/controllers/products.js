@@ -20,7 +20,7 @@ async function handleOptions(req, res, options) {
 	const { color, size } = options;
 	try {
 		const fil = {
-			$and: [
+			$or: [
 				{
 					options: {
 						$elemMatch: {

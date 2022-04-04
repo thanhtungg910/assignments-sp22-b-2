@@ -53,9 +53,6 @@ const AddProductPage: React.FC = () => {
 		handleChangeSize,
 		handleChangeCategory,
 		handleChangeSale,
-		/* textedit,
-		setEditorState,
-		editorState, */
 	] = useHandleChange({ color: state.color, size: state.size }, dispatch);
 
 	const {

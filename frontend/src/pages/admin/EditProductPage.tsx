@@ -2,16 +2,7 @@ import React, { useEffect, useReducer, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import {
-	Button,
-	Grid,
-	MenuItem,
-	Paper,
-	TextField,
-	Typography,
-	SelectChangeEvent,
-} from "@mui/material";
-
+import { Button, Grid, MenuItem, Paper, Typography } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import InputField from "../../components/common/InputField";
 import FormSelectOption from "../../components/common/FormSelectOption";
@@ -54,8 +45,12 @@ const EditProductPage: React.FC = () => {
 	const [state, dispatch] = useReducer(handleReducer, initial);
 	const [objectId, setOjectId] = useState("");
 	const navigate = useNavigate();
-	const [handleChangeColor, handleChangeSize, handleChangeCategory, handleChangeSale] =
-		useHandleChange({ color: state.color, size: state.size }, dispatch);
+	const [
+		handleChangeColor,
+		handleChangeSize,
+		handleChangeCategory,
+		handleChangeSale,
+	] = useHandleChange({ color: state.color, size: state.size }, dispatch);
 
 	const { slug } = useParams();
 	const {
@@ -192,7 +187,11 @@ const EditProductPage: React.FC = () => {
 	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<Alerts loading={state.loading} open={state.toggle} setToggle={() => {}} />
+			<Alerts
+				loading={state.loading}
+				open={state.toggle}
+				setToggle={() => {}}
+			/>
 			<Grid container spacing={3}>
 				<Grid item xs={12} md={8} lg={9}>
 					<Paper
@@ -208,7 +207,11 @@ const EditProductPage: React.FC = () => {
 								minHeight: 240,
 							}}
 						>
-							<Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+							<Grid
+								container
+								rowSpacing={3}
+								columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+							>
 								<Grid item xs={6}>
 									{/* Title start */}
 									<InputField
@@ -264,7 +267,10 @@ const EditProductPage: React.FC = () => {
 													key={index}
 													defaultValue={state.sale}
 													value={`${index * 10}`}
-													sx={{ display: "flex", justifyContent: "space-between" }}
+													sx={{
+														display: "flex",
+														justifyContent: "space-between",
+													}}
 												>
 													{`${index * 10}%`}
 												</MenuItem>
@@ -354,7 +360,12 @@ const EditProductPage: React.FC = () => {
 				<Grid item xs={12}>
 					<Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
 						{/* <TextField multiline fullWidth rows={4}></TextField> */}
-						<textarea cols={30} rows={10} {...register("description")} className="p-3"></textarea>
+						<textarea
+							cols={30}
+							rows={10}
+							{...register("description")}
+							className="p-3"
+						></textarea>
 					</Paper>
 				</Grid>
 			</Grid>
