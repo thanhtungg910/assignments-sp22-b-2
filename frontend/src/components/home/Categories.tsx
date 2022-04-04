@@ -2,20 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { CategoryStyled } from "./CategoriesStyled";
 
-type Props = {};
+type Props = { img?: string; slug: String; title: string };
 
-const Categories: React.FC = (props: Props) => {
+const Categories: React.FC<Props> = ({ img, slug, title }: Props) => {
 	return (
 		<CategoryStyled>
-			<Link to="/">
-				<img
-					src="https://www.converse.com/on/demandware.static/-/Library-Sites-SharedLibrary/default/dwb6ddc1ce/firstspirit/media/homepage_1/2022_spring/03_03/D-CONVERSE-NA-03-03-22-SHOP-BY-STYLE-1.jpg"
-					alt=""
-				/>
+			<Link to={`/products/${slug}`}>
+				<img srcSet={img} alt={title} className="w-full h-full object-cover" />
+				<div className="category--overlay">
+					<h2 className="m-2">{title}</h2>
+				</div>
 			</Link>
-			<div className="category--overlay">
-				<h2 className="m-2">Tieu de</h2>
-			</div>
 		</CategoryStyled>
 	);
 };

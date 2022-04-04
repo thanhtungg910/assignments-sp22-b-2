@@ -54,7 +54,14 @@ const App: React.FC = () => {
 						<Route index element={<ProductsPage />}></Route>
 						<Route path=":slugs" element={<DetailPage />}></Route>
 					</Route>
-					<Route path="intro" element={<h1>intro</h1>}></Route>
+					<Route
+						path="intro"
+						element={
+							<div className="min-h-screen">
+								<h1>intro</h1>
+							</div>
+						}
+					></Route>
 					<Route path="wish-list" element={<WishListPage />}></Route>
 
 					<Route path="shop-cart">
@@ -70,7 +77,14 @@ const App: React.FC = () => {
 							}
 						></Route>
 					</Route>
-					<Route path="contact" element={<h1>contact</h1>}></Route>
+					<Route
+						path="contact"
+						element={
+							<div className="min-h-screen">
+								<h1>contact</h1>
+							</div>
+						}
+					></Route>
 				</Route>
 				<Route path="/admin" element={<DashboardLayout />}>
 					<Route index element={<Dashboard />}></Route>

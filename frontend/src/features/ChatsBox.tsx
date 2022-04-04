@@ -20,7 +20,8 @@ const ChatsBox = (props: Props) => {
 			<Fab
 				color="secondary"
 				sx={{
-					position: "absolute",
+					position: "fixed",
+					zIndex: 999,
 					bottom: (theme) => theme.spacing(2),
 					right: (theme) => theme.spacing(2),
 				}}
