@@ -10,6 +10,9 @@ import categories from "./routes/categories";
 import auth from "./routes/auth";
 import colors from "./routes/colors";
 import carts from "./routes/cart";
+import messages from "./routes/messages";
+import conversation from "./routes/conversation";
+
 dotenv.config();
 import refreshToken from "./routes/refreshToken";
 const app = express();
@@ -26,6 +29,9 @@ app.use("/api/categories", categories);
 app.use("/api/users", auth);
 app.use("/api/carts", carts);
 app.use("/api/colors", colors);
+//CHAT
+app.use("/chats/messages", messages)
+app.use("/chats/conversation", conversation)
 
 app.get("/", (req, res) => {
 	res.send("<h1>HOME PAGE</h1>");
