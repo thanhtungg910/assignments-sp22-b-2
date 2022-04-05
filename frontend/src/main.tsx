@@ -3,13 +3,11 @@ import { BrowserRouter } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import { compose, createStore } from "redux";
-// import "babel-polyfill";
-
+import { throttle } from "lodash";
 import App from "./App";
 import rootReducer from "./reducers/rootReducer";
 import "./index.css";
 import { saveLocal } from "./utils/localstorage";
-import { throttle } from "lodash";
 declare global {
 	interface Window {
 		__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;

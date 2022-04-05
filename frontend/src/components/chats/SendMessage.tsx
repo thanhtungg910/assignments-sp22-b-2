@@ -2,7 +2,7 @@ import { Button, TextField } from "@mui/material";
 import React from "react";
 
 type Props = {
-	handleSendMessage: () => void;
+	handleSendMessage: (e: React.FormEvent) => void;
 	meg: String;
 	setMsg: React.Dispatch<React.SetStateAction<String>>;
 };

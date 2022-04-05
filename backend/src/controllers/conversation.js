@@ -5,7 +5,7 @@ const conversationControll = {
 	async createConversation(req, res) {
 		try {
 			const conversation = await new ConversationModel({
-				members: [req.body.email, req.body.admin], // [user, admin]
+				members: [req.body.email, '623f1605c18ea3864dd8df49'], // [user, admin]
 			}).save();
 			const messSender = await new MessModel({ conversationId: conversation._id, sender: conversation.members[0] }).save()
 			return res.status(200).json({ conversation, messSender })

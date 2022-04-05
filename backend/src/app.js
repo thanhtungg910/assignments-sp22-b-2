@@ -4,11 +4,6 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 // import http from "http";
 import { Server } from "socket.io";
-// const io = require('socket.io')(3001, {
-// 	cors: {
-// 		origin: ['http://localhost:5001']
-// 	}
-// })
 /* import { readdirSync } from "fs";
 console.log("🚀 ~ file: app.js ~ line 6 ~ readdirSync", readdirSync("./src/routes")); */
 import db from "./config/connect";
@@ -21,6 +16,7 @@ import messages from "./routes/messages";
 import conversation from "./routes/conversation";
 dotenv.config();
 import refreshToken from "./routes/refreshToken";
+import { addUser, getUser } from "./controllers/usersChat";
 const app = express();
 // const server = http.createServer(app);
 const io = new Server(3001, {
@@ -35,13 +31,21 @@ app.use(express.json());
 // app.use(express.cookieParser())
 app.use(cors());
 //
-io.on("connection", (socket) => {//`%c${body}`
-	console.log(`%c${'--->Socket connected<---'}`, `color: green; font-weight: bold; font-size: 2rem;`);
-	socket.on("on-data", (...args) => {
-		console.log("🚀 ~ file: app.js ~ line 48 ~ io.on ~ data", { ...args });
-		io.emit("response", { message: { ...args } })
+io.on("connection", (socket) => {
+	console.log("--->Socket connected<---");
+	socket.on('join', async (sender) => {
+		await addUser(sender, socket.id)
+		socket.broadcast.emit('message', { name: "admin", text: `Hello` });
+	})
+	socket.on("send-message", async ({ sender, receiver, msg }, callback) => {
+		const user = await getUser(receiver)
+		io.to(user.usersChat[1]).emit("message", { name: sender, text: msg })
+		callback();
 	})
 
+	socket.on("disconnect", () => {
+		console.log('disconnect');
+	})
 })
 //ROUTING
 app.use("/refreshtoken", refreshToken);
