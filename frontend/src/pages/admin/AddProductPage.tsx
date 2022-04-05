@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { Button, Grid, MenuItem, Paper, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Theme, useTheme } from "@mui/material/styles";
+import Swal from "sweetalert2";
 import InputField from "../../components/common/InputField";
 import FormSelectOption from "../../components/common/FormSelectOption";
 import UploadImages from "../../components/admin/product/UploadImages";
@@ -16,8 +17,6 @@ import { getCategories } from "../../api/categories";
 import { addProduct } from "../../actions/products";
 import useHandleChange from "../../hooks/useHandleChange";
 import initial from "../../reducers/initial";
-// import TextEditor from "../../components/common/TextEditor";
-import Swal from "sweetalert2";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

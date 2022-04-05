@@ -1,4 +1,5 @@
 import CartModel from "../models/cart";
+import ProductModel from "../models/Product";
 const cartControl = {
 	async create(req, res) {
 		try {
@@ -28,6 +29,15 @@ const cartControl = {
 			return
 		} catch (error) {
 			console.log(2);
+			return res.status(400).json({ message: error })
+		}
+	},
+	async detailOrder(req, res) {
+		try {
+			const { authorId } = req.params
+			const orders = await CartModel.find({ userId: authorId }).exec();
+			return res.status(200).json(orders)
+		} catch (error) {
 			return res.status(400).json({ message: error })
 		}
 	}

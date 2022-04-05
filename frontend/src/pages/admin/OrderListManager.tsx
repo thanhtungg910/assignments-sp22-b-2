@@ -1,10 +1,12 @@
-import { Chip } from "@mui/material";
+import { Chip, IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { orderList, updateOrder } from "../../api/carts";
 import { columnsOrder } from "../../components/layouts/Columns";
 import useDataTable from "../../hooks/useDataTable";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
@@ -26,6 +28,19 @@ const OrderListManager = (props: Props) => {
 			name: "Status",
 			selector: (row: { status: Number; _id: String }) =>
 				handleStatus(row.status, row._id),
+		},
+		{
+			id: "over-view",
+			name: "",
+			cell: (row: { userId: String; _id: String }) => (
+				<IconButton
+					sx={{ display: "flex", justifyContent: "flex-end" }}
+					component={Link}
+					to={`${row._id}/${row.userId}`}
+				>
+					<RemoveRedEyeIcon color="primary" />
+				</IconButton>
+			),
 		},
 	];
 	const handleStatus = (step: Number, id: String) => {

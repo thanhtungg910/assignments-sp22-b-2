@@ -1,42 +1,22 @@
-export {};
-/**
- * {
-		name: null,
-		address: null,
-		phone: null,
-		quantity: null,
-		buy: null,
-		userId: null,
-	}
- */
+type Iaction = {
+	type: String;
+	payload: {
+		name: String;
+		address: String;
+		phone: Number;
+		quantity: Number;
+		buy: String;
+		userId: String;
+		price: Number;
+		color: String;
+		size: String;
+	};
+};
 const initial = {
 	status: true,
-	value: [
-		// {
-		// 	name: null,
-		// 	address: null,
-		// 	phone: null,
-		// 	quantity: null,
-		// 	buy: null,
-		// 	userId: null,
-		// },
-	],
+	value: [],
 };
-const orderReducer = (
-	state = initial,
-	action: {
-		type: String;
-		payload: {
-			name: String;
-			address: String;
-			phone: Number;
-			quantity: Number;
-			buy: String;
-			userId: String;
-			price: Number;
-		};
-	}
-) => {
+const orderReducer = (state = initial, action: Iaction) => {
 	switch (action.type) {
 		case "ADD_ORDER":
 			const newOrder = { ...state, value: [...state.value] };
@@ -52,6 +32,8 @@ const orderReducer = (
 						buy: action.payload.buy,
 						userId: action.payload.userId,
 						price: action.payload.price,
+						color: action.payload.color,
+						size: action.payload.size,
 					},
 				],
 			};

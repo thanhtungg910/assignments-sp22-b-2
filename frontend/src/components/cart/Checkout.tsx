@@ -32,6 +32,8 @@ function getStepContent(
 					city: String;
 					state: String;
 					price: Number;
+					color: String;
+					size: String;
 			  }
 			| FormState<FieldValues>
 			| any;
@@ -67,7 +69,13 @@ const Checkout = () => {
 	const { value: cartList } = useSelector(
 		(state: {
 			carts: {
-				value: { quantity: Number; _id: String; price: Number | any }[];
+				value: {
+					quantity: Number;
+					_id: String;
+					price: Number | any;
+					color: String;
+					size: String;
+				}[];
 			};
 		}) => state.carts
 	);
@@ -103,6 +111,8 @@ const Checkout = () => {
 					buy: cartList[i]._id,
 					userId: _id,
 					price: cartList[i].price,
+					color: cartList[i].color,
+					size: cartList[i].size,
 				})
 			);
 		}

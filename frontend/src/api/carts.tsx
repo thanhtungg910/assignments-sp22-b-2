@@ -22,5 +22,14 @@ const updateOrder = (id: String, data: Object) => {
 		},
 	});
 };
+const overViewOrder = (userId?: String) => {
+	const { accessToken, _id } = getLocal("user");
+	const url = `/carts/order/${_id}/${userId}`;
+	return instance.get(url, {
+		headers: {
+			authorization: `Bearer ${accessToken}`,
+		},
+	});
+};
 
-export { createOrderProducts, orderList, updateOrder };
+export { createOrderProducts, orderList, updateOrder, overViewOrder };

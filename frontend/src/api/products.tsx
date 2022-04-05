@@ -10,6 +10,10 @@ const getProduct = (slug: String | undefined) => {
 	const url = `/products/${slug}`;
 	return instance.get(url);
 };
+const getProductOrder = (userId: String | undefined) => {
+	const url = `/products/id/${userId}`;
+	return instance.get(url);
+};
 
 const create = (data: IProducts) => {
 	const { accessToken, _id } = getLocal("user");
@@ -61,4 +65,5 @@ export {
 	getRelated,
 	searchProductByPrice,
 	searchOptions,
+	getProductOrder,
 };

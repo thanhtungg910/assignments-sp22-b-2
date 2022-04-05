@@ -6,10 +6,12 @@ const addOrder = (payload: {
 	buy: String;
 	userId: String;
 	price: Number;
+	color: String;
+	size: String;
 }) => {
 	return { type: "ADD_ORDER", payload: payload };
 };
 const removeOrder = (payload: Object) => {
-	return { type: "ADD_ORDER", payload: payload };
+	return { type: "REMOVE_ORDER", payload: payload };
 };
 export { addOrder, removeOrder };

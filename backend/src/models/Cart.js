@@ -40,6 +40,12 @@ const CartShema = new mongoose.Schema({
 	price: {
 		type: Number,
 		default: 0
+	},
+	color: {
+		type: String,
+	},
+	size: {
+		type: String
 	}
 }, { timestamps: true })
 export default mongoose.model("Carts", CartShema)

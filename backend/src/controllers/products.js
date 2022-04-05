@@ -112,6 +112,15 @@ const productController = {
 			res.status(400).json({ message: error });
 		}
 	},
+	// GET BY ID
+	async getById(req, res) {
+		try {
+			const product = await productModel.findOne({ _id: req.params.id }).exec();
+			res.status(200).json(product);
+		} catch (error) {
+			res.status(400).json({ message: error });
+		}
+	},
 	// CREATE
 	create(req, res) {
 		req.body.slug = slugify(req.body.title);

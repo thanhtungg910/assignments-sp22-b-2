@@ -16,6 +16,7 @@ import { getLocal } from "./utils/localstorage";
 import WishListPage from "./pages/products/WishListPage";
 import CustomersPage from "./pages/admin/CustomersPage";
 import OrderListManager from "./pages/admin/OrderListManager";
+import OverViewOrderPage from "./pages/admin/OverViewOrderPage";
 const App: React.FC = () => {
 	const { pathname } = useLocation();
 	useEffect(() => {
@@ -94,7 +95,12 @@ const App: React.FC = () => {
 						<Route path="add" element={<AddProductPage />} />
 						<Route path="edit/:slug" element={<EditProductPage />} />
 					</Route>
-					<Route path="orders" element={<OrderListManager />}></Route>
+					<Route path="orders">
+						<Route index element={<OrderListManager />}></Route>
+						<Route path=":id">
+							<Route path=":author" element={<OverViewOrderPage />}></Route>
+						</Route>
+					</Route>
 					<Route path="customers" element={<CustomersPage />}></Route>
 				</Route>
 			</Routes>
