@@ -8,8 +8,8 @@
 	],
 	"routes": [
 		 {
-			  "src": "./frontend/dist",
-			  "dest": "@vercel/static"
+			  "src": "/(.*)",
+			  "dest": "/"
 		 }
 	]
 }
