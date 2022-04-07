@@ -17,6 +17,7 @@ import WishListPage from "./pages/products/WishListPage";
 import CustomersPage from "./pages/admin/CustomersPage";
 import OrderListManager from "./pages/admin/OrderListManager";
 import OverViewOrderPage from "./pages/admin/OverViewOrderPage";
+import MyCart from "./pages/cart/MyCart";
 const App: React.FC = () => {
 	const { pathname } = useLocation();
 	useEffect(() => {
@@ -64,6 +65,7 @@ const App: React.FC = () => {
 						}
 					></Route>
 					<Route path="wish-list" element={<WishListPage />}></Route>
+					<Route path="my-cart" element={<MyCart />}></Route>
 
 					<Route path="shop-cart">
 						<Route index element={<ShopCart />}></Route>

@@ -31,7 +31,6 @@ const OverViewOrderPage = () => {
 					return { ...item, product: product };
 				});
 				const orderList: any[] = await Promise.all(newOrder);
-				console.log("🚀 => fetchOrder => orderList", orderList);
 				setData(orderList);
 			} catch (error) {
 				Notify(error);

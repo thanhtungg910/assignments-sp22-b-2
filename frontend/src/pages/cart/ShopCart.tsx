@@ -8,7 +8,9 @@ import { getLocal } from "../../utils/localstorage";
 type Props = {};
 
 const ShopCart = (props: Props) => {
-	const { value } = useSelector((state: { carts: { value: [] } }) => state.carts);
+	const { value } = useSelector(
+		(state: { carts: { value: [] } }) => state.carts
+	);
 	const dispatch = useDispatch();
 	const handleIncrease = (id: String) => {
 		dispatch(increase(id));
@@ -19,7 +21,6 @@ const ShopCart = (props: Props) => {
 	const handleChangeQty = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		dispatch(setQty({ quantity: +e.target.value, id: e.target.dataset.id }));
 	};
-	// const products = getLocal("cart");
 	return (
 		<div className="py-12">
 			{value && value.length > 0 ? (

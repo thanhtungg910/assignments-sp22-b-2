@@ -60,13 +60,6 @@ const columnsOrder: any = [
 		sortField: "createat",
 		selector: (row: { createdAt: Date }) => format(row.createdAt),
 	},
-	// {
-	// 	id: "updatedat",
-	// 	name: "Updated at",
-	// 	sortable: true,
-	// 	sortField: "updatedat",
-	// 	selector: (row: { updatedAt: String }) => row.updatedAt,
-	// },
 ];
 const columnsProduct: TableColumn<object>[] | any = [
 	{
@@ -179,4 +172,52 @@ const columnsCustomer: any = [
 		selector: (row: { updatedAt: Date }) => format(row.updatedAt),
 	},
 ];
-export { columnsOrder, columnsProduct, columnsCustomer, columnsCategory };
+const ColumnsOrderClient: any[] = [
+	{
+		id: "title",
+		name: "Products",
+		sortable: true,
+		sortField: "title",
+		selector: (row: { product: { title: String } }) => row.product.title,
+	},
+	{
+		id: "color",
+		name: "Color",
+		sortable: true,
+		sortField: "color",
+		selector: (row: { color: String }) => row.color,
+	},
+	{
+		id: "size",
+		name: "Size",
+		sortable: true,
+		sortField: "size",
+		selector: (row: { size: String }) => row.size,
+	},
+	{
+		id: "createat",
+		name: "Create at",
+		sortable: true,
+		sortField: "createat",
+		selector: (row: { createdAt: Date }) => format(row.createdAt),
+	},
+	{
+		id: "price",
+		name: "Price",
+		sortable: true,
+		sortField: "price",
+		selector: (row: { price: Number; quantity: Number }) => (
+			<h1>
+				{row.price}
+				<sup> X {row.quantity}</sup>
+			</h1>
+		),
+	},
+];
+export {
+	columnsOrder,
+	columnsProduct,
+	columnsCustomer,
+	columnsCategory,
+	ColumnsOrderClient,
+};

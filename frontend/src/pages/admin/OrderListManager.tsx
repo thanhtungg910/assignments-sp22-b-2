@@ -66,11 +66,20 @@ const OrderListManager = (props: Props) => {
 				return (
 					<>
 						<Chip color="warning" label="Pending" variant="outlined" />
-						<Chip color="success" label="OK" onClick={() => handleOk(id)} />
+						<Chip
+							color="success"
+							label="OK"
+							onClick={() => handleShiping(id)}
+						/>
 					</>
 				);
 			case 2:
-				return <Chip color="warning" label="Shipping" variant="outlined" />;
+				return (
+					<>
+						<Chip color="warning" label="Shipping" variant="outlined" />;
+						<Chip color="success" label="OK" onClick={() => handleOk(id)} />
+					</>
+				);
 			case 3:
 				return <Chip color="success" label="Done" variant="outlined" />;
 			default:
@@ -90,6 +99,12 @@ const OrderListManager = (props: Props) => {
 		setEdit(!edit);
 	};
 	const handleCancel = async (id: String) => {
+		await updateOrder(id, {
+			status: 5,
+		});
+		setEdit(!edit);
+	};
+	const handleShiping = async (id: String) => {
 		await updateOrder(id, {
 			status: 5,
 		});

@@ -113,13 +113,17 @@ const Header: React.FC = () => {
 									"aria-labelledby": "basic-button",
 								}}
 							>
-								{exist.role == 1 && (
-									<Link to="/admin">
-										<MenuItem>Dashboard</MenuItem>
-									</Link>
-								)}
+								{exist.role == 1 ||
+									(exist.email == "admin@gmail.com" && (
+										<Link to="/admin">
+											<MenuItem>Dashboard</MenuItem>
+										</Link>
+									))}
 								<MenuItem /* onClick={handleClose} */>Profile</MenuItem>
 								<MenuItem /* onClick={handleClose} */>My account</MenuItem>
+								<MenuItem component={Link} to="my-cart" onClick={handleClose}>
+									My Cart
+								</MenuItem>
 								<MenuItem onClick={handleLogout}>Logout</MenuItem>
 							</Menu>
 							<IconButton
