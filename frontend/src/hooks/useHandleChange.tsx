@@ -24,14 +24,14 @@ const useHandleChange = (state: any, dispatch: React.Dispatch<any>) => {
 		});
 	};
 
-	const handleChangeCategory = (event: any) => {
+	const handleChangeCategory = (event: SelectChangeEvent) => {
 		dispatch({
 			type: "CHANGE",
 			brand: "category",
 			payload: event.target.value,
 		});
 	};
-	const handleChangeSale = (event: any) => {
+	const handleChangeSale = (event: SelectChangeEvent) => {
 		dispatch({
 			type: "CHANGE",
 			brand: "sale",

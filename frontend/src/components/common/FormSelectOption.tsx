@@ -1,6 +1,18 @@
 import React from "react";
-import { FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
-import { Controller, FieldError } from "react-hook-form";
+import {
+	Chip,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+	Typography,
+} from "@mui/material";
+import {
+	Controller,
+	ControllerRenderProps,
+	FieldError,
+	FieldValues,
+} from "react-hook-form";
 
 type Props = {
 	title: string;
@@ -27,24 +39,26 @@ const FormSelectOption: React.FC<Props> = ({
 				name={title}
 				rules={{ required: true }}
 				control={controls}
-				render={({ field }) => {
+				render={({
+					field,
+				}: {
+					field: ControllerRenderProps<FieldValues, string>;
+				}) => {
 					return (
 						<FormControl variant="standard" fullWidth>
 							<InputLabel>{label}</InputLabel>
 							<Select
-								value={state}
-								onChange={handleChangeState}
-								fullWidth
-								label={label}
 								variant="standard"
 								{...field}
+								value={field.value}
+								onChange={(e) => {
+									field.onChange(e);
+									handleChangeState(e);
+								}}
 							>
 								<MenuItem value="">
 									<em>None</em>
 								</MenuItem>
-								{/* <{MenuItem value={"Ten"}>Ten</MenuItem>
-								<MenuItem value={"Twenty"}>Twenty</MenuItem>
-								<MenuItem value={"Thirty"}>Thirty</MenuItem>} */}
 								{children}
 							</Select>
 						</FormControl>

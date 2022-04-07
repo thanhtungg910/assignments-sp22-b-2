@@ -4,11 +4,12 @@ import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { overViewOrder } from "../../api/carts";
 import { getProductOrder } from "../../api/products";
+import OrderTable from "../../components/admin/cart/OrderTable";
 import Notify from "../../components/common/Notify";
 
 const OverViewOrderPage = () => {
 	const { id, author } = useParams(); // { doc; user }
-	const [data, setData] = useState([]);
+	const [data, setData] = useState<any[]>([]);
 	const [infor, setInfor] = useState({
 		name: "",
 		address: "",
@@ -29,8 +30,9 @@ const OverViewOrderPage = () => {
 					const { data: product } = await getProductOrder(item.buy);
 					return { ...item, product: product };
 				});
-				const orderList = await Promise.all(newOrder);
-				setData(data);
+				const orderList: any[] = await Promise.all(newOrder);
+				console.log("🚀 => fetchOrder => orderList", orderList);
+				setData(orderList);
 			} catch (error) {
 				Notify(error);
 			}
@@ -66,7 +68,7 @@ const OverViewOrderPage = () => {
 					>
 						<Grid
 							item
-							xs={5}
+							xs={3}
 							sx={{
 								display: "flex",
 								flexDirection: "column",
@@ -82,7 +84,9 @@ const OverViewOrderPage = () => {
 									color="primary"
 									className="underline"
 								>
-									{infor.address}
+									Customer: {infor.name}
+									<br />
+									Address: {infor.address}
 								</Typography>
 							</Box>
 							<Box>
@@ -110,33 +114,18 @@ const OverViewOrderPage = () => {
 								</Typography>
 							</Box>
 						</Grid>
-						<Grid item xs={7}>
-							<table className="table-auto border-2">
-								<thead>
-									<tr>
-										<th>Song</th>
-										<th>Artist</th>
-										<th>Year</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-										<td>Malcolm Lockyer</td>
-										<td>1961</td>
-									</tr>
-									<tr>
-										<td>Witchy Woman</td>
-										<td>The Eagles</td>
-										<td>1972</td>
-									</tr>
-									<tr>
-										<td>Shining Star</td>
-										<td>Earth, Wind, and Fire</td>
-										<td>1975</td>
-									</tr>
-								</tbody>
-							</table>
+						<Grid item xs={9}>
+							<OrderTable data={data} />
+							<Typography variant="h6" className="mt-4">
+								Subtotal:{" "}
+								{data
+									.reduce(
+										(current, { quantity, price }) =>
+											current + price * quantity,
+										0
+									)
+									.toLocaleString()}
+							</Typography>
 						</Grid>
 					</Grid>
 				</Paper>
