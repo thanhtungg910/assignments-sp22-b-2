@@ -8,7 +8,7 @@
 	],
 	"routes": [
 		 {
-			  "src": "./frontend/build",
+			  "src": "./frontend/dist",
 			  "dest": "@vercel/static"
 		 }
 	]
