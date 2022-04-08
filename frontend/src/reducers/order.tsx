@@ -17,52 +17,15 @@ const initialState = {
 		size: String;
 	}[];
 };
-/* const orderReducer = (state = initial, action: Iaction) => {
-	switch (action.type) {
-		case "ADD_ORDER":
-			const newOrder = { ...state, value: [...state.value] };
-			return {
-				...newOrder,
-				value: [
-					...newOrder.value,
-					{
-						name: action.payload.name,
-						address: action.payload.address,
-						phone: action.payload.phone,
-						quantity: action.payload.quantity,
-						buy: action.payload.buy,
-						userId: action.payload.userId,
-						price: action.payload.price,
-						color: action.payload.color,
-						size: action.payload.size,
-					},
-				],
-			};
-
-		default:
-			return state;
-	}
-}; */
 const orderSlice = createSlice({
 	name: "orders",
 	initialState,
 	reducers: {
 		addOrder(state, action) {
-			console.log("🚀 => addOrder => action", action);
-			const newOrder = {
-				name: action.payload.name,
-				address: action.payload.address,
-				phone: action.payload.phone,
-				quantity: action.payload.quantity,
-				buy: action.payload.buy,
-				userId: action.payload.userId,
-				price: action.payload.price,
-				color: action.payload.color,
-				size: action.payload.size,
-			};
-			state.value.push(newOrder);
+			state.value.push(...action.payload);
 		},
+		resetOrder: () => initialState,
 	},
 });
-export const { addOrder } = orderSlice.actions;
+export const { addOrder, resetOrder } = orderSlice.actions;
 export default orderSlice.reducer;

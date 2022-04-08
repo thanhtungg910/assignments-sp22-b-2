@@ -9,12 +9,12 @@ import {
 import { Button, Step, StepLabel, Stepper, Typography } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
 import { createOrderProducts } from "../../api/carts";
-import { getLocal } from "../../utils/localstorage";
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { addOrder } from "../../reducers/order";
+import { addOrder, resetOrder } from "../../reducers/order";
+import { resetCart } from "../../reducers/cart";
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
@@ -61,13 +61,11 @@ function getStepContent(
 
 const Checkout = () => {
 	const [state, setState] = useState<number>(0);
-	console.log("🚀 => Checkout => state", state);
-	const navigate = useNavigate();
 	const orderList = useAppSelector((state) => [...state.orders.value]);
 	const cartList = useAppSelector((state) => [...state.carts.value]);
-	const userId = useAppSelector((state) => state.users);
-	console.log("🚀 => Checkout => userId", userId);
+	const { _id } = useAppSelector((state) => state.users);
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const {
 		register,
@@ -82,40 +80,32 @@ const Checkout = () => {
 	const handleBack = () => {
 		setState(state - 1);
 	};
-
-	const handleReset = () => {
-		setState(0);
-	};
-	const onSubmit = handleSubmit((data) => {
-		// const { _id } = getLocal("user");
+	const onSubmit = handleSubmit(async (data) => {
 		if (!_id) return;
-		for (let i = 0; i < cartList.length; i++) {
-			dispatch(
-				addOrder({
-					name: data.name,
-					address: data.address,
-					phone: +data.phone,
-					quantity: +cartList[i].quantity,
-					buy: cartList[i]._id,
-					userId: _id,
-					price: cartList[i].price,
-					color: cartList[i].color,
-					size: cartList[i].size,
-				})
-			);
-		}
+		const newOrder = cartList.map((item) => ({
+			name: data.name,
+			address: data.address,
+			phone: +data.phone,
+			quantity: +item.quantity,
+			buy: item._id,
+			userId: _id,
+			price: item.price,
+			color: item.color,
+			size: item.size,
+		}));
+		const order = await Promise.all(newOrder);
+		dispatch(addOrder(order));
 		handleNext();
 	});
 	const handleOrder = () => {
 		orderList.forEach((item) => {
-			createOrderProducts(item).catch(
-				(err) =>
-					Swal.fire({
-						title: "Opp...!",
-						icon: "error",
-					})
-				//.then(() => navigate("/products"))
-				// .catch(() => navigate("/products"))
+			createOrderProducts(item).catch((err) =>
+				Swal.fire({
+					title: "Opp...!",
+					icon: "error",
+				})
+					.then(() => navigate("/products"))
+					.catch(() => navigate("/products"))
 			);
 		});
 		Swal.fire({
@@ -123,8 +113,9 @@ const Checkout = () => {
 			icon: "success",
 			confirmButtonText: "Ok!",
 		}).then(() => {
-			// navigate("/products");
-			// dispatch(resetCart());
+			navigate("/products");
+			dispatch(resetCart());
+			dispatch(resetOrder());
 		});
 	};
 

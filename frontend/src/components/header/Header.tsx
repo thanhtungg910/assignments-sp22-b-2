@@ -10,45 +10,42 @@ import Navigation from "../navigation/Navigation";
 import logo from "../../logo.svg";
 import DialogForm from "../../features/DialogForm";
 import { getLocal } from "../../utils/localstorage";
-import { logout } from "../../actions/users";
-import { signOut } from "firebase/auth";
-import auth from "../../firebase/config";
+// import { signOut } from "firebase/auth";
 import DrawerCart from "../common/DrawerCart";
 import { createWishList } from "../../api/users";
 import ChatsBox from "../../features/ChatsBox";
 import { useAppSelector, useAppDispatch } from "../../app/hook";
 import { changeCurrent } from "../../reducers/cart";
+import { signOut } from "../../reducers/user";
 
 const Header = () => {
 	const [messageErr, setMessageErr] = React.useState<any>({
 		message: null,
 		type: null,
 	});
-	// const { username } = useAppSelector((state) => ({ ...state.users }));
-	const { username } = useAppSelector(
-		(state: { users: { username: String | null } }) => state.users
-	);
+	const user = useAppSelector((state) => state.users);
+
 	const { current } = useAppSelector((state: any) => ({ ...state.carts }));
 
-	const wishListSele: String[] = useAppSelector(
-		(state: { wishList: String[] }) => state.wishList
-	);
+	// const wishListSele: String[] = useAppSelector(
+	// 	(state: { wishList: String[] }) => state.wishList
+	// );
 	const dispatch = useAppDispatch();
 	const [openAccount, setOpenAccount] = useState<boolean>(false);
-	const [exist, saveExist] = useState(() => getLocal("user") ?? false);
+	// const [exist, saveExist] = useState(() => getLocal("user") ?? false);
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
-	useEffect(() => {
-		if (exist) {
-			if (wishListSele.length > 0 && wishListSele) {
-				createWishList({
-					wishlist: wishListSele,
-				});
-			}
-		}
-		saveExist(exist || username);
-		return () => saveExist(false);
-	}, [username, exist, wishListSele]);
+	// useEffect(() => {
+	// 	if (exist) {
+	// 		if (wishListSele.length > 0 && wishListSele) {
+	// 			createWishList({
+	// 				wishlist: wishListSele,
+	// 			});
+	// 		}
+	// 	}
+	// 	saveExist(exist || username);
+	// 	return () => saveExist(false);
+	// }, [username, exist, wishListSele]);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -56,9 +53,7 @@ const Header = () => {
 		setAnchorEl(null);
 	};
 	const handleLogout = () => {
-		signOut(auth);
-		saveExist(false);
-		dispatch(logout(null));
+		dispatch(signOut());
 		setMessageErr({
 			message: null,
 			type: null,
@@ -90,14 +85,14 @@ const Header = () => {
 				</picture>
 				<Navigation></Navigation>
 				<div className="flex gap-5 justify-center items-center">
-					{exist ? (
+					{user.username ? (
 						<>
-							<Typography>Hi! {username || exist.username}</Typography>
+							<Typography>Hi! {user.username}</Typography>
 							<IconButton
 								color="inherit"
-								aria-controls={exist ? "basic-menu" : undefined}
+								aria-controls={user.username ? "basic-menu" : undefined}
 								aria-haspopup="true"
-								aria-expanded={exist ? "true" : undefined}
+								aria-expanded={user.username ? "true" : undefined}
 								onClick={handleClick}
 								sx={{
 									padding: 0,
@@ -114,12 +109,11 @@ const Header = () => {
 									"aria-labelledby": "basic-button",
 								}}
 							>
-								{exist.role == 1 ||
-									(exist.email == "admin@gmail.com" && (
-										<Link to="/admin">
-											<MenuItem>Dashboard</MenuItem>
-										</Link>
-									))}
+								{user.role == 1 && (
+									<Link to="/admin">
+										<MenuItem>Dashboard</MenuItem>
+									</Link>
+								)}
 								<MenuItem /* onClick={handleClose} */>Profile</MenuItem>
 								<MenuItem /* onClick={handleClose} */>My account</MenuItem>
 								<MenuItem component={Link} to="my-cart" onClick={handleClose}>

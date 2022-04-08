@@ -25,7 +25,7 @@ export default function SignUp({ setValue, messageErr, setMessageErr }: any) {
 			if (res.payload.type == "auth/signup/rejected") {
 				return setMessageErr({
 					type: "error",
-					message: res.payload.message,
+					message: res.payload,
 				});
 			}
 			setMessageErr({
@@ -40,11 +40,8 @@ export default function SignUp({ setValue, messageErr, setMessageErr }: any) {
 				});
 				reset();
 			}, 1000);
-		} catch (err: any) {
-			setMessageErr({
-				type: "error",
-				message: err.response.data.message,
-			});
+		} catch (err) {
+			console.log("🚀 => constonSubmit:SubmitHandler<IFormInput>= => err", err);
 		}
 	};
 

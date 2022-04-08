@@ -1,4 +1,4 @@
-interface user {
+interface Iuser {
 	accessToken: String | null;
 	email: String | null;
 	isActive: Boolean;
@@ -7,6 +7,5 @@ interface user {
 	_id: String | null;
 	wishlist: [];
 	isLogger: Boolean;
-	message: null | String;
 }
-export default user;
+export default Iuser;

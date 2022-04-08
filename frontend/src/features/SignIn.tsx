@@ -1,10 +1,11 @@
 import { Alert, Button, FormControl } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { signin } from "../api/users";
 import { saveLocal } from "../utils/localstorage";
-import { login } from "../actions/users";
 import { addToWishListAsUser } from "../actions/wishlist";
+import { useAppDispatch, useAppSelector } from "../app/hook";
+import { login } from "../reducers/user";
+import { useEffect } from "react";
 interface IFormInput {
 	email: any;
 	password: String;
@@ -16,38 +17,23 @@ export default function SignIn({ onClose, messageErr, setMessageErr }: any) {
 		formState: { errors },
 		handleSubmit,
 	} = useForm<IFormInput>({ mode: "onBlur" });
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const onSubmit: SubmitHandler<IFormInput> = async (payload) => {
-		try {
-			const { data } = await signin(payload);
-			if (!data.user.isActive) {
-				setMessageErr({
-					type: "error",
-					message:
-						"Tai khoan cua ban da bi khoa vui long lien he voi quan tri vien de mo lai tai khoan thanks!",
-				});
-				return;
-			}
-
-			const newData = {
-				accessToken: data.accessToken,
-				email: data.user.email,
-				isActive: data.user.isActive,
-				role: data.user.role,
-				username: data.user.username,
-				_id: data.user._id,
-				wishlist: data.user.wishlist,
-			};
-			const refreshToken = {
-				refreshToken: data.refreshToken,
-			};
-
-			saveLocal("user", newData);
-			saveLocal("refreshToken", refreshToken);
-
-			dispatch(addToWishListAsUser(newData.wishlist));
-			dispatch(login(data.user.username));
-
+		const res = await dispatch(login(payload));
+		if (res.type == "auth/signin/rejected" && !res.payload) {
+			setMessageErr({
+				type: "error",
+				message:
+					"Tai khoan cua ban da bi khoa vui long lien he voi quan tri vien de mo lai tai khoan thanks!",
+			});
+			return;
+		} else if (res.type == "auth/signin/rejected") {
+			setMessageErr({
+				type: "error",
+				message: res.payload,
+			});
+			return;
+		} else {
 			setMessageErr({
 				type: "success",
 				message: "Success!",
@@ -55,11 +41,6 @@ export default function SignIn({ onClose, messageErr, setMessageErr }: any) {
 			setTimeout(() => {
 				onClose(false);
 			}, 1000);
-		} catch (err: any) {
-			setMessageErr({
-				type: "error",
-				message: err.response.data.message,
-			});
 		}
 	};
 
