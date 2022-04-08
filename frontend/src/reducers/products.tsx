@@ -1,8 +1,9 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { create, update } from "../api/products";
 import { removeLocal } from "../utils/localstorage";
-const handleReducer = (state: any, action: any) => {
+/* const handleReducer = (state: any, action: any) => {
 	switch (action.type) {
 		case "SET_INITIAL":
 			return {
@@ -64,5 +65,50 @@ const handleReducer = (state: any, action: any) => {
 	}
 
 	return state;
+}; */
+const initialState = {
+	loading: false,
+	toggle: false,
+	category: "",
+	sale: "",
+	color: [],
+	size: [],
+	colorList: [],
+	categoryList: [],
 };
-export default handleReducer;
+export const addProduct = createAsyncThunk(
+	"product/addProduct",
+	async (product) => {
+		console.log(product);
+		const { data } = await create(product);
+		return data;
+	}
+);
+const productSlice = createSlice({
+	name: "products",
+	initialState,
+	reducers: {
+		setInitial(state, action) {
+			return {
+				...state,
+				color: action.payload.color,
+				size: action.payload.size,
+			};
+		},
+		loading(state, action) {
+			return { ...state, loading: action.payload };
+		},
+		setData(state, action: any) {
+			/* CHANGE_MULTI , CHANGE */
+			return { ...state, [action.brand]: [...action.payload] };
+		},
+		extraReducers: (builder) => {
+			builder.addCase(addProduct.fulfilled, (state: any, action: any) => {
+				console.log("🚀 => builder.adCase => state,action", state, action);
+			});
+		},
+	},
+});
+export const { setInitial, loading, setData } = productSlice.actions;
+
+export default productSlice.reducer;

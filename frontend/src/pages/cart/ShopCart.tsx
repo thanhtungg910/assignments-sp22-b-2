@@ -1,37 +1,26 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
-import { decrease, increase, setQty } from "../../actions/cart";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
 import Shopping from "../../components/cart/Shopping";
-import { getLocal } from "../../utils/localstorage";
+import { ICart } from "../../interfaces/products";
+import { setQtyInCart } from "../../reducers/cart";
 
 type Props = {};
 
 const ShopCart = (props: Props) => {
-	const { value } = useSelector(
-		(state: { carts: { value: [] } }) => state.carts
-	);
-	const dispatch = useDispatch();
-	const handleIncrease = (id: String) => {
-		dispatch(increase(id));
-	};
-	const handleDecrease = (id: String) => {
-		dispatch(decrease(id));
-	};
+	const cartList: ICart[] = useAppSelector((state: any) => [
+		...state.carts.value,
+	]);
+	const dispatch = useAppDispatch();
+
 	const handleChangeQty = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(setQty({ quantity: +e.target.value, id: e.target.dataset.id }));
+		const payload = { quantity: +e.target.value, id: e.target.dataset.id };
+		dispatch(setQtyInCart(payload));
 	};
 	return (
 		<div className="py-12">
-			{value && value.length > 0 ? (
-				<Shopping
-					products={value}
-					handleIncrease={handleIncrease}
-					handleDecrease={handleDecrease}
-					handleChangeQty={handleChangeQty}
-				/>
+			{cartList && cartList.length > 0 ? (
+				<Shopping products={cartList} handleChangeQty={handleChangeQty} />
 			) : (
-				<Navigate to="/products" />
+				<h1>Not products</h1>
 			)}
 		</div>
 	);

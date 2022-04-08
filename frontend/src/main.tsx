@@ -2,39 +2,18 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 
 import { Provider } from "react-redux";
-import { compose, createStore } from "redux";
-// import "babel-polyfill";
 
 import App from "./App";
-import rootReducer from "./reducers/rootReducer";
+import persistor, { store } from "./app/store";
 import "./index.css";
-import { saveLocal } from "./utils/localstorage";
-import { throttle } from "lodash";
-declare global {
-	interface Window {
-		__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-	}
-}
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-// const persistedState = loadState();
-const store = createStore(
-	rootReducer,
-	/* persistedState, */ composeEnhancers()
-);
-store.subscribe(
-	throttle(() => {
-		const { value } = store.getState().carts;
-		saveLocal("cart", value);
-		const wishList: String[] = store.getState().wishList;
-		if (wishList && wishList.length <= 0) return;
-		saveLocal("wishList", wishList);
-	}, 1000)
-);
+import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.render(
 	<BrowserRouter>
 		<Provider store={store}>
-			<App />
+			<PersistGate loading={null} persistor={persistor}>
+				<App />
+			</PersistGate>
 		</Provider>
 	</BrowserRouter>,
 	document.getElementById("root")

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
@@ -17,22 +16,24 @@ import auth from "../../firebase/config";
 import DrawerCart from "../common/DrawerCart";
 import { createWishList } from "../../api/users";
 import ChatsBox from "../../features/ChatsBox";
+import { useAppSelector, useAppDispatch } from "../../app/hook";
+import { changeCurrent } from "../../reducers/cart";
 
-const Header: React.FC = () => {
+const Header = () => {
 	const [messageErr, setMessageErr] = React.useState<any>({
 		message: null,
 		type: null,
 	});
-	const { username } = useSelector(
+	// const { username } = useAppSelector((state) => ({ ...state.users }));
+	const { username } = useAppSelector(
 		(state: { users: { username: String | null } }) => state.users
 	);
-	const { current } = useSelector(
-		(state: { carts: { current: boolean } }) => state.carts
-	);
-	const wishListSele: String[] = useSelector(
+	const { current } = useAppSelector((state: any) => ({ ...state.carts }));
+
+	const wishListSele: String[] = useAppSelector(
 		(state: { wishList: String[] }) => state.wishList
 	);
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const [openAccount, setOpenAccount] = useState<boolean>(false);
 	const [exist, saveExist] = useState(() => getLocal("user") ?? false);
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -65,7 +66,7 @@ const Header: React.FC = () => {
 		setAnchorEl(null);
 	};
 	const toggleDrawer = () => {
-		dispatch({ type: "CHANGE_CURRENT", payload: false });
+		dispatch(changeCurrent({ payload: false }));
 	};
 
 	return (

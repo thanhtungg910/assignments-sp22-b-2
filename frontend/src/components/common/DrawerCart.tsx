@@ -1,31 +1,37 @@
 import * as React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import { Card, CardContent, IconButton, Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { ICart } from "../../interfaces/products";
 import { Link } from "react-router-dom";
-import { removeItemInCart } from "../../actions/cart";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { removeItemCart } from "../../reducers/cart";
+// import { removeItemInCart } from "../../actions/cart";
 
 interface IDrawerCart {
 	open: boolean;
 	toggleDrawer: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DrawerCart: React.FC<IDrawerCart> = ({ open, toggleDrawer }: IDrawerCart) => {
-	const cartList: ICart[] = useSelector((state: { carts: { value: [] } }) => state.carts.value);
-	// const total: number = useSelector((state: { carts: { total: number } }) => state.carts.total);
+const DrawerCart: React.FC<IDrawerCart> = ({
+	open,
+	toggleDrawer,
+}: IDrawerCart) => {
+	const cartList: ICart[] = useAppSelector((state: any) => [
+		...state.carts.value,
+	]);
 	const [total, setTotal] = React.useState<Number>(0);
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const handleDraw = () => {
 		toggleDrawer(false);
 	};
 	const handleRemove = (id: String) => {
-		dispatch(removeItemInCart(id));
+		dispatch(removeItemCart(id));
 	};
 
 	React.useEffect(() => {
@@ -40,7 +46,9 @@ const DrawerCart: React.FC<IDrawerCart> = ({ open, toggleDrawer }: IDrawerCart) 
 	return (
 		<Drawer anchor={"right"} open={open} onClose={toggleDrawer}>
 			<List sx={{ minWidth: 400 }} className="overflow-hidden overflow-y-auto">
-				<h1 className="font-bold text-lg text-center">Item in cart ({cartList.length})</h1>
+				<h1 className="font-bold text-lg text-center">
+					Item in cart ({cartList.length})
+				</h1>
 				{cartList &&
 					cartList.length > 0 &&
 					cartList.map((item, index: React.Key) => (
@@ -53,11 +61,15 @@ const DrawerCart: React.FC<IDrawerCart> = ({ open, toggleDrawer }: IDrawerCart) 
 									/>
 								</Box>
 								<Box className="flex flex-col" onClick={handleDraw}>
-									<strong className="font-bold text-lg underline inline-block">{item.title}</strong>
+									<strong className="font-bold text-lg underline inline-block">
+										{item.title}
+									</strong>
 									<Typography variant="caption">Price: {item.price}</Typography>
 									<Typography variant="caption">Color: {item.color}</Typography>
 									<Typography variant="caption">Size: {item.size}</Typography>
-									<Typography variant="caption">Qty: {item.quantity}</Typography>
+									<Typography variant="caption">
+										Qty: {item.quantity}
+									</Typography>
 								</Box>
 								<CloseIcon
 									className="content-end cursor-pointer"

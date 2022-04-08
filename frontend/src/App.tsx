@@ -69,16 +69,7 @@ const App: React.FC = () => {
 
 					<Route path="shop-cart">
 						<Route index element={<ShopCart />}></Route>
-						<Route
-							path="checkout"
-							element={
-								getLocal("cart").length > 0 ? (
-									<CheckoutPage />
-								) : (
-									<Navigate to="/products" />
-								)
-							}
-						></Route>
+						<Route path="checkout" element={<CheckoutPage />}></Route>
 					</Route>
 					<Route
 						path="contact"

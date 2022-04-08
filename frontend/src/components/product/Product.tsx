@@ -6,8 +6,10 @@ import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import { Button, Checkbox } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import IProducts, { ICart, Ioptions } from "../../interfaces/products";
-import { addToCart } from "../../actions/cart";
+// import { addToCart } from "../../actions/cart";
 import { addToWishList, removeItemInWishList } from "../../actions/wishlist";
+import { useAppDispatch } from "../../app/hook";
+import { addToCart } from "../../reducers/cart";
 
 const Product: React.FC<IProducts> = ({
 	title,
@@ -19,15 +21,17 @@ const Product: React.FC<IProducts> = ({
 	options,
 	_id,
 }) => {
-	const wishListSele: String[] = useSelector((state: { wishList: String[] }) => state.wishList);
-	const dispatch = useDispatch();
+	const wishListSele: String[] = useSelector(
+		(state: { wishList: String[] }) => state.wishList
+	);
+	const dispatch = useAppDispatch();
 	const [colorList, sizeList]: Ioptions[] | undefined | any = options;
 	const { value: color } = colorList;
 	const { value: size } = sizeList;
 
 	const handleAddToCart = (data: ICart | any) => {
-		dispatch(addToCart({ ...data, quantity: 1 }));
-		return;
+		const payload = { data: { ...data, quantity: 1 }, current: true };
+		dispatch(addToCart(payload));
 	};
 	const handleFavori = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
@@ -92,7 +96,9 @@ const Product: React.FC<IProducts> = ({
 						<Link to={`/${slug}`}>{title}</Link>
 					</h3>
 				</div>
-				<p className="text-sm font-sans text-gray-900">{price.toLocaleString()}</p>
+				<p className="text-sm font-sans text-gray-900">
+					{price.toLocaleString()}
+				</p>
 			</div>
 		</div>
 	);

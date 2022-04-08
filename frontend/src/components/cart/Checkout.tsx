@@ -6,16 +6,15 @@ import {
 	useForm,
 	UseFormRegister,
 } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
 import { Button, Step, StepLabel, Stepper, Typography } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
-import { addOrder } from "../../actions/order";
 import { createOrderProducts } from "../../api/carts";
 import { getLocal } from "../../utils/localstorage";
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
-import { resetCart } from "../../actions/cart";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { addOrder } from "../../reducers/order";
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
@@ -61,25 +60,14 @@ function getStepContent(
 }
 
 const Checkout = () => {
-	const [state, setState] = useState(0);
+	const [state, setState] = useState<number>(0);
+	console.log("🚀 => Checkout => state", state);
 	const navigate = useNavigate();
-	const { value } = useSelector(
-		(state: { orders: { value: [] } }) => state.orders
-	);
-	const { value: cartList } = useSelector(
-		(state: {
-			carts: {
-				value: {
-					quantity: Number;
-					_id: String;
-					price: Number | any;
-					color: String;
-					size: String;
-				}[];
-			};
-		}) => state.carts
-	);
-	const dispatch = useDispatch();
+	const orderList = useAppSelector((state) => [...state.orders.value]);
+	const cartList = useAppSelector((state) => [...state.carts.value]);
+	const userId = useAppSelector((state) => state.users);
+	console.log("🚀 => Checkout => userId", userId);
+	const dispatch = useAppDispatch();
 
 	const {
 		register,
@@ -99,7 +87,7 @@ const Checkout = () => {
 		setState(0);
 	};
 	const onSubmit = handleSubmit((data) => {
-		const { _id } = getLocal("user");
+		// const { _id } = getLocal("user");
 		if (!_id) return;
 		for (let i = 0; i < cartList.length; i++) {
 			dispatch(
@@ -119,7 +107,7 @@ const Checkout = () => {
 		handleNext();
 	});
 	const handleOrder = () => {
-		value.forEach((item) => {
+		orderList.forEach((item) => {
 			createOrderProducts(item).catch(
 				(err) =>
 					Swal.fire({
@@ -135,8 +123,8 @@ const Checkout = () => {
 			icon: "success",
 			confirmButtonText: "Ok!",
 		}).then(() => {
-			navigate("/products");
-			dispatch(resetCart());
+			// navigate("/products");
+			// dispatch(resetCart());
 		});
 	};
 
@@ -179,7 +167,11 @@ const Checkout = () => {
 							/**
 							 * Next step
 							 */
-							<Button variant="contained" color="primary" onClick={handleNext}>
+							<Button
+								variant="contained"
+								color="primary"
+								onClick={() => setState(state + 1)}
+							>
 								Next
 							</Button>
 						)}

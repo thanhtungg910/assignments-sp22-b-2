@@ -8,7 +8,7 @@ type IShop = {
 	handleDecrease?: (id: String) => void;
 	handleChangeQty?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
-const Shopping: React.FC<IShop> = ({ products, handleChangeQty }: IShop) => {
+const Shopping = ({ products, handleChangeQty }: IShop) => {
 	return (
 		<div className="max-w-md mx-auto rounded-lg md:max-w-5xl border">
 			<div className="w-full p-4 px-5 py-5">

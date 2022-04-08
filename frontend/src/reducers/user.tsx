@@ -1,30 +1,42 @@
-import { logOut } from "../api/users";
-import { removeLocal } from "../utils/localstorage";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initial: { username: String | null } = {
+import { signup } from "../api/users";
+import user from "../interfaces/user";
+
+const initialState: user = {
+	accessToken: null,
+	email: null,
+	isActive: false,
+	role: null,
 	username: null,
+	_id: null,
+	wishlist: [],
+	isLogger: false,
+	message: null,
 };
-const useReducer = (
-	state = initial,
-	action: { type: String; payload: Object }
-) => {
-	switch (action.type) {
-		case "SIGN_IN":
-			return { ...state, username: action.payload };
-		case "SIGN_OUT":
-			const signOut = async () => {
-				await logOut();
-				removeLocal("user");
-				removeLocal("refreshToken");
-				return { ...state, username: action.payload };
+export const registerUser = createAsyncThunk(
+	"auth/signup",
+	async (user: Object) => {
+		try {
+			const { data } = await signup(user);
+			return data;
+		} catch (error: any) {
+			return {
+				type: "auth/signup/rejected",
+				message: error.response.data.message,
 			};
-			signOut();
-		case "SAVE_LOCAL":
-			return { ...state, username: action.payload };
-
-		default:
-			break;
+		}
 	}
-	return state;
-};
-export default useReducer;
+);
+const userSlice = createSlice({
+	name: "users",
+	initialState,
+	reducers: {
+		signIn(state, action) {
+			state.username = action.payload;
+		},
+		signOut() {},
+	},
+});
+export const { signIn, signOut } = userSlice.actions;
+export default userSlice.reducer;
