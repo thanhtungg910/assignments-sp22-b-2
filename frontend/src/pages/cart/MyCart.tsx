@@ -1,37 +1,23 @@
 import { Chip } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { overViewOrder, updateOrder } from "../../api/carts";
+import {
+	overViewOrder,
+	overViewOrderClient,
+	updateOrder,
+} from "../../api/carts";
 import { getProductOrder } from "../../api/products";
 import Notify from "../../components/common/Notify";
 import { ColumnsOrderClient } from "../../components/layouts/Columns";
 import { getLocal } from "../../utils/localstorage";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../app/hook";
+type user = { _id: String | null; accessToken: String | null };
 
-type Props = {};
-function createData(
-	name: string,
-	calories: number,
-	fat: number,
-	carbs: number,
-	protein: number
-) {
-	return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-	createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-	createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-	createData("Eclair", 262, 16.0, 24, 6.0),
-	createData("Cupcake", 305, 3.7, 67, 4.3),
-	createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
-const MyCart = (props: Props) => {
+const MyCart = () => {
 	const [data, setData] = useState<any[]>([]);
 	const [edit, setEdit] = useState<boolean>(false);
+	const { _id, accessToken }: user = useAppSelector((state) => state.users);
 	const newColumns = [
 		...ColumnsOrderClient,
 		{
@@ -93,7 +79,7 @@ const MyCart = (props: Props) => {
 	};
 
 	const handleCancel = async (id: String) => {
-		await updateOrder(id, {
+		await updateOrder(id, _id, accessToken, {
 			status: 5,
 		});
 		setEdit(!edit);
@@ -101,8 +87,7 @@ const MyCart = (props: Props) => {
 	useEffect(() => {
 		const getOrder = async () => {
 			try {
-				const { _id } = getLocal("user");
-				const { data: order } = await overViewOrder(_id);
+				const { data: order } = await overViewOrderClient(_id, accessToken);
 				const newOrder = order.map(async (item: { buy: String }) => {
 					const { data: product } = await getProductOrder(item.buy);
 					return { ...item, product: product };
@@ -114,7 +99,7 @@ const MyCart = (props: Props) => {
 			}
 		};
 		getOrder();
-	}, []);
+	}, [edit]);
 
 	return (
 		<div className="mt-5 min-h-screen p-2 px-24">

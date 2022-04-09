@@ -13,8 +13,12 @@ const orderList = () => {
 		},
 	});
 };
-const updateOrder = (id: String, data: Object) => {
-	const { accessToken, _id } = getLocal("user");
+const updateOrder = (
+	id: String,
+	_id: String | null,
+	accessToken: String | null,
+	data: Object
+) => {
 	const url = `/carts/order/${_id}/${id}`; ///${_id}
 	return instance.put(url, data, {
 		headers: {
@@ -31,5 +35,22 @@ const overViewOrder = (userId?: String) => {
 		},
 	});
 };
+const overViewOrderClient = (
+	userId: String | null,
+	accessToken: String | null
+) => {
+	const url: string = `/carts/order/${userId}/${userId}`;
+	return instance.get(url, {
+		headers: {
+			authorization: `Bearer ${accessToken}`,
+		},
+	});
+};
 
-export { createOrderProducts, orderList, updateOrder, overViewOrder };
+export {
+	createOrderProducts,
+	orderList,
+	updateOrder,
+	overViewOrder,
+	overViewOrderClient,
+};

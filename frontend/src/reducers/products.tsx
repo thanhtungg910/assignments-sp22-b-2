@@ -78,7 +78,7 @@ const initialState = {
 };
 export const addProduct = createAsyncThunk(
 	"product/addProduct",
-	async (product) => {
+	async (product: any) => {
 		console.log(product);
 		const { data } = await create(product);
 		return data;
@@ -102,7 +102,7 @@ const productSlice = createSlice({
 			/* CHANGE_MULTI , CHANGE */
 			return { ...state, [action.brand]: [...action.payload] };
 		},
-		extraReducers: (builder) => {
+		extraReducers: (builder: any) => {
 			builder.addCase(addProduct.fulfilled, (state: any, action: any) => {
 				console.log("🚀 => builder.adCase => state,action", state, action);
 			});

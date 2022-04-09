@@ -114,8 +114,8 @@ const Header = () => {
 										<MenuItem>Dashboard</MenuItem>
 									</Link>
 								)}
-								<MenuItem /* onClick={handleClose} */>Profile</MenuItem>
-								<MenuItem /* onClick={handleClose} */>My account</MenuItem>
+								<MenuItem>Profile</MenuItem>
+								<MenuItem>My account</MenuItem>
 								<MenuItem component={Link} to="my-cart" onClick={handleClose}>
 									My Cart
 								</MenuItem>

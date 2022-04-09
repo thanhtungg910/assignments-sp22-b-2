@@ -38,7 +38,7 @@ function getStyles(name: string, color: String, theme: Theme) {
 	};
 }
 
-const AddProductPage: React.FC = () => {
+const AddProductPage = () => {
 	const theme = useTheme();
 	const sizes = ["S", "M", "L", "XL", "XXL"];
 	const navigate = useNavigate();
@@ -321,25 +321,14 @@ const AddProductPage: React.FC = () => {
 									</MenuItem>
 								))}
 						</SelectMultiple>
-
 						{/* Size end */}
 						<Button color="primary" variant="contained" type="submit">
 							Add
 						</Button>
 					</Paper>
 				</Grid>
-
-				{/* Recent Orders */}
 				<Grid item xs={12}>
-					<Paper /* sx={{ p: 2, display: "flex", flexDirection: "column", minHeight: 600 }} */
-					>
-						{/* <TextField multiline fullWidth rows={4}></TextField> */}
-						{/* <TextEditor
-							title="description"
-							register={register}
-							editorState={editorState}
-							setEditorState={setEditorState}
-						/> */}
+					<Paper>
 						<textarea
 							cols={30}
 							rows={10}
