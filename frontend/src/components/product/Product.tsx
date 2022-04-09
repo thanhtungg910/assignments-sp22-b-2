@@ -21,9 +21,7 @@ const Product: React.FC<IProducts> = ({
 	options,
 	_id,
 }) => {
-	const wishListSele: String[] = useSelector(
-		(state: { wishList: String[] }) => state.wishList
-	);
+	const wishListSele: String[] = [];
 	const dispatch = useAppDispatch();
 	const [colorList, sizeList]: Ioptions[] | undefined | any = options;
 	const { value: color } = colorList;

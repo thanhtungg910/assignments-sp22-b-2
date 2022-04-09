@@ -17,11 +17,11 @@ const cartSlice = createSlice({
 	initialState,
 	reducers: {
 		addToCart(state, action: Iaction) {
-			const item: object | any = state.value.find(
+			const exist = state.value.find(
 				(item: any) => item._id == action.payload.data._id
 			);
-			if (item) {
-				item.quantity += 1;
+			if (exist) {
+				exist.quantity += 1;
 			} else {
 				state.value.push(action.payload.data);
 				state.current = action.payload.current;

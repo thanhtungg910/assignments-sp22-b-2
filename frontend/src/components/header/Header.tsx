@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -9,10 +9,7 @@ import PromoBanner from "../common/PromoBanner";
 import Navigation from "../navigation/Navigation";
 import logo from "../../logo.svg";
 import DialogForm from "../../features/DialogForm";
-import { getLocal } from "../../utils/localstorage";
-// import { signOut } from "firebase/auth";
 import DrawerCart from "../common/DrawerCart";
-import { createWishList } from "../../api/users";
 import ChatsBox from "../../features/ChatsBox";
 import { useAppSelector, useAppDispatch } from "../../app/hook";
 import { changeCurrent } from "../../slices/cart";
@@ -24,7 +21,6 @@ const Header = () => {
 		type: null,
 	});
 	const user = useAppSelector((state) => state.users);
-
 	const { current } = useAppSelector((state: any) => ({ ...state.carts }));
 
 	// const wishListSele: String[] = useAppSelector(
@@ -32,7 +28,6 @@ const Header = () => {
 	// );
 	const dispatch = useAppDispatch();
 	const [openAccount, setOpenAccount] = useState<boolean>(false);
-	// const [exist, saveExist] = useState(() => getLocal("user") ?? false);
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	// useEffect(() => {
@@ -53,12 +48,12 @@ const Header = () => {
 		setAnchorEl(null);
 	};
 	const handleLogout = () => {
-		dispatch(signOut());
 		setMessageErr({
 			message: null,
 			type: null,
 		});
 		setAnchorEl(null);
+		dispatch(signOut(user));
 	};
 	const toggleDrawer = () => {
 		dispatch(changeCurrent({ payload: false }));

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { signin, signup } from "../api/users";
+import { logOut, signin, signup } from "../api/users";
 import Iuser from "../interfaces/user";
 
 const initialState: Iuser = {
@@ -38,15 +38,16 @@ export const login = createAsyncThunk(
 		}
 	}
 );
+export const signOut = createAsyncThunk("auth/signout", async (user: any) => {
+	const { data } = await logOut(user._id, user.accessToken);
+	return data;
+});
 const userSlice = createSlice({
 	name: "users",
 	initialState,
 	reducers: {
 		signIn(state, action) {
 			state.username = action.payload;
-		},
-		signOut() {
-			return initialState;
 		},
 	},
 	extraReducers: (builder) => {
@@ -67,7 +68,8 @@ const userSlice = createSlice({
 				JSON.stringify(action.payload.refreshToken)
 			);
 		});
+		builder.addCase(signOut.fulfilled, () => initialState);
 	},
 });
-export const { signIn, signOut } = userSlice.actions;
+export const { signIn } = userSlice.actions;
 export default userSlice.reducer;

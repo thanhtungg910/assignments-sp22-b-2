@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -11,17 +10,13 @@ import { ICart } from "../../interfaces/products";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { removeItemCart } from "../../slices/cart";
-// import { removeItemInCart } from "../../actions/cart";
 
 interface IDrawerCart {
 	open: boolean;
 	toggleDrawer: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DrawerCart: React.FC<IDrawerCart> = ({
-	open,
-	toggleDrawer,
-}: IDrawerCart) => {
+const DrawerCart = ({ open, toggleDrawer }: IDrawerCart) => {
 	const cartList: ICart[] = useAppSelector((state: any) => [
 		...state.carts.value,
 	]);
@@ -30,7 +25,7 @@ const DrawerCart: React.FC<IDrawerCart> = ({
 	const handleDraw = () => {
 		toggleDrawer(false);
 	};
-	const handleRemove = (id: String) => {
+	const handleRemove = (id: any) => {
 		dispatch(removeItemCart(id));
 	};
 

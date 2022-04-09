@@ -1,7 +1,13 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import styled, { css } from "styled-components";
-import { Button, Checkbox, ListItemButton, Rating, Typography } from "@mui/material";
+import {
+	Button,
+	Checkbox,
+	ListItemButton,
+	Rating,
+	Typography,
+} from "@mui/material";
 import IProducts, { Ioptions } from "../../interfaces/products";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../actions/cart";
@@ -25,7 +31,7 @@ type Props = {
 	quantity: Number;
 };
 
-const Contents: React.FC<Props> = ({
+const Contents = ({
 	options,
 	title,
 	price,
@@ -34,7 +40,8 @@ const Contents: React.FC<Props> = ({
 	image,
 	quantity,
 }: Props) => {
-	const wishListSele: String[] = useSelector((state: { wishList: String[] }) => state.wishList);
+	const wishListSele: String[] =
+		[]; /* useSelector((state: { wishList: String[] }) => state.wishList) */
 	const dispatch = useDispatch();
 	const [colorList, sizeList] = options;
 	const handleAddtoCart = (data: IProducts | Object | any) => {
@@ -55,9 +62,10 @@ const Contents: React.FC<Props> = ({
 			</Typography>
 			<Rating name="simple-controlled" className="py-4" />
 			<Typography>
-				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam perferendis nostrum eius
-				quidem odio omnis laboriosam fugit, nemo cum excepturi quod, incidunt minus sequi, ipsum
-				pariatur. Quas quasi consequuntur itaque.
+				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam
+				perferendis nostrum eius quidem odio omnis laboriosam fugit, nemo cum
+				excepturi quod, incidunt minus sequi, ipsum pariatur. Quas quasi
+				consequuntur itaque.
 			</Typography>
 			<Box sx={{ borderTop: 1, marginTop: 2, padding: 4 }}>
 				<Typography variant="subtitle1" className="pb-4">
@@ -68,7 +76,12 @@ const Contents: React.FC<Props> = ({
 						colorList.value.length > 0 &&
 						colorList.value.map((color: String, index: React.Key) => (
 							<div className="relative" key={index}>
-								<input className="sr-only peer" type="radio" name="color" id={`#${color}`} />
+								<input
+									className="sr-only peer"
+									type="radio"
+									name="color"
+									id={`#${color}`}
+								/>
 								<LabelStyled
 									color={`#${color}`}
 									className="flex h-8 w-8 border rounded-full border-gray-300 cursor-pointer focus:outline-none peer-checked:ring-gray-400 peer-checked:ring-offset-1 peer-checked:ring-2  peer-checked:border-transparent"

@@ -43,9 +43,8 @@ const HomePage: React.FC = () => {
 									item: { slug: string; title: string; image: string },
 									index
 								) => (
-									<SwiperSlide>
+									<SwiperSlide key={index}>
 										<Categories
-											key={index}
 											slug={item.slug}
 											title={item.title}
 											img={item.image}

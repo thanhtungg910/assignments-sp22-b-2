@@ -3,9 +3,7 @@ import Shopping from "../../components/cart/Shopping";
 import { ICart } from "../../interfaces/products";
 import { setQtyInCart } from "../../slices/cart";
 
-type Props = {};
-
-const ShopCart = (props: Props) => {
+const ShopCart = () => {
 	const cartList: ICart[] = useAppSelector((state: any) => [
 		...state.carts.value,
 	]);
@@ -20,7 +18,10 @@ const ShopCart = (props: Props) => {
 			{cartList && cartList.length > 0 ? (
 				<Shopping products={cartList} handleChangeQty={handleChangeQty} />
 			) : (
-				<h1>Not products</h1>
+				<img
+					className="mx-auto"
+					src="https://cdn.dribbble.com/users/693462/screenshots/2380486/media/b497f28a6d8d2a9323ad7cfc38753bfb.png?compress=1&resize=400x300&vertical=top"
+				/>
 			)}
 		</div>
 	);
