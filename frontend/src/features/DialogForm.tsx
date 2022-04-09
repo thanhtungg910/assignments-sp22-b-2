@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { signInWithPopup } from "firebase/auth";
 import auth, { provider } from "../firebase/config";
 import { styled } from "@mui/material/styles";
@@ -14,7 +14,7 @@ import { Box } from "@mui/system";
 import { Tab, Tabs, Typography } from "@mui/material";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
-import { saveLocal } from "../utils/localstorage";
+// import { saveLocal } from "../utils/localstorage";
 import { login } from "../actions/users";
 import { useDispatch } from "react-redux";
 
@@ -74,12 +74,21 @@ function TabPanel(props: TabPanelProps) {
 	const { children, value, index } = props;
 
 	return (
-		<div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`}>
+		<div
+			role="tabpanel"
+			hidden={value !== index}
+			id={`simple-tabpanel-${index}`}
+		>
 			{value === index && <Box>{children}</Box>}
 		</div>
 	);
 }
-export default function DialogForm({ open, onClose, messageErr, setMessageErr }: DialogForm) {
+export default function DialogForm({
+	open,
+	onClose,
+	messageErr,
+	setMessageErr,
+}: DialogForm) {
 	const [value, setValue] = React.useState(0);
 	const dispatch = useDispatch();
 	const handleCloseDialog = () => {
@@ -95,7 +104,7 @@ export default function DialogForm({ open, onClose, messageErr, setMessageErr }:
 				username: user.displayName,
 				_id: user.uid,
 			};
-			saveLocal("user", newData);
+			// saveLocal("user", newData);
 			dispatch(login(user.displayName));
 			setTimeout(() => {
 				setMessageErr({
@@ -124,9 +133,16 @@ export default function DialogForm({ open, onClose, messageErr, setMessageErr }:
 				aria-labelledby="customized-dialog-title"
 				open={open}
 			>
-				<BootstrapDialogTitle id="customized-dialog-title" onClose={handleCloseDialog}>
+				<BootstrapDialogTitle
+					id="customized-dialog-title"
+					onClose={handleCloseDialog}
+				>
 					<Box>
-						<Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+						<Tabs
+							value={value}
+							onChange={handleChange}
+							aria-label="basic tabs example"
+						>
 							<Tab label="SIGN IN" />
 							<Tab label="SIGN UP" />
 						</Tabs>
@@ -142,7 +158,11 @@ export default function DialogForm({ open, onClose, messageErr, setMessageErr }:
 						/>
 					</TabPanel>
 					<TabPanel value={value} index={1}>
-						<SignUp setValue={setValue} messageErr={messageErr} setMessageErr={setMessageErr} />
+						<SignUp
+							setValue={setValue}
+							messageErr={messageErr}
+							setMessageErr={setMessageErr}
+						/>
 					</TabPanel>
 				</DialogContent>
 				<DialogActions

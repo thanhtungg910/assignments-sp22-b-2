@@ -1,5 +1,5 @@
 import IProducts from "../interfaces/products";
-import { getLocal } from "../utils/localstorage";
+// import { getLocal } from "../utils/localstorage";
 import instance from "./instance";
 
 const getProducts = (page = 0, limit = 5, order = "desc") => {
@@ -16,32 +16,32 @@ const getProductOrder = (userId: String | undefined) => {
 };
 
 const create = (data: IProducts) => {
-	const { accessToken, _id } = getLocal("user");
+	/* 	const { accessToken, _id } = getLocal("user");
 	const url = "/products/" + _id;
 	return instance.post(url, data, {
 		headers: {
 			authorization: `Bearer ${accessToken}`,
 		},
-	});
+	}); */
 };
 const update = (data: IProducts) => {
-	const { accessToken, _id } = getLocal("user");
+	/* const { accessToken, _id } = getLocal("user");
 	const url = `/products/${_id}/${data._id}`;
 	return instance.put(url, data, {
 		headers: {
 			authorization: `Bearer ${accessToken}`,
 		},
-	});
+	}); */
 };
 
 const remove = (slug: String | undefined) => {
-	const { accessToken, _id } = getLocal("user");
+	/* 	const { accessToken, _id } = getLocal("user");
 	const url = `/products/${_id}/${slug}`;
 	return instance.delete(url, {
 		headers: {
 			authorization: `Bearer ${accessToken}`,
 		},
-	});
+	}); */
 };
 const getRelated = (slug: String | undefined) => {
 	const url = "/products/related/" + slug;

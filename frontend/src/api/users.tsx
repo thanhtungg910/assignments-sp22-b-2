@@ -1,4 +1,4 @@
-import { getLocal } from "../utils/localstorage";
+// import { getLocal } from "../utils/localstorage";
 import instance from "./instance";
 
 const signup = (data: Object) => {
@@ -24,21 +24,21 @@ const createTokenAuto = () => {
 	});
 };
 const createWishList = (data: any) => {
-	const { _id } = getLocal("user");
+	/* 	const { _id } = getLocal("user");
 	const url = `/users/wishlist/${_id}`;
-	return instance.put(url, data);
+	return instance.put(url, data); */
 };
 const setActiveAccount = (idUser: String, data: { isActive: boolean }) => {
-	const { accessToken, _id } = getLocal("user");
+	/* const { accessToken, _id } = getLocal("user");
 	const url = `/users/${_id}/${idUser}`;
 	return instance.put(url, data, {
 		headers: {
 			authorization: `Bearer ${accessToken}`,
 		},
-	});
+	}); */
 };
 const logOut = () => {
-	try {
+	/* try {
 		const { accessToken, _id } = getLocal("user");
 		const url = `/users/logout/${_id}`;
 		return instance.delete(url, {
@@ -48,16 +48,16 @@ const logOut = () => {
 		});
 	} catch (error) {
 		console.log(error);
-	}
+	} */
 };
 const userList = () => {
-	const { accessToken, _id } = getLocal("user");
+	/* 	const { accessToken, _id } = getLocal("user");
 	const url = `/users/${_id}`;
 	return instance.get(url, {
 		headers: {
 			authorization: `Bearer ${accessToken}`,
 		},
-	});
+	}); */
 };
 
 export {

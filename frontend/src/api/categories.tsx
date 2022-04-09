@@ -1,4 +1,4 @@
-import { getLocal } from "../utils/localstorage";
+// import { getLocal } from "../utils/localstorage";
 import instance from "./instance";
 
 const getCategories = () => {
@@ -19,31 +19,31 @@ const getProductsByCategory = (
 	return instance.get(url);
 };
 const createCategory = (data: Object) => {
-	const { accessToken, _id } = getLocal("user");
+	/* const { accessToken, _id } = getLocal("user");
 	const url = `/categories/${_id}`;
 	return instance.post(url, data, {
 		headers: {
 			authorization: `Bearer ${accessToken}`,
 		},
-	});
+	}); */
 };
 const updateCategory = (slug: String, data: Object) => {
-	const { accessToken, _id } = getLocal("user");
+	/* const { accessToken, _id } = getLocal("user");
 	const url = `/categories/${_id}/${slug}`;
 	return instance.patch(url, data, {
 		headers: {
 			authorization: `Bearer ${accessToken}`,
 		},
-	});
+	}); */
 };
 const removeCategory = (slug: String | undefined) => {
-	const { accessToken, _id } = getLocal("user");
+	/* const { accessToken, _id } = getLocal("user");
 	const url = `/categories/${_id}/${slug}`;
 	return instance.delete(url, {
 		headers: {
 			authorization: `Bearer ${accessToken}`,
 		},
-	});
+	}); */
 };
 /**
  *

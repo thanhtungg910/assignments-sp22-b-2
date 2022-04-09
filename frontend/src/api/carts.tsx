@@ -1,17 +1,16 @@
-import { getLocal } from "../utils/localstorage";
 import instance from "./instance";
 const createOrderProducts = (data: Object) => {
 	const url: string = `/carts/order`;
 	return instance.post(url, data);
 };
 const orderList = () => {
-	const { accessToken, _id } = getLocal("user");
-	const url = `/carts/order/${_id}`; ///${_id}
+	// const { accessToken, _id } = getLocal("user");
+	/* const url = `/carts/order/${_id}`; ///${_id}
 	return instance.get(url, {
 		headers: {
 			authorization: `Bearer ${accessToken}`,
-		},
-	});
+		}, 
+	});*/
 };
 const updateOrder = (
 	id: String,
@@ -27,13 +26,13 @@ const updateOrder = (
 	});
 };
 const overViewOrder = (userId?: String) => {
-	const { accessToken, _id } = getLocal("user");
+	/* 	const { accessToken, _id } = getLocal("user");
 	const url = `/carts/order/${_id}/${userId}`;
 	return instance.get(url, {
 		headers: {
 			authorization: `Bearer ${accessToken}`,
 		},
-	});
+	}); */
 };
 const overViewOrderClient = (
 	userId: String | null,
