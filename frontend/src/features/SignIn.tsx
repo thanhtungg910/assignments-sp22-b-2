@@ -4,7 +4,7 @@ import { signin } from "../api/users";
 import { saveLocal } from "../utils/localstorage";
 import { addToWishListAsUser } from "../actions/wishlist";
 import { useAppDispatch, useAppSelector } from "../app/hook";
-import { login } from "../reducers/user";
+import { login } from "../slices/user";
 import { useEffect } from "react";
 interface IFormInput {
 	email: any;

@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import Shopping from "../../components/cart/Shopping";
 import { ICart } from "../../interfaces/products";
-import { setQtyInCart } from "../../reducers/cart";
+import { setQtyInCart } from "../../slices/cart";
 
 type Props = {};
 

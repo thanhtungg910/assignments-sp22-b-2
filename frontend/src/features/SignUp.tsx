@@ -2,7 +2,7 @@ import { Alert, Button, FormControl } from "@mui/material";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../app/hook";
-import { registerUser } from "../reducers/user";
+import { registerUser } from "../slices/user";
 // import { signup } from "../api/users";
 
 interface IFormInput {

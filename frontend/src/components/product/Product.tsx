@@ -9,7 +9,7 @@ import IProducts, { ICart, Ioptions } from "../../interfaces/products";
 // import { addToCart } from "../../actions/cart";
 import { addToWishList, removeItemInWishList } from "../../actions/wishlist";
 import { useAppDispatch } from "../../app/hook";
-import { addToCart } from "../../reducers/cart";
+import { addToCart } from "../../slices/cart";
 
 const Product: React.FC<IProducts> = ({
 	title,

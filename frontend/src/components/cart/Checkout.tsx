@@ -13,8 +13,8 @@ import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { addOrder, resetOrder } from "../../reducers/order";
-import { resetCart } from "../../reducers/cart";
+import { addOrder, resetOrder } from "../../slices/order";
+import { resetCart } from "../../slices/cart";
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 

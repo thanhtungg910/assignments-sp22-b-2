@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import cartReducer from "../reducers/cart";
-import orderReducer from "../reducers/order";
-import useReducer from "../reducers/user";
-import wishListReducer from "../reducers/wishlist";
+import cartReducer from "../slices/cart";
+import orderReducer from "../slices/order";
+import useReducer from "../slices/user";
+import wishListReducer from "../slices/wishlist";
 
 const rootReducer = combineReducers({
 	users: useReducer,

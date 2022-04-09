@@ -15,8 +15,8 @@ import DrawerCart from "../common/DrawerCart";
 import { createWishList } from "../../api/users";
 import ChatsBox from "../../features/ChatsBox";
 import { useAppSelector, useAppDispatch } from "../../app/hook";
-import { changeCurrent } from "../../reducers/cart";
-import { signOut } from "../../reducers/user";
+import { changeCurrent } from "../../slices/cart";
+import { signOut } from "../../slices/user";
 
 const Header = () => {
 	const [messageErr, setMessageErr] = React.useState<any>({

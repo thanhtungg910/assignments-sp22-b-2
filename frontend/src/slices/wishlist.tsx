@@ -1,4 +1,4 @@
-import { getLocal } from "../utils/localstorage";
+/* import { getLocal } from "../utils/localstorage";
 
 export {};
 const initial: { _id: String }[] = getLocal("wishList") || [];
@@ -19,3 +19,4 @@ const wishListReducer = (state = initial, action: { type: String; payload: Strin
 	}
 };
 export default wishListReducer;
+ */

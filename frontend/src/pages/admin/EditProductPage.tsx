@@ -11,13 +11,13 @@ import uploadFile from "../../utils/uploadFile";
 import SelectMultiple from "../../components/common/SelectMultiple";
 import Alerts from "../../components/common/Alerts";
 import IProducts from "../../interfaces/products";
-import handleReducer from "../../reducers/products";
+import handleReducer from "../../slices/products";
 import { getCategories } from "../../api/categories";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProduct } from "../../api/products";
 import { updateProduct } from "../../actions/products";
 import useHandleChange from "../../hooks/useHandleChange";
-import initial from "../../reducers/initial";
+import initial from "../../slices/initial";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {

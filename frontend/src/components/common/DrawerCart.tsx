@@ -10,7 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { ICart } from "../../interfaces/products";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { removeItemCart } from "../../reducers/cart";
+import { removeItemCart } from "../../slices/cart";
 // import { removeItemInCart } from "../../actions/cart";
 
 interface IDrawerCart {
