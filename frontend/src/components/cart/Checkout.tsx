@@ -60,8 +60,9 @@ function getStepContent(
 	}
 }
 
-const Checkout = () => {
+const Checkout = ({ socket }: any) => {
 	const [state, setState] = useState(0);
+	const [user, setUser] = useState("");
 	const navigate = useNavigate();
 	const { value } = useSelector(
 		(state: { orders: { value: [] } }) => state.orders
@@ -95,9 +96,6 @@ const Checkout = () => {
 		setState(state - 1);
 	};
 
-	const handleReset = () => {
-		setState(0);
-	};
 	const onSubmit = handleSubmit((data) => {
 		const { _id } = getLocal("user");
 		if (!_id) return;
@@ -116,6 +114,7 @@ const Checkout = () => {
 				})
 			);
 		}
+		setUser(data.name);
 		handleNext();
 	});
 	const handleOrder = () => {
@@ -129,6 +128,10 @@ const Checkout = () => {
 				//.then(() => navigate("/products"))
 				// .catch(() => navigate("/products"))
 			);
+		});
+		socket.emit("notify", {
+			user: user,
+			message: "buy success",
 		});
 		Swal.fire({
 			title: "Success!",

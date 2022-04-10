@@ -8,11 +8,10 @@ const CheckoutPage = (props: Props) => {
 	useEffect(() => {
 		setSocket(io(ENDPOINT, { transports: ["websocket"] }));
 	}, []);
-	console.log(socket);
 
 	return (
 		<div>
-			<Checkout />
+			<Checkout socket={socket} />
 		</div>
 	);
 };

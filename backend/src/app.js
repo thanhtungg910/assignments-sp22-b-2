@@ -23,7 +23,7 @@ const io = socketio(server, {
 io.on("connection", (socket) => {
 	console.log('socket connected ');
 	socket.on('notify', (data) => {
-		console.log(data);
+		io.emit('sendNotify', data)
 	})
 })
 // MIDDLEWARE

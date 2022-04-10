@@ -1,10 +1,12 @@
-import React from "react";
+import { io } from "socket.io-client";
+import React, { useEffect, useState } from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
+import { Alert, Snackbar } from "@mui/material";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -23,18 +25,20 @@ import Private from "../../components/routes/Private";
 
 function Copyright(props: any) {
 	return (
-		<Typography
-			variant="body2"
-			color="text.secondary"
-			align="center"
-			{...props}
-		>
-			{"Copyright © "}
-			<Link color="inherit" href="https://mui.com/">
-				Your Website
-			</Link>{" "}
-			{new Date().getFullYear()}
-		</Typography>
+		<>
+			<Typography
+				variant="body2"
+				color="text.secondary"
+				align="center"
+				{...props}
+			>
+				{"Copyright © "}
+				<Link color="inherit" href="https://mui.com/">
+					Your Website
+				</Link>{" "}
+				{new Date().getFullYear()}
+			</Typography>
+		</>
 	);
 }
 
@@ -92,13 +96,39 @@ const mdTheme = createTheme();
 
 const DashboardLayout: React.FC = () => {
 	const [open, setOpen] = React.useState(true);
+	const [socket, setSocket] = useState<any>(null);
+	const [message, setMessage] = useState<any>({});
+	const [noty, setNoty] = useState(false);
 	const toggleDrawer = () => {
 		setOpen(!open);
 	};
+	const ENDPOINT = "http://localhost:5001";
+	useEffect(() => {
+		setSocket(io(ENDPOINT, { transports: ["websocket"] }));
+	}, []);
+
+	useEffect(() => {
+		socket?.on("sendNotify", (data: any) => {
+			setMessage(data);
+			setNoty(true);
+		});
+	}, [socket]);
 
 	return (
 		<Private>
 			<ThemeProvider theme={mdTheme}>
+				<Snackbar
+					anchorOrigin={{
+						vertical: "top",
+						horizontal: "right",
+					}}
+					open={noty}
+					onClose={() => setNoty(!noty)}
+				>
+					<Alert severity="success">
+						{message.user} {message.message}
+					</Alert>
+				</Snackbar>
 				<Box sx={{ display: "flex" }}>
 					<CssBaseline />
 
