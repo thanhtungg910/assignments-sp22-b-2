@@ -1,9 +1,11 @@
 import express from "express";
+const app = express();
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
-/* import { readdirSync } from "fs";
-console.log("🚀 ~ file: app.js ~ line 6 ~ readdirSync", readdirSync("./src/routes")); */
+import http from "http";
+import socketio from "socket.io";
+
 import db from "./config/connect";
 import products from "./routes/products";
 import categories from "./routes/categories";
@@ -12,7 +14,18 @@ import colors from "./routes/colors";
 import carts from "./routes/cart";
 dotenv.config();
 import refreshToken from "./routes/refreshToken";
-const app = express();
+const server = http.createServer(app);
+const io = socketio(server, {
+	cors: {
+		origin: process.env.IO_URL
+	}
+})
+io.on("connection", (socket) => {
+	console.log('socket connected ');
+	socket.on('notify', (data) => {
+		console.log(data);
+	})
+})
 // MIDDLEWARE
 app.use(morgan());
 app.use(express.json());
@@ -35,6 +48,6 @@ app.get("/", (req, res) => {
 db.connect();
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
 	console.log("Running port " + PORT);
 });
