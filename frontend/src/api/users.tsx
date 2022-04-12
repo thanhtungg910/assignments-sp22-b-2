@@ -41,11 +41,7 @@ const logOut = () => {
 	try {
 		const { accessToken, _id } = getLocal("user");
 		const url = `/users/logout/${_id}`;
-		return instance.delete(url, {
-			headers: {
-				authorization: `Bearer ${accessToken}`,
-			},
-		});
+		return instance.delete(url);
 	} catch (error) {
 		console.log(error);
 	}

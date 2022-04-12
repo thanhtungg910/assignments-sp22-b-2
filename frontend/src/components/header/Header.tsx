@@ -22,7 +22,7 @@ import { logout } from "../../actions/users";
 import { signOut } from "firebase/auth";
 import auth from "../../firebase/config";
 import DrawerCart from "../common/DrawerCart";
-import { createWishList } from "../../api/users";
+import { createWishList, logOut } from "../../api/users";
 import ChatsBox from "../../features/ChatsBox";
 import { io } from "socket.io-client";
 const ENDPOINT = "http://localhost:5001";
@@ -34,7 +34,7 @@ const Header: React.FC = () => {
 	});
 	const [socket, setSocket] = useState<any>(null);
 	const [noty, setNoty] = useState(false);
- 
+
 	useEffect(() => {
 		setSocket(io(ENDPOINT, { transports: ["websocket"] }));
 	}, []);
@@ -77,7 +77,8 @@ const Header: React.FC = () => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-	const handleLogout = () => {
+	const handleLogout = async () => {
+		await logOut();
 		signOut(auth);
 		saveExist(false);
 		dispatch(logout(null));
