@@ -122,6 +122,7 @@ const DashboardLayout: React.FC = () => {
 						vertical: "top",
 						horizontal: "right",
 					}}
+					autoHideDuration={3000}
 					open={noty}
 					onClose={() => setNoty(!noty)}
 				>

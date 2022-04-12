@@ -6,7 +6,7 @@ const router = Router();
 router.post("/order", cartControl.create);
 router.get("/order/:userId", verify, isAdmin, cartControl.getOrderList);
 router.get('/order/:userId/:authorId', verify, cartControl.detailOrder)
-router.put("/order/:userId/:id", verify, isAdmin, cartControl.updatetOrderList);
+router.put("/order/:id", cartControl.updatetOrderList);
 
 router.param("userId", userById)
 export default router;

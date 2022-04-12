@@ -15,7 +15,7 @@ const orderList = () => {
 };
 const updateOrder = (id: String, data: Object) => {
 	const { accessToken, _id } = getLocal("user");
-	const url = `/carts/order/${_id}/${id}`; ///${_id}
+	const url = `/carts/order/${id}`; ///${_id}
 	return instance.put(url, data, {
 		headers: {
 			authorization: `Bearer ${accessToken}`,

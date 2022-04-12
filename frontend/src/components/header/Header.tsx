@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import {
+	Alert,
+	IconButton,
+	Menu,
+	MenuItem,
+	Snackbar,
+	Typography,
+} from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -17,12 +24,27 @@ import auth from "../../firebase/config";
 import DrawerCart from "../common/DrawerCart";
 import { createWishList } from "../../api/users";
 import ChatsBox from "../../features/ChatsBox";
+import { io } from "socket.io-client";
+const ENDPOINT = "http://localhost:5001";
 
 const Header: React.FC = () => {
 	const [messageErr, setMessageErr] = React.useState<any>({
 		message: null,
 		type: null,
 	});
+	const [socket, setSocket] = useState<any>(null);
+	const [noty, setNoty] = useState(false);
+ 
+	useEffect(() => {
+		setSocket(io(ENDPOINT, { transports: ["websocket"] }));
+	}, []);
+
+	useEffect(() => {
+		socket?.on("sendNotify", (data: any) => {
+			setNoty(true);
+		});
+	}, [socket]);
+
 	const { username } = useSelector(
 		(state: { users: { username: String | null } }) => state.users
 	);
@@ -48,6 +70,7 @@ const Header: React.FC = () => {
 		saveExist(exist || username);
 		return () => saveExist(false);
 	}, [username, exist, wishListSele]);
+
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -72,6 +95,17 @@ const Header: React.FC = () => {
 		<>
 			{current && <DrawerCart open={current} toggleDrawer={toggleDrawer} />}
 			<PromoBanner />
+			<Snackbar
+				anchorOrigin={{
+					vertical: "top",
+					horizontal: "right",
+				}}
+				autoHideDuration={3000}
+				open={noty}
+				onClose={() => setNoty(!noty)}
+			>
+				<Alert severity="success">Cart changed</Alert>
+			</Snackbar>
 			<DialogForm
 				open={openAccount}
 				onClose={setOpenAccount}

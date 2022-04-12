@@ -7,11 +7,17 @@ import { orderList, updateOrder } from "../../api/carts";
 import { columnsOrder } from "../../components/layouts/Columns";
 import useDataTable from "../../hooks/useDataTable";
 import { Link } from "react-router-dom";
+import { io } from "socket.io-client";
+const ENDPOINT = "http://localhost:5001";
 
 type Props = {};
 
 const OrderListManager = (props: Props) => {
 	const [edit, setEdit] = useState<boolean>(false);
+	const [socket, setSocket] = useState<any>(null);
+	useEffect(() => {
+		setSocket(io(ENDPOINT, { transports: ["websocket"] }));
+	}, []);
 	const {
 		setData,
 		resetPaginationToggle,
@@ -94,7 +100,10 @@ const OrderListManager = (props: Props) => {
 	};
 	const handleSuccess = async (id: String) => {
 		await updateOrder(id, {
-			status: 1,
+			status: 2,
+		});
+		socket.emit("notify", { 
+			message: "access",
 		});
 		setEdit(!edit);
 	};
@@ -102,11 +111,17 @@ const OrderListManager = (props: Props) => {
 		await updateOrder(id, {
 			status: 5,
 		});
+		socket.emit("notify", { 
+			message: "cancel",
+		});
 		setEdit(!edit);
 	};
 	const handleShiping = async (id: String) => {
 		await updateOrder(id, {
 			status: 5,
+		});
+		socket.emit("notify", { 
+			message: "shiping",
 		});
 		setEdit(!edit);
 	};

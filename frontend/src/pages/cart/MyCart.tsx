@@ -62,23 +62,18 @@ const MyCart = (props: Props) => {
 				return (
 					<>
 						<Chip color="warning" label="Pending" variant="outlined" />
-						<Chip
-							color="error"
-							label="Cancel"
-							onClick={() => handleCancel(id)}
-						/>
 					</>
 				);
 			case 2:
 				return (
 					<>
-						<Chip color="warning" label="Shipping" variant="outlined" />;
+						<Chip color="warning" label="Shipping" variant="outlined" />
 					</>
 				);
 			case 3:
 				return (
 					<>
-						<Chip color="success" label="Done" variant="outlined" />;
+						<Chip color="success" label="Done" variant="outlined" />
 						<Link
 							to={`/products/${slug}`}
 							className="ml-3 underline text-blue-600"
@@ -114,7 +109,7 @@ const MyCart = (props: Props) => {
 			}
 		};
 		getOrder();
-	}, []);
+	}, [edit]);
 
 	return (
 		<div className="mt-5 min-h-screen p-2 px-24">
