@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+
 import Dashboard from "./components/admin/Dashboard";
 import AddProductPage from "./pages/admin/AddProductPage";
 import CategoriesManager from "./pages/admin/CategoriesManager";
@@ -12,37 +13,12 @@ import ProductsPage from "./pages/products/ProductsPage";
 import EditProductPage from "./pages/admin/EditProductPage";
 import CheckoutPage from "./pages/cart/Checkout";
 import ShopCart from "./pages/cart/ShopCart";
-import { getLocal } from "./utils/localstorage";
 import WishListPage from "./pages/products/WishListPage";
 import CustomersPage from "./pages/admin/CustomersPage";
 import OrderListManager from "./pages/admin/OrderListManager";
 import OverViewOrderPage from "./pages/admin/OverViewOrderPage";
 import MyCart from "./pages/cart/MyCart";
 const App: React.FC = () => {
-	const { pathname } = useLocation();
-	useEffect(() => {
-		const getLocation = () => {
-			switch (pathname) {
-				case "/":
-					document.title = "Home";
-					return;
-				case "/products":
-					document.title = "Products";
-					return;
-				case "/intro":
-					document.title = "Intro";
-					return;
-				case "/orders":
-					document.title = "Products";
-					return;
-
-				default:
-					break;
-			}
-		};
-		getLocation();
-	}, [pathname]);
-
 	return (
 		<>
 			<Routes>
