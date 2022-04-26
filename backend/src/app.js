@@ -1,7 +1,7 @@
 import express from "express";
 const app = express();
 import cors from "cors";
-import morgan from "morgan";
+// import morgan from "morgan";
 import dotenv from "dotenv";
 import http from "http";
 import socketio from "socket.io";
@@ -16,18 +16,20 @@ dotenv.config();
 import refreshToken from "./routes/refreshToken";
 const server = http.createServer(app);
 const io = socketio(server, {
-	cors: {
-		origin: process.env.IO_URL
-	}
-})
+     cors: {
+          origin: process.env.IO_URL
+     },
+     cookie: false
+});
 io.on("connection", (socket) => {
-	console.log('socket connected ');
-	socket.on('notify', (data) => {
-		socket.broadcast.emit('sendNotify', data)
-	})
+     console.log('socket connected ');
+
+     socket.on('notify', (data) => {
+          socket.broadcast.emit('sendNotify', data)
+     })
 })
 // MIDDLEWARE
-app.use(morgan());
+// app.use(morgan());
 app.use(express.json());
 // app.use(express.cookieParser())
 app.use(cors());
@@ -41,7 +43,7 @@ app.use("/api/carts", carts);
 app.use("/api/colors", colors);
 
 app.get("/", (req, res) => {
-	res.send("<h1>HOME PAGE</h1>");
+     res.send("<h1>HOME PAGE</h1>");
 });
 
 //CONNECT DB
@@ -49,5 +51,5 @@ db.connect();
 
 const PORT = process.env.PORT || 5001;
 server.listen(PORT, () => {
-	console.log("Running port " + PORT);
+     console.log("Running port " + PORT);
 });
